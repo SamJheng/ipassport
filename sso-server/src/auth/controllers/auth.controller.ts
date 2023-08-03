@@ -10,11 +10,12 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '../auth.guard';
-
+import { Public } from '../../lib/public-matedata';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>): any {

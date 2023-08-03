@@ -10,6 +10,5 @@ export class SigninPageComponent {
   constructor(
     public authService: AuthService
     ){
-    this.authService.singin('','').subscribe(console.log)
   }
 }

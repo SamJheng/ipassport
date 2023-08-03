@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
-@Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
