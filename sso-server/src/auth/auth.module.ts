@@ -6,6 +6,7 @@ import { AuthService } from './services/auth.service';
 import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
+import { GoogleController } from './controllers/google/google.controller';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { APP_GUARD } from '@nestjs/core';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, GoogleController],
   providers: [
     AuthService,
     {
