@@ -12,13 +12,14 @@ import {
   Session,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('google')
 export class GoogleController {
   client: OAuth2Client;
-  CLIENT_ID =
-    '407361821846-egn8l78nsqa8uqs6ffd04ql3o2v4kchs.apps.googleusercontent.com';
-  constructor() {
+  CLIENT_ID: string;
+  constructor(configService: ConfigService) {
+    this.CLIENT_ID = configService.get<string>('GOOGLE_CLIENT_ID');
     this.client = new OAuth2Client(this.CLIENT_ID);
   }
   @Get()
