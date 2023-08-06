@@ -2,6 +2,7 @@ import entities from 'src/lib/entities';
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { ConfigService } from '@nestjs/config';
+import DatabaseLogger from 'src/log/databaseLogger';
 
 config();
 const configService = new ConfigService();
@@ -15,7 +16,8 @@ export const AppDataSource = new DataSource({
   database: configService.get('DB_NAME'),
   entities: entities,
   synchronize: true,
-  logging: false,
+  logger: new DatabaseLogger(),
+  // logging: false,
   migrationsRun: false,
   migrations: ['dist/**/migrations/*.js'],
   migrationsTableName: 'history',

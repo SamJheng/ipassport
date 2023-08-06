@@ -16,7 +16,7 @@ import { AppDataSource } from './typeorm.config';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        console.log(AppDataSource.options);
+        // console.log(AppDataSource.options);
         return AppDataSource.options;
       },
       inject: [ConfigService],
