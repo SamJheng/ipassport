@@ -11,7 +11,7 @@ import {
 
 import { Profile } from './Profile.entity';
 import { SocialExternalProviders } from './SocialExternalProviders.entity';
-import { getSaltHashByPassWord } from 'src/lib/utils/salt-hash-generate';
+import { getSaltHashByPassWord } from '../../lib/utils/salt-hash-generate';
 // import { Exclude } from 'class-transformer';
 
 @Entity()

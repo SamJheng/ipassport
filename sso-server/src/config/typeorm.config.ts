@@ -6,7 +6,7 @@ import DatabaseLogger from 'src/log/databaseLogger';
 
 config();
 const configService = new ConfigService();
-console.log(configService.get('DB_HOST'));
+// console.log(configService.get('DB_HOST'));
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: configService.get('DB_HOST'),
