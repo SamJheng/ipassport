@@ -7,6 +7,7 @@ import {
   JoinColumn,
   OneToOne,
   ManyToOne,
+  CreateDateColumn,
 } from 'typeorm';
 
 import { Profile } from './Profile.entity';
@@ -36,10 +37,7 @@ export class User {
   password?: string;
   @Column({ default: false })
   isActive: boolean;
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
+  @CreateDateColumn()
   created?: Date;
   @OneToOne(() => Profile, {
     onDelete: 'CASCADE',
