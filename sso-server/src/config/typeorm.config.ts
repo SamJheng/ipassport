@@ -1,8 +1,8 @@
-import entities from 'src/lib/entities';
+import entities from '../lib/entities';
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { ConfigService } from '@nestjs/config';
-import DatabaseLogger from 'src/log/databaseLogger';
+import DatabaseLogger from '../log/databaseLogger';
 
 config();
 const configService = new ConfigService();

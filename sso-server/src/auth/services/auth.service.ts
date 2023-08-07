@@ -1,7 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { isMatchPasswordByHash } from 'src/lib/utils/salt-hash-generate';
-import { UsersService } from 'src/users/services/users.service';
+import { isMatchPasswordByHash } from '../../lib/utils/salt-hash-generate';
+import { getSaltHashByPassWord } from '../../lib/utils/salt-hash-generate';
+import { UsersService } from '../../users/services/users.service';
 
 @Injectable()
 export class AuthService {
@@ -20,5 +21,10 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+  async checkPassword(password: string): Promise<boolean> {
+    const hash = await getSaltHashByPassWord(password);
+    const isMatch = await isMatchPasswordByHash(password, hash);
+    return isMatch;
   }
 }
