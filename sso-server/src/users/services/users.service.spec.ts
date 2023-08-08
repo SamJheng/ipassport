@@ -1,24 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { User } from '../models/User.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 class ApiServiceMock {
-  async findAll(): Promise<User[]> {
-    const user = new User();
-    return [user];
+  user = new User();
+  find: jest.Mock = jest.fn();
+  findOneBy: jest.Mock = jest.fn();
+  constructor() {
+    this.find.mockReturnValue(Promise.resolve([this.user]));
+    this.findOneBy.mockReturnValue(Promise.resolve(this.user));
   }
-  async findOne(id: string): Promise<User | null> {
-    return {} as User;
-  }
-  async remove(id: string) {
-    return null;
-  }
+  // remove(id: string) {
+  //   return jest.fn().mockReturnValue(Promise.resolve([user]));
+  // }
 }
 describe('UsersService', () => {
   let service: UsersService;
+  const mockUser = new ApiServiceMock();
   const ApiServiceProvider = {
-    provide: UsersService,
-    useClass: ApiServiceMock,
+    provide: getRepositoryToken(User),
+    useValue: mockUser,
   };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,9 +33,18 @@ describe('UsersService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-  it('should call findAll method with expected params', async () => {
-    const createSpy = jest.spyOn(service, 'findAll');
-    console.log(await service.findAll());
-    expect(createSpy).toHaveBeenCalled();
+  it('should call findAll method with expected the user list', async () => {
+    // const createSpy = jest.spyOn(service, 'findAll');
+    const all = await service.findAll();
+    const user = new User();
+    console.log(all);
+    expect(all).toEqual([user]);
+  });
+  it('should call findOne method with expected the user', async () => {
+    // const createSpy = jest.spyOn(service, 'findAll');
+    const f = await service.findOne('uuid');
+    const user = new User();
+    console.log(f);
+    expect(f).toEqual(user);
   });
 });
