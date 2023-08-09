@@ -5,19 +5,6 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  // private readonly users = [
-  //   {
-  //     userId: 1,
-  //     username: 'john',
-  //     password: 'changeme',
-  //   },
-  //   {
-  //     userId: 2,
-  //     username: 'maria',
-  //     password: 'guess',
-  //   },
-  // ];
-
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -29,6 +16,9 @@ export class UsersService {
 
   findOne(id: string): Promise<User | null> {
     return this.usersRepository.findOneBy({ id });
+  }
+  findByEmail(email) {
+    return this.usersRepository.findOneBy({ email });
   }
 
   async remove(id: number): Promise<void> {

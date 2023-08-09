@@ -37,14 +37,18 @@ describe('UsersService', () => {
     // const createSpy = jest.spyOn(service, 'findAll');
     const all = await service.findAll();
     const user = new User();
-    console.log(all);
     expect(all).toEqual([user]);
   });
   it('should call findOne method with expected the user', async () => {
     // const createSpy = jest.spyOn(service, 'findAll');
     const f = await service.findOne('uuid');
     const user = new User();
-    console.log(f);
+    expect(f).toEqual(user);
+  });
+  it('should call findByEmail method with expected the user', async () => {
+    // const createSpy = jest.spyOn(service, 'findAll');
+    const f = await service.findByEmail('email@email.com');
+    const user = new User();
     expect(f).toEqual(user);
   });
 });
