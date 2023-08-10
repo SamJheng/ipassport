@@ -12,9 +12,9 @@ export class AuthService {
     private http: HttpClient
   ){
   }
-  singin(username:string, password:string){
+  singin(email:string, password:string){
     return this.http.post(this.url +'/auth/login',{
-      username,
+      email,
       password
     }).pipe(
       tap((res:any) => {

@@ -11,7 +11,9 @@ export class SigninPageComponent {
   userDetails:any;
   constructor(
     private oneTap: GoogleOnetapService,
-    private authService: AuthService) { }
+    private authService: AuthService) {
+    this.authService.singin('Joey_Satterfield-Johnston64@hotmail.com','password').subscribe(console.log)
+    }
 
   ngOnInit() {
     /** Initialize OneTap, While initialing you can pass config  like this.oneTap.tapInitialize(config) here config is optional. **/
