@@ -1,0 +1,7 @@
+p, role:admin, /auth, *
+p, role:admin, /auth/:id, *
+p, role:staff, /auth, read
+p, role:staff, /auth/:id, read
+p, role:manager, /auth, create
+p, role:manager, /auth/:id, update
+g, role:manager, role:staff

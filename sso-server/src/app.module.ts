@@ -1,3 +1,4 @@
+import { AuthorizationModule } from './auth/authorzation.module';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,9 +7,19 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from './config/config.module';
 import LogsMiddleware from './log/services/logs.middleware';
 import { LoggerModule } from './log/logger.module';
-
+import { join } from 'path';
 @Module({
-  imports: [AuthModule, UsersModule, ConfigModule, LoggerModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    ConfigModule,
+    LoggerModule,
+    AuthorizationModule.register({
+      modelPath: join(__dirname, './config/casbin/model.conf'),
+      policyAdapter: join(__dirname, './config/casbin/policy.csv'),
+      global: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

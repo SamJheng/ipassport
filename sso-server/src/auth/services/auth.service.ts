@@ -1,5 +1,8 @@
 import { ErrorToMessage, UserExistsException } from './../../lib/utils/errors';
-import { CreateUserDto } from './../../users/models/User.dto';
+import {
+  CreateExternalUserDto,
+  CreateUserDto,
+} from './../../users/models/User.dto';
 import {
   HttpException,
   HttpStatus,
@@ -43,6 +46,10 @@ export class AuthService {
     };
     return userResponese;
   }
+  async signup(userDto: CreateUserDto) {
+    const create = await this.usersService.create(userDto);
+    return create;
+  }
   async googleSignin({
     uid,
     family_name,
@@ -54,7 +61,7 @@ export class AuthService {
     locale,
   }): Promise<UserResponse> {
     try {
-      const userProile = {
+      const userProile: CreateUserDto = {
         firstName: family_name,
         lastName: given_name,
         username: name,
@@ -64,7 +71,7 @@ export class AuthService {
       };
       // first login and create
       const createUser = await this.usersService.create(userProile);
-      const googleUser = {
+      const googleUser: CreateExternalUserDto = {
         user: createUser,
         externalType: ExternalType.Google,
         username: name,

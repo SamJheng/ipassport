@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { GoogleController } from './controllers/google/google.controller';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '@nestjs/config';
+import { RolesGuard } from './roles.guard';
 
 @Module({
   imports: [
@@ -32,6 +33,10 @@ import { ConfigService } from '@nestjs/config';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })
