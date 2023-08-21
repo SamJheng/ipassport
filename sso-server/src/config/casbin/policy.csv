@@ -1,5 +1,6 @@
 p, role:admin, /auth, *
 p, role:admin, /auth/:id, *
+p, role:admin, /admin, *
 p, role:staff, /auth, read
 p, role:staff, /auth/:id, read
 p, role:manager, /auth, create

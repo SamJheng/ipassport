@@ -1,9 +1,9 @@
+import { AUTHORIZATION_ENFORCER } from '../../models/const';
 import { Action } from './../../models/action.enum';
 
 import { Inject, Injectable } from '@nestjs/common';
 
 import { Enforcer } from 'casbin';
-import { AUTHORIZATION_ENFORCER } from 'src/models/const';
 
 @Injectable()
 export class AuthorizationService {

@@ -1,3 +1,4 @@
+import { Access } from './../../../users/models/Access.entity';
 import { Profile } from '../../../users/models/Profile.entity';
 import { User } from '../../../users/models/User.entity';
 import { define, factory } from 'typeorm-seeding';

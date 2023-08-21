@@ -12,6 +12,7 @@ import {
 import { Profile } from './Profile.entity';
 import { SocialExternalProviders } from './SocialExternalProviders.entity';
 import { getSaltHashByPassWord } from '../../lib/utils/salt-hash-generate';
+import { Access } from './Access.entity';
 // import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -49,6 +50,11 @@ export class User {
   })
   @JoinColumn()
   provider: SocialExternalProviders[];
+  @OneToMany(() => Access, (access) => access.user, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  access: Access[];
   /**
    * @note hashing user password
    * @memberof User

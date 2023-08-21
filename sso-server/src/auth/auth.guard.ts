@@ -1,3 +1,4 @@
+import { AuthorizationService } from './services/authorzation.service';
 import { ConfigService } from '@nestjs/config';
 import {
   CanActivate,
@@ -16,9 +17,9 @@ export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
+    private readonly authorizationService: AuthorizationService,
     private configService: ConfigService,
   ) {}
-
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -31,6 +32,9 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+    const { method } = request as any;
+    const action = this.authorizationService.mappingAction(method);
+    console.log(action);
     if (!token) {
       throw new UnauthorizedException();
     }
