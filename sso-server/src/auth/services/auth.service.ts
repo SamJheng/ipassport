@@ -17,6 +17,7 @@ import { UsersService } from '../../users/services/users.service';
 import { UserResponse } from '../models/user.response';
 import { ExternalType } from 'src/users/models/SocialExternalProviders.entity';
 import { PayloadModel } from '../models/payload.model';
+import { toScope } from 'src/lib/utils/toscope';
 
 @Injectable()
 export class AuthService {
@@ -36,6 +37,7 @@ export class AuthService {
       sub: user.id,
       username,
       email,
+      scope: [],
     };
     const accessToken = await this.jwtService.signAsync(payload);
     const userResponese: UserResponse = {
@@ -88,6 +90,7 @@ export class AuthService {
         sub: createExternalUser.id,
         username: createExternalUser.username,
         email,
+        scope: [],
       };
       const accessToken = await this.jwtService.signAsync(success);
       const userResponese: UserResponse = {
@@ -99,12 +102,14 @@ export class AuthService {
       return userResponese;
     } catch (error) {
       if (error instanceof UserExistsException) {
-        const user = await this.usersService.getUserByProviderId(uid);
+        const user = await this.usersService.getUserAndAccessByProviderId(uid);
         this.logger.debug(user);
+        const scope = toScope(user.access);
         const success: PayloadModel = {
           sub: user.id,
           username: user.username,
           email: user.email,
+          scope,
         };
         const accessToken = await this.jwtService.signAsync(success);
         const userResponese: UserResponse = {

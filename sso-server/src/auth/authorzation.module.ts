@@ -14,8 +14,6 @@ export class AuthorizationModule {
         provide: AUTHORIZATION_ENFORCER,
         useFactory: async () => {
           const enforcer = await newEnforcer(modelPath, policyAdapter);
-          const o = await enforcer.getAllObjects();
-          console.log(o);
           return enforcer;
         },
       },

@@ -38,8 +38,18 @@ export class UsersService {
       console.error(error);
     }
   }
-  async getUserByProviderId(providerId: string) {
-    return this.usersRepository.findOneBy({ provider: { providerId } });
+  async getUserByProviderId(providerId: string): Promise<User> {
+    return this.usersRepository.findOneBy({
+      provider: { providerId },
+    });
+  }
+  async getUserAndAccessByProviderId(providerId: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: {
+        provider: { providerId },
+      },
+      relations: ['access', 'access.role', 'access.object'],
+    });
   }
   findAll(): Promise<User[]> {
     return this.usersRepository.find();
