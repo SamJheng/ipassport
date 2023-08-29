@@ -39,10 +39,7 @@ export class User {
   isActive: boolean;
   @CreateDateColumn()
   created?: Date;
-  @OneToOne(() => Profile, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
+  @OneToOne(() => Profile)
   profile: Profile;
 
   @OneToMany(() => SocialExternalProviders, (providers) => providers.user, {
@@ -50,9 +47,7 @@ export class User {
   })
   @JoinColumn()
   provider: SocialExternalProviders[];
-  @OneToMany(() => Access, (access) => access.user, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => Access, (access) => access.user)
   @JoinColumn()
   access: Access[];
   /**

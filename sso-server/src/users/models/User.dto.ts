@@ -53,6 +53,19 @@ export class CreateExternalUserDto {
   @IsString()
   locale: string;
 }
+
+export class EditUserDto {
+  @IsString()
+  firstName: string;
+  @IsString()
+  lastName: string;
+  @IsString()
+  username: string;
+  @IsString()
+  gender: string;
+  @IsString()
+  photo: string;
+}
 // export class ExternalUserRedirectDto {
 //   @ApiProperty()
 //   user: User;

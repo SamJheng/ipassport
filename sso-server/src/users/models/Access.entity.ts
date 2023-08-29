@@ -22,6 +22,8 @@ export class Access {
   @ManyToOne(() => ObjectAccess)
   @JoinColumn()
   object: ObjectAccess;
-  @ManyToOne(() => User, (user) => user.access)
+  @ManyToOne(() => User, (user) => user.access, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 }

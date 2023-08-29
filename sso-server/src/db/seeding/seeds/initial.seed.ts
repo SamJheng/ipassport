@@ -20,6 +20,7 @@ export default class InitialDatabaseSeed implements Seeder {
     const god = this.generateRole('*');
     const allObj = this.generateObjectAccess('*');
     const user = this.geanrateFakerUser();
+    
     const existed_god = await this.existingInTable(connection, Role, {
       name: god.name,
     });
@@ -72,6 +73,8 @@ export default class InitialDatabaseSeed implements Seeder {
       await factory(ObjectAccess)().create(allObj);
     }
     const existed_user = await factory(User)().create(user);
+    const profile = this.geanrateFakerUserProfile(existed_user);
+    const existed_profile = await factory(Profile)().create(profile);
     const access = this.geanrateAccess(
       existed_userObj as ObjectAccess,
       existed_guest as Role,
@@ -111,8 +114,15 @@ export default class InitialDatabaseSeed implements Seeder {
     user.firstName = faker.person.firstName();
     user.lastName = lastName;
     user.isActive = false;
-    // user.profile = profile;
+    user.profile = profile;
     return user;
+  }
+  geanrateFakerUserProfile(user: User): Profile {
+    const profile = new Profile();
+    profile.user = user;
+    profile.gender = faker.person.gender();
+    profile.photo = '';
+    return profile;
   }
   geanrateAccess(userObj: ObjectAccess, role: Role, user: User): Access {
     const access = new Access();

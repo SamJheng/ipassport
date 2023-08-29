@@ -1,3 +1,4 @@
+import { ResponseResult } from './../../../models/respone';
 import {
   ErrorToMessage,
   UserExistsException,
@@ -38,14 +39,14 @@ export class GoogleController {
     this.CLIENT_ID = configService.get<string>('GOOGLE_CLIENT_ID');
     this.client = new OAuth2Client(this.CLIENT_ID);
   }
-  @Get()
-  @Public()
-  async googleAuth(@Req() req) {
-    return 'google';
-  }
+  // @Get()
+  // @Public()
+  // async googleAuth(@Req() req) {
+  //   return 'google';
+  // }
   @Get('verify')
   @Public()
-  async verifyIdToken(@Query() query): Promise<UserResponse> {
+  async verifyIdToken(@Query() query): Promise<ResponseResult> {
     try {
       const { token } = query;
       const ticket = await this.client.verifyIdToken({
@@ -71,7 +72,7 @@ export class GoogleController {
         locale,
       } = payload;
       this.logger.log(payload);
-      const res = await this.authService.googleSignin({
+      const login = await this.authService.googleSignin({
         uid,
         family_name,
         given_name,
@@ -80,6 +81,10 @@ export class GoogleController {
         email_verified,
         picture,
         locale,
+      });
+      const res = new ResponseResult({
+        meassge: 'Verify token success!',
+        result: login,
       });
       return res;
     } catch (error) {

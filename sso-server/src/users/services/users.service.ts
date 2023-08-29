@@ -1,9 +1,13 @@
-import { UserExistsException } from '../../lib/utils/errors';
-import { CreateUserDto, CreateExternalUserDto } from './../models/User.dto';
-import { Injectable } from '@nestjs/common';
+import { ErrorToMessage, UserExistsException } from '../../lib/utils/errors';
+import {
+  CreateUserDto,
+  CreateExternalUserDto,
+  EditUserDto,
+} from './../models/User.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../models/User.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { PostgresError } from 'pg-error-enum';
 import { SocialExternalProviders } from '../models/SocialExternalProviders.entity';
 
@@ -61,8 +65,31 @@ export class UsersService {
   findByEmail(email) {
     return this.usersRepository.findOneBy({ email });
   }
+  async update(id: string, editDto: EditUserDto): Promise<UpdateResult> {
+    try {
+      const r = await this.usersRepository.update(id, editDto);
+      return r;
+    } catch (error) {
+      throw new HttpException(ErrorToMessage(error), HttpStatus.BAD_REQUEST);
+    }
+  }
 
-  async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+  async remove(id: string): Promise<User> {
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          id,
+        },
+        // relations: ['access'],
+      });
+
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+      const r = await this.usersRepository.remove(user);
+      return r;
+    } catch (error) {
+      throw new HttpException(ErrorToMessage(error), HttpStatus.BAD_REQUEST);
+    }
   }
 }

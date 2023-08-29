@@ -8,6 +8,7 @@ define(Profile, () => {
   const profile = new Profile();
   profile.gender = faker.person.gender();
   profile.photo = '';
+  // profile.user = factory(User)() as any;
   return profile;
 });
 
@@ -24,7 +25,7 @@ define(User, () => {
   user.lastName = 'BOT';
   // user.lastName = faker.person.lastName();
   user.isActive = false;
-  user.profile = factory(Profile)() as any;
+  // user.profile = factory(Profile)() as any;
 
   return user;
 });
