@@ -7,7 +7,9 @@ export enum ExternalType {
 export class SocialExternalProviders {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @ManyToOne(() => User, (user) => user.provider)
+  @ManyToOne(() => User, (user) => user.provider, {
+    onDelete: 'CASCADE',
+  })
   user: User;
   // @ApiProperty({
   //   enum: ExternalType,

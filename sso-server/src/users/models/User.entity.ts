@@ -42,9 +42,7 @@ export class User {
   @OneToOne(() => Profile)
   profile: Profile;
 
-  @OneToMany(() => SocialExternalProviders, (providers) => providers.user, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => SocialExternalProviders, (providers) => providers.user)
   @JoinColumn()
   provider: SocialExternalProviders[];
   @OneToMany(() => Access, (access) => access.user)
