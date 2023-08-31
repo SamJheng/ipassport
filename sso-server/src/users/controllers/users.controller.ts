@@ -1,3 +1,5 @@
+import { ProfileService } from '../services/profile.service';
+import { EditUserProfileDto } from './../models/User.dto';
 import { ResponseResult } from '../../models/respone';
 import { CreateUserDto, EditUserDto } from '../models/User.dto';
 import { UsersService } from '../services/users.service';
@@ -13,7 +15,10 @@ import {
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private profileService: ProfileService,
+  ) {}
   @Get()
   async getAllUsers(): Promise<ResponseResult> {
     const all = await this.usersService.findAll();
@@ -48,6 +53,18 @@ export class UsersController {
     @Body() editDto: EditUserDto,
   ): Promise<ResponseResult> {
     const update = await this.usersService.update(id, editDto);
+    const res = new ResponseResult({
+      meassge: 'Put id and update user',
+      result: update,
+    });
+    return res;
+  }
+  @Put('profile/:id')
+  async editProfile(
+    @Param('id') id: string,
+    @Body() editDto: EditUserProfileDto,
+  ): Promise<ResponseResult> {
+    const update = await this.profileService.update(id, editDto);
     const res = new ResponseResult({
       meassge: 'Put id and update user',
       result: update,

@@ -20,7 +20,7 @@ export default class InitialDatabaseSeed implements Seeder {
     const god = this.generateRole('*');
     const allObj = this.generateObjectAccess('*');
     const user = this.geanrateFakerUser();
-    
+
     const existed_god = await this.existingInTable(connection, Role, {
       name: god.name,
     });

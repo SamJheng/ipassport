@@ -61,6 +61,8 @@ export class EditUserDto {
   lastName: string;
   @IsString()
   username: string;
+}
+export class EditUserProfileDto {
   @IsString()
   gender: string;
   @IsString()

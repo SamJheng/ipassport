@@ -39,7 +39,8 @@ export class User {
   isActive: boolean;
   @CreateDateColumn()
   created?: Date;
-  @OneToOne(() => Profile)
+  @OneToOne(() => Profile, (profile) => profile.user)
+  @JoinColumn()
   profile: Profile;
 
   @OneToMany(() => SocialExternalProviders, (providers) => providers.user)

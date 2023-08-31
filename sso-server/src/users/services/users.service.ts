@@ -65,9 +65,16 @@ export class UsersService {
   findByEmail(email) {
     return this.usersRepository.findOneBy({ email });
   }
-  async update(id: string, editDto: EditUserDto): Promise<UpdateResult> {
+  async update(id: string, userDto: EditUserDto): Promise<User> {
     try {
-      const r = await this.usersRepository.update(id, editDto);
+      const user = await this.usersRepository.findOne({
+        where: {
+          id,
+        },
+        relations: ['profile'],
+      });
+      this.usersRepository.merge(user, userDto);
+      const r = await this.usersRepository.save(user);
       return r;
     } catch (error) {
       throw new HttpException(ErrorToMessage(error), HttpStatus.BAD_REQUEST);
@@ -80,7 +87,6 @@ export class UsersService {
         where: {
           id,
         },
-        // relations: ['access'],
       });
 
       if (!user) {
