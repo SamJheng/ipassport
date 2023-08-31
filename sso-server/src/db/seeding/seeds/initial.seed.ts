@@ -19,7 +19,6 @@ export default class InitialDatabaseSeed implements Seeder {
     const userObj = this.generateObjectAccess('user');
     const god = this.generateRole('*');
     const allObj = this.generateObjectAccess('*');
-    const user = this.geanrateFakerUser();
 
     const existed_god = await this.existingInTable(connection, Role, {
       name: god.name,
@@ -72,13 +71,12 @@ export default class InitialDatabaseSeed implements Seeder {
     if (!existed_allObj) {
       await factory(ObjectAccess)().create(allObj);
     }
-    const existed_user = await factory(User)().create(user);
-    const profile = this.geanrateFakerUserProfile(existed_user);
-    const existed_profile = await factory(Profile)().create(profile);
+
+    const user = await this.geanrateFakerUser(connection, User, Profile);
     const access = this.geanrateAccess(
       existed_userObj as ObjectAccess,
       existed_guest as Role,
-      existed_user,
+      user,
     );
     await factory(Access)().create(access);
   }
@@ -102,7 +100,13 @@ export default class InitialDatabaseSeed implements Seeder {
       .findOne({ where: checkCondition });
     return existed;
   }
-  geanrateFakerUser(password = 'password', lastName = 'BOT'): User {
+  async geanrateFakerUser(
+    connection: Connection,
+    UserRepository: EntityTarget<User>,
+    ProfileRepository: EntityTarget<Profile>,
+    password = 'password',
+    lastName = 'BOT',
+  ): Promise<User> {
     const username = faker.internet.userName();
     const profile = new Profile();
     profile.gender = faker.person.gender();
@@ -114,8 +118,25 @@ export default class InitialDatabaseSeed implements Seeder {
     user.firstName = faker.person.firstName();
     user.lastName = lastName;
     user.isActive = false;
-    user.profile = profile;
-    return user;
+    const createProfile = await connection
+      .getRepository(ProfileRepository)
+      .create(profile);
+    const successProfile = await connection
+      .getRepository(ProfileRepository)
+      .save(createProfile);
+    const createUser = await connection
+      .getRepository(UserRepository)
+      .create(user);
+    const successUser = await connection
+      .getRepository(UserRepository)
+      .save(createUser);
+    connection
+      .getRepository(UserRepository)
+      .update(successUser.id, { profile: { id: successProfile.id } });
+    connection
+      .getRepository(ProfileRepository)
+      .update(successProfile.id, { user: { id: successUser.id } });
+    return successUser;
   }
   geanrateFakerUserProfile(user: User): Profile {
     const profile = new Profile();

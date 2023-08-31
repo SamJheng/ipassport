@@ -23,7 +23,7 @@ export class ProfileService {
     try {
       return await this.profileRepository.findOne({
         where: {
-          user:{id},
+          user: { id },
         },
       });
     } catch (error) {

@@ -71,7 +71,6 @@ export class UsersService {
         where: {
           id,
         },
-        relations: ['profile'],
       });
       this.usersRepository.merge(user, userDto);
       const r = await this.usersRepository.save(user);
