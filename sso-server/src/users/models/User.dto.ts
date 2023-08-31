@@ -1,3 +1,5 @@
+import { ObjectAccess } from './../../models/ObjectAccess.entity';
+import { Role } from './Role.entity';
 import {
   IsBoolean,
   IsEmail,
@@ -67,6 +69,11 @@ export class EditUserProfileDto {
   gender: string;
   @IsString()
   photo: string;
+}
+export class GrantingAccess {
+  role: Partial<Role>;
+  object: Partial<ObjectAccess>;
+  user?: Partial<User>;
 }
 // export class ExternalUserRedirectDto {
 //   @ApiProperty()

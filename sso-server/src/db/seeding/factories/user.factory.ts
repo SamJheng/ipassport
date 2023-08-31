@@ -4,7 +4,6 @@ import { User } from '../../../users/models/User.entity';
 import { define, factory } from 'typeorm-seeding';
 import { faker } from '@faker-js/faker';
 
-
 define(Profile, () => {
   const profile = new Profile();
   profile.gender = faker.person.gender();
@@ -25,7 +24,6 @@ define(User, () => {
   user.lastName = 'BOT';
   // user.lastName = faker.person.lastName();
   user.isActive = false;
- 
 
   return user;
 });

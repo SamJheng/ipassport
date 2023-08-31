@@ -27,6 +27,7 @@ export class ProfileService {
         },
       });
     } catch (error) {
+      return null;
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
     }
   }

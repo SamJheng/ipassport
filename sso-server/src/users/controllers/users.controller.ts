@@ -1,5 +1,6 @@
+import { AccessService } from '../services/access.service';
 import { ProfileService } from '../services/profile.service';
-import { EditUserProfileDto } from './../models/User.dto';
+import { EditUserProfileDto, GrantingAccess } from './../models/User.dto';
 import { ResponseResult } from '../../models/respone';
 import { CreateUserDto, EditUserDto } from '../models/User.dto';
 import { UsersService } from '../services/users.service';
@@ -18,6 +19,7 @@ export class UsersController {
   constructor(
     private usersService: UsersService,
     private profileService: ProfileService,
+    private accessService: AccessService,
   ) {}
   @Get()
   async getAllUsers(): Promise<ResponseResult> {
@@ -66,8 +68,42 @@ export class UsersController {
   ): Promise<ResponseResult> {
     const update = await this.profileService.update(id, editDto);
     const res = new ResponseResult({
-      meassge: 'Put id and update user',
+      meassge: 'Put id and update profile of user',
       result: update,
+    });
+    return res;
+  }
+  @Put('access/:id')
+  async grantingAccessToUser(
+    @Param('id') id: string,
+    @Body() granting: GrantingAccess,
+  ): Promise<ResponseResult> {
+    const { role, object } = granting;
+
+    const isExist = await this.accessService.findByRoleAndObject(
+      role.id,
+      object.id,
+      id,
+    );
+    if (isExist) {
+      const res = new ResponseResult({
+        success: false,
+        meassge: `This access of [${granting.role.name}:${granting.object.name}] is exist`,
+        // result: isExist,
+      });
+      return res;
+    }
+    // const user = await this.usersService.findOne(id);
+    const create = await this.accessService.create({
+      role,
+      object,
+      user: {
+        id,
+      },
+    });
+    const res = new ResponseResult({
+      meassge: 'Put id and granting access to user',
+      result: create,
     });
     return res;
   }
