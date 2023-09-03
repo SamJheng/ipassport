@@ -73,7 +73,7 @@ export class UsersController {
     });
     return res;
   }
-  @Put('access/:id')
+  @Post('access/:id')
   async grantingAccessToUser(
     @Param('id') id: string,
     @Body() granting: GrantingAccess,
