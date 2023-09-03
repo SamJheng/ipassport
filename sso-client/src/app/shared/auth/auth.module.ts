@@ -18,7 +18,7 @@ import { GoogleModule } from './google/google.module';
       authvalidate_by_googleapis: true,
       login_uri:'http://localhost:3000',
       auto_select: false,
-      nonce:'aabab',
+      nonce:'',
       ux_mode: "redirect",
       disable_exponential_cooldowntime: true,
       context: 'signin'

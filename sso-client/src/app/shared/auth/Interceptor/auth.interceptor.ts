@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
+import { CookieManagerService } from '../../lib/cookie-manager.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor() { }
+  constructor(private cookieManagerService: CookieManagerService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.startsWith('/assets')) {
       return next.handle(req);
     }
-    console.log(req)
+    const token = this.cookieManagerService.getCookie('access_token');
+    console.log(token)
     const request = req.clone({
       // url: environment.apiUrl + req.url,
-      withCredentials: true, // Needed since we are using Session Cookies
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+        // 'Access-Control-Allow-Origin': '*'
+      },
+      //withCredentials: true, // Needed since we are using Session Cookies
     });
 
     return next.handle(request).pipe(
