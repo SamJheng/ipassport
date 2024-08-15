@@ -29,7 +29,7 @@ export class AccessService {
       const newRole = this.roleRepository.create({
         name,
       });
-      const role = await this.accessRepository.save(newRole);
+      const role = await this.roleRepository.save(newRole);
       return role;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

@@ -16,14 +16,17 @@ describe('AuthController (e2e)', () => {
     await app.init();
   });
 
-  it('/auth/signin (POST)', () => {
+  it('/auth/signin (POST)', async () => {
     const data = {
-      email: 'Kraig.Emmerich-Ondricka34@hotmail.com',
+      email: 'admin@gmail.com',
       password: 'adminPassword',
     };
-    return request(app.getHttpServer())
+    const res = await request(app.getHttpServer())
       .post('/auth/signin')
       .send(data)
       .expect(200);
+    expect(res.body).toHaveProperty('accessToken');
+    expect(res.body.accessToken).toBeDefined();
+    return res;
   });
 });

@@ -124,6 +124,7 @@ export class UsersController {
   }
   @Post('role')
   async createRoleByName(@Body('name') name: Action) {
-    await this.commandBus.execute(new AddRolerCommand(name));
+    const res = await this.commandBus.execute(new AddRolerCommand(name));
+    return res;
   }
 }

@@ -21,7 +21,7 @@ describe('AuthController (e2e)', () => {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       username: faker.person.fullName(),
-      email: faker.internet.email(),
+      email: 'admin@gmail.com',
       password: 'adminPassword',
       isActive: false,
     };

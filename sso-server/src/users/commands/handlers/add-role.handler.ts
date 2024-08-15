@@ -8,6 +8,7 @@ export class AddRoleHandler implements ICommandHandler<AddRolerCommand> {
   constructor(private accessService: AccessService) {}
 
   async execute(command: AddRolerCommand): Promise<void> {
-    this.accessService.addRole(command.name);
+    const r = await this.accessService.addRole(command.name);
+    console.log(r);
   }
 }
