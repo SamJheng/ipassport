@@ -20,13 +20,13 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('signin')
   async signIn(@Body() signInDto: Record<string, any>): Promise<UserResponse> {
     return await this.authService.signIn(signInDto.email, signInDto.password);
   }
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('register')
+  @Post('signup')
   async signup(@Body() signupDto: CreateUserDto): Promise<User> {
     return await this.authService.signup(signupDto);
   }
