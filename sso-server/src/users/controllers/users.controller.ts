@@ -1,3 +1,4 @@
+import { Action } from './../../models/action.enum';
 import { AccessService } from '../services/access.service';
 import { ProfileService } from '../services/profile.service';
 import { EditUserProfileDto, GrantingAccess } from './../models/User.dto';
@@ -13,6 +14,9 @@ import {
   Param,
   Body,
 } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { AddRoleHandler } from '../commands/handlers/add-role.handler';
+import { AddRolerCommand } from '../commands/add-role.command';
 
 @Controller('users')
 export class UsersController {
@@ -20,6 +24,8 @@ export class UsersController {
     private usersService: UsersService,
     private profileService: ProfileService,
     private accessService: AccessService,
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
   ) {}
   @Get()
   async getAllUsers(): Promise<ResponseResult> {
@@ -116,5 +122,8 @@ export class UsersController {
     });
     return res;
   }
-  searchUser() {}
+  @Post('role')
+  async createRoleByName(@Body('name') name: Action) {
+    await this.commandBus.execute(new AddRolerCommand(name));
+  }
 }

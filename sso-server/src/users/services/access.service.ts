@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Access } from '../models/Access.entity';
 import { GrantingAccess } from '../models/User.dto';
+import { Role } from '../models/Role.entity';
 
 @Injectable()
 export class AccessService {
   constructor(
     @InjectRepository(Access)
     private accessRepository: Repository<Access>,
+    @InjectRepository(Role)
+    private roleRepository: Repository<Role>,
   ) {}
 
   async create(accessData: GrantingAccess): Promise<Access> {
@@ -17,6 +20,17 @@ export class AccessService {
       const access = await this.accessRepository.save(newAccess);
       // return this.update(access.id, accessData);
       return access;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async addRole(name: string) {
+    try {
+      const newRole = this.roleRepository.create({
+        name,
+      });
+      const role = await this.accessRepository.save(newRole);
+      return role;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

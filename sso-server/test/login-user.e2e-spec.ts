@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 import { faker } from '@faker-js/faker';
 
 describe('AuthController (e2e)', () => {
@@ -16,17 +16,13 @@ describe('AuthController (e2e)', () => {
     await app.init();
   });
 
-  it('/auth/signup (POST)', () => {
+  it('/auth/signin (POST)', () => {
     const data = {
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      username: faker.person.fullName(),
-      email: faker.internet.email(),
+      email: 'Kraig.Emmerich-Ondricka34@hotmail.com',
       password: 'adminPassword',
-      isActive: false,
     };
     return request(app.getHttpServer())
-      .post('/auth/signup')
+      .post('/auth/signin')
       .send(data)
       .expect(200);
   });
