@@ -15,9 +15,10 @@ import { isMatchPasswordByHash } from '../../lib/utils/salt-hash-generate';
 import { getSaltHashByPassWord } from '../../lib/utils/salt-hash-generate';
 import { UsersService } from '../../users/services/users.service';
 import { UserResponse } from '../models/user.response';
-import { ExternalType } from 'src/users/models/SocialExternalProviders.entity';
+
 import { PayloadModel } from '../models/payload.model';
-import { toScope } from 'src/lib/utils/toscope';
+import { ExternalType } from '../../users/models/SocialExternalProviders.entity';
+import { toScope } from '../../lib/utils/toscope';
 
 @Injectable()
 export class AuthService {
