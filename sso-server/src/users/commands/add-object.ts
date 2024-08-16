@@ -1,6 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { AddObjectCommand } from '../add-object.command';
-import { AccessService } from '../../services/access.service';
+import { AccessService } from '../services/access.service';
+
+export class AddObjectCommand {
+  constructor(public readonly name: string) {}
+}
 @CommandHandler(AddObjectCommand)
 export class AddObjectHandler implements ICommandHandler<AddObjectCommand> {
   constructor(private accessService: AccessService) {}

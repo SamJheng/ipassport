@@ -15,9 +15,8 @@ import {
   Body,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { AddRoleHandler } from '../commands/handlers/add-role.handler';
-import { AddRolerCommand } from '../commands/add-role.command';
-import { AddObjectCommand } from '../commands/add-object.command';
+import { AddObjectCommand } from '../commands/add-object';
+import { AddRolerCommand } from '../commands/add-role';
 
 @Controller('users')
 export class UsersController {

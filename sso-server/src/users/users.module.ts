@@ -8,11 +8,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { UsersService } from './services/users.service';
 import { User } from './models/User.entity';
-import { AddRoleHandler } from './commands/handlers/add-role.handler';
+import { AddRoleHandler } from './commands/add-role';
 import { Role } from './models/Role.entity';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ObjectAccess } from '../models/ObjectAccess.entity';
-import { AddObjectHandler } from './commands/handlers/add-object.handler';
+import { AddObjectHandler } from './commands/add-object';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([

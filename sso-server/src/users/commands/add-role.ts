@@ -1,6 +1,9 @@
-import { AccessService } from './../../services/access.service';
-import { AddRolerCommand } from '../add-role.command';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { AccessService } from '../services/access.service';
+
+export class AddRolerCommand {
+  constructor(public readonly name: string) {}
+}
 
 @CommandHandler(AddRolerCommand)
 export class AddRoleHandler implements ICommandHandler<AddRolerCommand> {
