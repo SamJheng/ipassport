@@ -26,6 +26,16 @@ export class AccessService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+  async getObjects(): Promise<ObjectAccess[]> {
+    try {
+      console.log('getObjects');
+      const objects = await this.objectAccessRepository.find();
+      console.log(objects);
+      return objects;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
   async addObjectAccess(name: string) {
     try {
       const newObjectAccess = this.objectAccessRepository.create({
@@ -62,18 +72,18 @@ export class AccessService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
-  async deleteRole(id: string) {
-    try {
-      const role = await this.roleRepository.findOne({
-        where: {
-          id,
-        },
-      });
-      await this.roleRepository.remove(role);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
+  // async deleteRole(id: string) {
+  //   try {
+  //     const role = await this.roleRepository.findOne({
+  //       where: {
+  //         id,
+  //       },
+  //     });
+  //     await this.roleRepository.remove(role);
+  //   } catch (error) {
+  //     throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+  //   }
+  // }
 
   async findOne(id: string): Promise<Access> {
     try {

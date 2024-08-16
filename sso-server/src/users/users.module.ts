@@ -13,6 +13,8 @@ import { Role } from './models/Role.entity';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ObjectAccess } from '../models/ObjectAccess.entity';
 import { AddObjectHandler } from './commands/add-object';
+import { GetObjectsHandler } from './commands/get-objects';
+import { DeleteObjectHandler } from './commands/delete-object';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { AddObjectHandler } from './commands/add-object';
     AccessService,
     AddRoleHandler,
     AddObjectHandler,
+    DeleteObjectHandler,
+    GetObjectsHandler,
   ],
   controllers: [UsersController],
   exports: [UsersService],
