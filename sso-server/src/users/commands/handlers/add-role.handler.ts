@@ -1,7 +1,6 @@
 import { AccessService } from './../../services/access.service';
 import { AddRolerCommand } from '../add-role.command';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { AddObjectCommand } from '../add-object.command';
 
 @CommandHandler(AddRolerCommand)
 export class AddRoleHandler implements ICommandHandler<AddRolerCommand> {
@@ -9,6 +8,5 @@ export class AddRoleHandler implements ICommandHandler<AddRolerCommand> {
 
   async execute(command: AddRolerCommand): Promise<void> {
     const r = await this.accessService.addRole(command.name);
-    console.log(r);
   }
 }

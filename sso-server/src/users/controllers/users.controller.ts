@@ -17,6 +17,7 @@ import {
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AddRoleHandler } from '../commands/handlers/add-role.handler';
 import { AddRolerCommand } from '../commands/add-role.command';
+import { AddObjectCommand } from '../commands/add-object.command';
 
 @Controller('users')
 export class UsersController {
@@ -123,8 +124,19 @@ export class UsersController {
     return res;
   }
   @Post('role')
-  async createRoleByName(@Body('name') name: Action) {
-    const res = await this.commandBus.execute(new AddRolerCommand(name));
+  async createRoleByName(@Body('name') name: string) {
+    await this.commandBus.execute(new AddRolerCommand(name));
+    const res = new ResponseResult({
+      meassge: 'Create role by name',
+    });
+    return res;
+  }
+  @Post('object')
+  async createObjectAccessByName(@Body('name') name: string) {
+    await this.commandBus.execute(new AddObjectCommand(name));
+    const res = new ResponseResult({
+      meassge: 'Create object access by name',
+    });
     return res;
   }
 }

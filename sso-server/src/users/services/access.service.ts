@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Access } from '../models/Access.entity';
 import { GrantingAccess } from '../models/User.dto';
 import { Role } from '../models/Role.entity';
-
+import { ObjectAccess } from '../../models/ObjectAccess.entity';
 @Injectable()
 export class AccessService {
   constructor(
@@ -12,6 +12,8 @@ export class AccessService {
     private accessRepository: Repository<Access>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    @InjectRepository(ObjectAccess)
+    private objectAccessRepository: Repository<ObjectAccess>,
   ) {}
 
   async create(accessData: GrantingAccess): Promise<Access> {
@@ -24,6 +26,31 @@ export class AccessService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+  async addObjectAccess(name: string) {
+    try {
+      const newObjectAccess = this.objectAccessRepository.create({
+        name,
+      });
+      const objectAccess = await this.objectAccessRepository.save(
+        newObjectAccess,
+      );
+      return objectAccess;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async deleteObjectAccess(id: string) {
+    try {
+      const objectAccess = await this.objectAccessRepository.findOne({
+        where: {
+          id,
+        },
+      });
+      await this.objectAccessRepository.remove(objectAccess);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
   async addRole(name: string) {
     try {
       const newRole = this.roleRepository.create({
@@ -31,6 +58,18 @@ export class AccessService {
       });
       const role = await this.roleRepository.save(newRole);
       return role;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async deleteRole(id: string) {
+    try {
+      const role = await this.roleRepository.findOne({
+        where: {
+          id,
+        },
+      });
+      await this.roleRepository.remove(role);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

@@ -11,7 +11,8 @@ import { User } from './models/User.entity';
 import { AddRoleHandler } from './commands/handlers/add-role.handler';
 import { Role } from './models/Role.entity';
 import { CqrsModule } from '@nestjs/cqrs';
-
+import { ObjectAccess } from '../models/ObjectAccess.entity';
+import { AddObjectHandler } from './commands/handlers/add-object.handler';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -20,10 +21,17 @@ import { CqrsModule } from '@nestjs/cqrs';
       Profile,
       Access,
       Role,
+      ObjectAccess,
     ]),
     CqrsModule,
   ],
-  providers: [UsersService, ProfileService, AccessService, AddRoleHandler],
+  providers: [
+    UsersService,
+    ProfileService,
+    AccessService,
+    AddRoleHandler,
+    AddObjectHandler,
+  ],
   controllers: [UsersController],
   exports: [UsersService],
 })
