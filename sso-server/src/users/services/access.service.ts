@@ -28,9 +28,7 @@ export class AccessService {
   }
   async getObjects(): Promise<ObjectAccess[]> {
     try {
-      console.log('getObjects');
       const objects = await this.objectAccessRepository.find();
-      console.log(objects);
       return objects;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -45,6 +43,19 @@ export class AccessService {
         newObjectAccess,
       );
       return objectAccess;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async updateObjectAccess(id: string, name: string) {
+    try {
+      const objectAccess = await this.objectAccessRepository.findOne({
+        where: {
+          id,
+        },
+      });
+      objectAccess.name = name;
+      return await this.objectAccessRepository.save(objectAccess);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

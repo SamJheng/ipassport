@@ -13,7 +13,7 @@ import { AddObjectCommand } from '../../commands/add-object';
 import { AddRolerCommand } from '../../commands/add-role';
 import { DeleteObjectCommand } from '../../commands/delete-object';
 import { GetObjectsCommand } from '../../commands/get-objects';
-
+import { UpdateObjectCommand } from '../../commands/update-object';
 @Controller('access')
 export class AccessController {
   constructor(
@@ -34,6 +34,17 @@ export class AccessController {
     await this.commandBus.execute(new AddObjectCommand(name));
     const res = new ResponseResult({
       meassge: 'Create object access by name',
+    });
+    return res;
+  }
+  @Put('object/:id')
+  async updateObjectAccessById(
+    @Param('id') id: string,
+    @Body('name') name: string,
+  ) {
+    await this.commandBus.execute(new UpdateObjectCommand(id, name));
+    const res = new ResponseResult({
+      meassge: 'Update object access by id',
     });
     return res;
   }
