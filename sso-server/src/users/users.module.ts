@@ -2,7 +2,7 @@ import { AccessService } from './services/access.service';
 import { Access } from './models/Access.entity';
 import { ProfileService } from './services/profile.service';
 import { Profile } from './models/Profile.entity';
-import { UsersController } from './controllers/users.controller';
+import { UsersController } from './controllers/user/users.controller';
 import { SocialExternalProviders } from './models/SocialExternalProviders.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
@@ -15,7 +15,7 @@ import { ObjectAccess } from '../models/ObjectAccess.entity';
 import { AddObjectHandler } from './commands/add-object';
 import { GetObjectsHandler } from './commands/get-objects';
 import { DeleteObjectHandler } from './commands/delete-object';
-
+import { AccessController } from './controllers/access/access.controller';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -37,7 +37,7 @@ import { DeleteObjectHandler } from './commands/delete-object';
     DeleteObjectHandler,
     GetObjectsHandler,
   ],
-  controllers: [UsersController],
+  controllers: [UsersController, AccessController],
   exports: [UsersService],
 })
 export class UsersModule {}

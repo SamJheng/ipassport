@@ -22,23 +22,23 @@ describe('Add object access (e2e)', () => {
       .send(data);
     accessToken = res.body.accessToken;
   });
-  it('/users/object [user] [POST]', async () => {
+  it('/access/object [user] [POST]', async () => {
     const data = {
       name: 'user',
     };
     const res = await request(app.getHttpServer())
-      .post('/users/object')
+      .post('/access/object')
       .set('Authorization', `Bearer ${accessToken}`)
       .send(data)
       .expect(201);
     return res;
   });
-  it('/users/object [*] [POST]', async () => {
+  it('/access/object [*] [POST]', async () => {
     const data = {
       name: '*',
     };
     const res = await request(app.getHttpServer())
-      .post('/users/object')
+      .post('/access/object')
       .set('Authorization', `Bearer ${accessToken}`)
       .send(data)
       .expect(201);

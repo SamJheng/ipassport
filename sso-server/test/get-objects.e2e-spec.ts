@@ -24,7 +24,7 @@ describe('Description', () => {
   it('should return all objects', async () => {
     console.log(accessToken);
     const res = await request(app.getHttpServer())
-      .get('/users/object/list')
+      .get('/access/object')
       .set('Authorization', `Bearer ${accessToken}`);
     console.log(res.body);
     expect(res.status).toBe(200);

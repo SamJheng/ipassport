@@ -23,45 +23,45 @@ describe('Add role (e2e)', () => {
       .send(data);
     accessToken = res.body.accessToken;
   });
-  it('/users/role [editor] (POST)', async () => {
+  it('/access/role [editor] (POST)', async () => {
     const data = {
       name: 'editor',
     };
     const res = await request(app.getHttpServer())
-      .post('/users/role')
+      .post('/access/role')
       .set('Authorization', `Bearer ${accessToken}`)
       .send(data)
       .expect(201);
     return res;
   });
-  it('/users/role [reader] (POST)', async () => {
+  it('/access/role [reader] (POST)', async () => {
     const data = {
       name: 'reader',
     };
     const res = await request(app.getHttpServer())
-      .post('/users/role')
+      .post('/access/role')
       .set('Authorization', `Bearer ${accessToken}`)
       .send(data)
       .expect(201);
     return res;
   });
-  it('/users/role [guest] (POST)', async () => {
+  it('/access/role [guest] (POST)', async () => {
     const data = {
       name: 'guest',
     };
     const res = await request(app.getHttpServer())
-      .post('/users/role')
+      .post('/access/role')
       .set('Authorization', `Bearer ${accessToken}`)
       .send(data)
       .expect(201);
     return res;
   });
-  it('/users/role [*] (POST)', async () => {
+  it('/access/role [*] (POST)', async () => {
     const data = {
       name: '*',
     };
     const res = await request(app.getHttpServer())
-      .post('/users/role')
+      .post('/access/role')
       .set('Authorization', `Bearer ${accessToken}`)
       .send(data)
       .expect(201);
