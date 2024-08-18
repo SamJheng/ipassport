@@ -31,9 +31,6 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    const { method } = request as any;
-    const action = this.authorizationService.mappingAction(method);
-    console.log(action);
     if (!token) {
       throw new UnauthorizedException();
     }
