@@ -10,6 +10,8 @@ import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { SignInHandler } from './commands/signin';
+import { VerifyGoogleHandler } from './commands/verify-google';
+import { LoggerModule } from '../log/logger.module';
 @Module({
   imports: [
     UsersModule,
@@ -27,11 +29,13 @@ import { SignInHandler } from './commands/signin';
     }),
     ConfigModule,
     CqrsModule,
+    LoggerModule,
   ],
   controllers: [AuthController, GoogleController],
   providers: [
     AuthService,
     SignInHandler,
+    VerifyGoogleHandler,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
