@@ -39,11 +39,6 @@ export class GoogleController {
     this.CLIENT_ID = configService.get<string>('GOOGLE_CLIENT_ID');
     this.client = new OAuth2Client(this.CLIENT_ID);
   }
-  // @Get()
-  // @Public()
-  // async googleAuth(@Req() req) {
-  //   return 'google';
-  // }
   @Get('verify')
   @Public()
   async verifyIdToken(@Query() query): Promise<ResponseResult> {

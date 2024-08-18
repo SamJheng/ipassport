@@ -8,7 +8,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { GoogleController } from './controllers/google/google.controller';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '@nestjs/config';
-
+import { CqrsModule } from '@nestjs/cqrs';
+import { SignInHandler } from './commands/signin';
 @Module({
   imports: [
     UsersModule,
@@ -25,10 +26,12 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
     ConfigModule,
+    CqrsModule,
   ],
   controllers: [AuthController, GoogleController],
   providers: [
     AuthService,
+    SignInHandler,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,

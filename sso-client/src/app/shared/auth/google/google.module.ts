@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { configuration } from '../../models/tap.model';
 import { GoogleOnetapService } from './google-onetap.service';
 
-
 export const CONFIGURATION = new InjectionToken<configuration>('CONFIGURATION')
 @NgModule({
   declarations: [],
@@ -23,8 +22,8 @@ export class GoogleModule {
       ngModule: GoogleModule,
       providers: [
         { provide: CONFIGURATION, useValue: config },
-        GoogleOnetapService
-      ]
+        GoogleOnetapService,
+      ],
     }
   }
 }

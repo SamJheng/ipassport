@@ -15,14 +15,19 @@ export class AuthService {
   ){
   }
   singin(email:string, password:string){
-    return this.http.post<ResponseResult>(this.url +'/auth/login',{
-      email,
-      password
-    }).pipe(
-      tap((res) => {
-        this.cookieManagerService.setCookie('access_token', res.result.accessToken)
+    return this.http
+      .post<ResponseResult>(this.url + '/auth/signin', {
+        email,
+        password,
       })
-    )
+      .pipe(
+        tap((res) => {
+          this.cookieManagerService.setCookie(
+            'access_token',
+            res.result.accessToken
+          );
+        })
+      );
   }
   googleIdtokenVerify(token:string){
     return this.http.get<ResponseResult>(this.url + '/google/verify?token=' + token).pipe(

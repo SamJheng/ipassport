@@ -44,6 +44,7 @@ export class GoogleOnetapService {
     if (conf?.disable_exponential_cooldowntime) {
       document.cookie = 'g_state' + '=;Path=/;';
     }
+    console.log(conf);
     window.google.accounts.id.initialize({
       ...conf, callback: (auth:any) => {
         this.ngZone.run(() => {
@@ -65,6 +66,13 @@ export class GoogleOnetapService {
     window.google.accounts.id.prompt((pmt: PromptMomentNotification) => {
       this._promtMoment.next(pmt);
     });
+    const googleSignInButton = document.getElementById('google-signin-button');
+    if (googleSignInButton) {
+      window.google.accounts.id.renderButton(googleSignInButton, {
+        theme: 'outline',
+        size: 'large',
+      });
+    }
   }
 
   signOut() {
