@@ -11,7 +11,6 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
     const token = this.cookieManagerService.getCookie('access_token');
-    console.log(token)
     const request = req.clone({
       // url: environment.apiUrl + req.url,
       setHeaders: {

@@ -21,6 +21,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
   private authService = inject(AuthService);
   private oneTap = inject(GoogleOnetapService);
   form!: FormGroup;
+  isShowPassword:boolean = false;
   constructor() {
     this.form = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -69,5 +70,8 @@ export class SigninComponent implements OnInit, AfterViewInit {
     this.authService.singin(email, password).subscribe((res) => {
       console.log(res);
     });
+  }
+  toggleShowPassword(){
+    this.isShowPassword = !this.isShowPassword;
   }
 }

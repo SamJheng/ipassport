@@ -1,35 +1,44 @@
-<nz-layout class="h-screen">
-    <nz-header></nz-header>
-    <nz-content class="flex justify-center items-center">
-        <form [formGroup]="form">
-            <nz-card>
-                <nz-form-item>
-                    <p class="text-center text-xl">Sign In with your account</p>
-                </nz-form-item>
-                <nz-form-item class="mb-2">
-                    <nz-form-label>Email</nz-form-label>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-control>
-                        <input nz-input placeholder="Email" formControlName="email" />
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item class="mb-2">
-                    <nz-form-label>Password</nz-form-label>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-control>
-                        <input nz-input placeholder="Password" formControlName="password" />
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <button (click)="submit()" class="w-full rounded-full" nz-button nzType="primary">Login</button>
-                </nz-form-item>
-                <hr/>
-                <div class="flex justify-center mt-4">
-                    <div id="google-signin-button"></div>
-                </div>
-            </nz-card>
-        </form>
-    </nz-content>
-</nz-layout>
+
+<form [formGroup]="form">
+    <nz-card class="bg-white dark:bg-slate-700 dark:border-slate-500">
+        <nz-form-item>
+            <p class="text-center text-xl text-black dark:text-white">Sign In with your account</p>
+        </nz-form-item>
+        <nz-form-item class="mb-2">
+            <nz-form-label>
+                <p  class="text-black dark:text-white">Email</p>
+            </nz-form-label>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input placeholder="Email" formControlName="email" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-2">
+            <nz-form-label class="text-black dark:text-white">
+                <p class="text-black dark:text-white">Password</p>
+            </nz-form-label>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <nz-input-group [nzSuffix]="suffixbtn">
+                    <input [type]="isShowPassword?'text':'password'" nz-input placeholder="Password" formControlName="password" />
+                </nz-input-group>
+                <ng-template #suffixbtn>
+                    @if (isShowPassword) {
+                        <span (click)="toggleShowPassword()" nz-icon nzType="eye" nzTheme="outline"></span>
+                    }@else {
+                        <span (click)="toggleShowPassword()" nz-icon nzType="eye-invisible" nzTheme="outline"></span>
+                    }
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <button (click)="submit()" class="w-full rounded-full" nz-button nzType="primary">Login</button>
+        </nz-form-item>
+        <hr/>
+        <div class="flex justify-center mt-4">
+            <div id="google-signin-button"></div>
+        </div>
+    </nz-card>
+</form>
