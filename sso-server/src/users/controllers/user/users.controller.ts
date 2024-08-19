@@ -48,15 +48,15 @@ export class UsersController {
     return res;
   }
 
-  @Post()
-  async createUser(userDto: CreateUserDto): Promise<ResponseResult> {
-    const create = await this.usersService.create(userDto);
-    const res = new ResponseResult({
-      meassge: 'Post data for create user',
-      result: create,
-    });
-    return res;
-  }
+  // @Post()
+  // async createUser(userDto: CreateUserDto): Promise<ResponseResult> {
+  //   const create = await this.usersService.create(userDto);
+  //   const res = new ResponseResult({
+  //     meassge: 'Post data for create user',
+  //     result: create,
+  //   });
+  //   return res;
+  // }
   @Put(':id')
   async editUser(
     @Param('id') id: string,
@@ -81,38 +81,4 @@ export class UsersController {
     });
     return res;
   }
-  // @Post('access/:id')
-  // async grantingAccessToUser(
-  //   @Param('id') id: string,
-  //   @Body() granting: GrantingAccess,
-  // ): Promise<ResponseResult> {
-  //   const { role, object } = granting;
-
-  //   const isExist = await this.accessService.findByRoleAndObject(
-  //     role.id,
-  //     object.id,
-  //     id,
-  //   );
-  //   if (isExist) {
-  //     const res = new ResponseResult({
-  //       success: false,
-  //       meassge: `This access of [${granting.role.name}:${granting.object.name}] is exist`,
-  //       // result: isExist,
-  //     });
-  //     return res;
-  //   }
-  //   // const user = await this.usersService.findOne(id);
-  //   const create = await this.accessService.create({
-  //     role,
-  //     object,
-  //     user: {
-  //       id,
-  //     },
-  //   });
-  //   const res = new ResponseResult({
-  //     meassge: 'Put id and granting access to user',
-  //     result: create,
-  //   });
-  //   return res;
-  // }
 }
