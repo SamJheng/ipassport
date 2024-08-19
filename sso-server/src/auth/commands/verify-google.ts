@@ -23,7 +23,7 @@ export class VerifyGoogleHandler
     this.CLIENT_ID = this.configService.get<string>('GOOGLE_CLIENT_ID');
     this.client = new OAuth2Client(this.CLIENT_ID);
   }
-  async execute(command: VerifyGoogleCommand) {
+  async execute(command: VerifyGoogleCommand): Promise<ResponseResult> {
     try {
       const ticket = await this.client.verifyIdToken({
         idToken: command.token,
