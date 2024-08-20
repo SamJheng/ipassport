@@ -21,7 +21,7 @@ describe('Add role (e2e)', () => {
     const res = await request(app.getHttpServer())
       .post('/auth/signin')
       .send(data);
-    accessToken = res.body.accessToken;
+    accessToken = res.body.result.accessToken;
   });
   it('/access/role [editor] (POST)', async () => {
     const data = {

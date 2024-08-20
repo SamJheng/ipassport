@@ -10,11 +10,11 @@ import { LoggerModule } from './log/logger.module';
 import { join } from 'path';
 @Module({
   imports: [
-    AuthorizationModule.register({
-      modelPath: join(__dirname, './config/casbin/model.conf'),
-      policyAdapter: join(__dirname, './config/casbin/policy.csv'),
-      global: true,
-    }),
+    // AuthorizationModule.register({
+    //   modelPath: join(__dirname, './config/casbin/model.conf'),
+    //   policyAdapter: join(__dirname, './config/casbin/policy.csv'),
+    //   global: true,
+    // }),
     AuthModule,
     UsersModule,
     ConfigModule,

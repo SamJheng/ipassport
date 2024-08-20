@@ -12,6 +12,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SignInHandler } from './commands/signin';
 import { VerifyGoogleHandler } from './commands/verify-google';
 import { LoggerModule } from '../log/logger.module';
+import { AccessGuard } from './access.guard';
 @Module({
   imports: [
     UsersModule,
@@ -40,10 +41,6 @@ import { LoggerModule } from '../log/logger.module';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
   ],
 })
 export class AuthModule {}

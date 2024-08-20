@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { Public } from './lib/public-matedata';
 import { Roles } from './auth/models/roles.decorator';
 import { Role } from './auth/models/role.enum';
+import { HasAccess } from './auth/access.guard';
 
 @Controller()
 export class AppController {
@@ -17,5 +18,13 @@ export class AppController {
   @Roles(Role.Admin)
   isAdmin(@Request() req): string {
     return 'admin';
+  }
+  @Get('accessable')
+  @HasAccess({
+    role: 'guest',
+    object: 'access',
+  })
+  isHasAccess() {
+    return true;
   }
 }

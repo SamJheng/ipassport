@@ -19,7 +19,7 @@ describe('Description', () => {
     const res = await request(app.getHttpServer())
       .post('/auth/signin')
       .send(data);
-    accessToken = res.body.accessToken;
+    accessToken = res.body.result.accessToken;
   });
   it('should return all objects', async () => {
     console.log(accessToken);

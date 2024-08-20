@@ -20,11 +20,22 @@ describe('Add object access (e2e)', () => {
     const res = await request(app.getHttpServer())
       .post('/auth/signin')
       .send(data);
-    accessToken = res.body.accessToken;
+    accessToken = res.body.result.accessToken;
   });
   it('/access/object [user] [POST]', async () => {
     const data = {
       name: 'user',
+    };
+    const res = await request(app.getHttpServer())
+      .post('/access/object')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(data)
+      .expect(201);
+    return res;
+  });
+  it('/access/object [access] [POST]', async () => {
+    const data = {
+      name: 'access',
     };
     const res = await request(app.getHttpServer())
       .post('/access/object')

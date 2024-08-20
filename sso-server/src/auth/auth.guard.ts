@@ -1,4 +1,3 @@
-import { AuthorizationService } from './services/authorzation.service';
 import { ConfigService } from '@nestjs/config';
 import {
   CanActivate,
@@ -10,13 +9,13 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../lib/public-matedata';
+import { AccessService } from '../users/services/access.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
-    private readonly authorizationService: AuthorizationService,
     private configService: ConfigService,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {

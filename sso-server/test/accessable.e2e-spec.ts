@@ -2,11 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { faker } from '@faker-js/faker';
-
-describe('AuthController (e2e)', () => {
+describe('Description', () => {
   let app: INestApplication;
-
+  let accessToken: string;
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -14,17 +12,18 @@ describe('AuthController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-  });
-
-  it('/auth/signin (POST)', async () => {
     const data = {
       email: 'admin@gmail.com',
       password: 'adminPassword',
     };
     const res = await request(app.getHttpServer())
       .post('/auth/signin')
-      .send(data)
-      .expect(200);
-    return res;
+      .send(data);
+    accessToken = res.body.result.accessToken;
+  });
+  it('/accessable (GET)', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/accessable')
+      .set('Authorization', `Bearer ${accessToken}`);
   });
 });

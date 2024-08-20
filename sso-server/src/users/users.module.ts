@@ -38,6 +38,6 @@ import { AccessController } from './controllers/access/access.controller';
     GetObjectsHandler,
   ],
   controllers: [UsersController, AccessController],
-  exports: [UsersService],
+  exports: [UsersService, AccessService],
 })
 export class UsersModule {}

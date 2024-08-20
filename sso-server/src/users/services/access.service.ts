@@ -83,19 +83,27 @@ export class AccessService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
-  // async deleteRole(id: string) {
-  //   try {
-  //     const role = await this.roleRepository.findOne({
-  //       where: {
-  //         id,
-  //       },
-  //     });
-  //     await this.roleRepository.remove(role);
-  //   } catch (error) {
-  //     throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-  //   }
-  // }
-
+  async getAllAccess(): Promise<Access[]> {
+    try {
+      const allAccess = await this.accessRepository.find({
+        relations: ['role', 'object'],
+      });
+      return allAccess;
+    } catch (error) {
+      throw new HttpException('Access not found', HttpStatus.NOT_FOUND);
+    }
+  }
+  async getAccessByUserId(userId: string): Promise<Access[]> {
+    try {
+      const access = await this.accessRepository.find({
+        where: { user: { id: userId } },
+        relations: ['role', 'object'],
+      });
+      return access;
+    } catch (error) {
+      throw new HttpException('Access not found', HttpStatus.NOT_FOUND);
+    }
+  }
   async findOne(id: string): Promise<Access> {
     try {
       return await this.accessRepository.findOne({
