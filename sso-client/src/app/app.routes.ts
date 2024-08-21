@@ -3,8 +3,14 @@ import { UserComponent } from './user/user.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import { AuthGuard } from './shared/auth/guards/guards';
-import { ListComponent } from './user/list/list.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 export const routes: Routes = [
+  {
+    path: 'dashborard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'auth',
     children: [
@@ -21,7 +27,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: ListComponent,
+        component: UserListComponent,
       },
     ],
   },

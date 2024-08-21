@@ -1,7 +1,7 @@
 // import { ApiProperty } from "@nestjs/swagger";
 
-export class ResponseResult {
-  constructor(params: Partial<ResponseResult>) {
+export class ResponseResult<T = any> {
+  constructor(params: Partial<ResponseResult<T>>) {
     Object.assign(this, params);
   }
   // @ApiProperty()
@@ -9,5 +9,5 @@ export class ResponseResult {
   // @ApiProperty()
   meassge: string = '';
   // @ApiProperty()
-  result: any = null;
+  result: T | null= null;
 }

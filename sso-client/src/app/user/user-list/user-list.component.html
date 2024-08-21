@@ -1,0 +1,24 @@
+
+<div class="grid grid-cols-5 grid-flow-col gap-4">
+    @for (item of this.userList$ | async; track $index) {
+    <div class="rounded shadow-lg p-5">
+        <div class="flex justify-center items-center w-full h-14">
+            <i class="material-icons dark:text-white text-black">
+                account_circle
+            </i>
+        </div>
+        <div class="flex items-center justify-around dark:text-white text-black">
+            <span>{{item.username}} </span>
+            @if (item.isActive) {
+                <i class="material-icons text-green-500">
+                    check
+                </i>
+            }@else{
+                <i class="material-icons text-red-500">
+                    report
+                </i>
+            }
+        </div>
+    </div>
+    }
+</div>

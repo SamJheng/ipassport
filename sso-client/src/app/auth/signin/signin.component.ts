@@ -9,6 +9,7 @@ import { AuthModule } from '../../shared/auth/auth.module';
 import { GoogleOnetapService } from '../../shared/auth/google/google-onetap.service';
 import { switchMap } from 'rxjs';
 import { AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-signin',
   standalone: true,
@@ -20,6 +21,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private oneTap = inject(GoogleOnetapService);
+  private router = inject(Router)
   form!: FormGroup;
   isShowPassword:boolean = false;
   constructor() {
@@ -56,7 +58,9 @@ export class SigninComponent implements OnInit, AfterViewInit {
         switchMap((res) => this.authService.googleIdtokenVerify(res.credential))
       )
       .subscribe((res) => {
-        console.log(res);
+        if (res.success) {
+          this.loginSueccess();
+        }
       });
   }
   ngAfterViewInit(): void {
@@ -68,10 +72,15 @@ export class SigninComponent implements OnInit, AfterViewInit {
     }
     const { email, password } = this.form.getRawValue();
     this.authService.singin(email, password).subscribe((res) => {
-      console.log(res);
+      if (res.success) {
+        this.loginSueccess();
+      }
     });
   }
   toggleShowPassword(){
     this.isShowPassword = !this.isShowPassword;
+  }
+  loginSueccess(){
+    this.router.navigate(['dashborard']);
   }
 }
