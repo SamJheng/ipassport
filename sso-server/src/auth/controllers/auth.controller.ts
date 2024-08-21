@@ -13,10 +13,11 @@ import {
 import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '../auth.guard';
 import { Public } from '../../lib/public-matedata';
-import { UserResponse } from '../models/user.response';
 import { SignInCommand } from '../commands/signin';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ResponseResult } from '../../models/respone';
+import { GetProfileCommand } from '../commands/profile';
+import { SignUpCommand } from '../commands/signup';
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -39,12 +40,17 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('signup')
-  async signup(@Body() signupDto: CreateUserDto): Promise<User> {
-    return await this.authService.signup(signupDto);
+  async signup(
+    @Body() signupDto: CreateUserDto,
+  ): Promise<ResponseResult<User>> {
+    const result = await this.commandBus.execute(new SignUpCommand(signupDto));
+    return result;
   }
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  async getProfile(@Request() req) {
+    const id = req.user.sub;
+    const result = await this.queryBus.execute(new GetProfileCommand(id));
+    return result;
   }
 }

@@ -14,3 +14,11 @@ export interface Profile {
   gender: string;
   photo: string;
 }
+export interface JWTUser {
+  sub: string;
+  username: string;
+  scope: string[];
+  email: string;
+  exp: number;
+  iat:number;
+}

@@ -1,3 +1,6 @@
+<div class="dark:text-white text-black">
+    <p>Hi !{{(this.profile$ | async)?.username}}</p>
+</div>
 <nz-list >
     <nz-list-item class="">
         <a routerLink="/user/list"routerLinkActive="router-link-active"  nz-button nzType="link" class="flex rounded shadow-lg">

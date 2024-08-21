@@ -62,10 +62,16 @@ export class UsersService {
   }
 
   findOne(id: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
+    return this.usersRepository.findOne({
+      where: { id },
+      relations: ['profile'],
+    });
   }
   findByEmail(email) {
-    return this.usersRepository.findOneBy({ email });
+    return this.usersRepository.findOne({
+      where: { email },
+      relations: ['profile'],
+    });
   }
   async update(id: string, userDto: EditUserDto): Promise<User> {
     try {
