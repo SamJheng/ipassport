@@ -36,7 +36,6 @@ export class AccessGuard implements CanActivate {
     if (hasObject) {
       const reqRole = this.roleToNumber(access.role);
       const objRole = this.roleToNumber(hasObject.role.name);
-      // console.log(objRole, reqRole);
       if (objRole >= reqRole) {
         return true;
       }

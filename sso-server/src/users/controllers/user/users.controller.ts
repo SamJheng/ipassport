@@ -19,6 +19,7 @@ import { AddObjectCommand } from '../../commands/add-object';
 import { AddRolerCommand } from '../../commands/add-role';
 import { DeleteObjectCommand } from '../../commands/delete-object';
 import { GetObjectsCommand } from '../../commands/get-objects';
+import { HasAccess } from '../../../auth/access.guard';
 
 @Controller('users')
 export class UsersController {
@@ -30,6 +31,10 @@ export class UsersController {
     private readonly queryBus: QueryBus,
   ) {}
   @Get()
+  @HasAccess({
+    role: 'reader',
+    object: 'user',
+  })
   async getAllUsers(): Promise<ResponseResult> {
     const all = await this.usersService.findAll();
     const res = new ResponseResult({
@@ -39,6 +44,10 @@ export class UsersController {
     return res;
   }
   @Get(':id')
+  @HasAccess({
+    role: 'reader',
+    object: 'user',
+  })
   async getUserById(@Param('id') id: string): Promise<ResponseResult> {
     const user = await this.usersService.findOne(id);
     const res = new ResponseResult({
@@ -47,17 +56,11 @@ export class UsersController {
     });
     return res;
   }
-
-  // @Post()
-  // async createUser(userDto: CreateUserDto): Promise<ResponseResult> {
-  //   const create = await this.usersService.create(userDto);
-  //   const res = new ResponseResult({
-  //     meassge: 'Post data for create user',
-  //     result: create,
-  //   });
-  //   return res;
-  // }
   @Put(':id')
+  @HasAccess({
+    role: 'editor',
+    object: 'user',
+  })
   async editUser(
     @Param('id') id: string,
     @Body() editDto: EditUserDto,
@@ -70,6 +73,10 @@ export class UsersController {
     return res;
   }
   @Put('profile/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'user',
+  })
   async editProfile(
     @Param('id') id: string,
     @Body() editDto: EditUserProfileDto,

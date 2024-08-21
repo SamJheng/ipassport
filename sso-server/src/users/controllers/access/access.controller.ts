@@ -14,6 +14,7 @@ import { AddRolerCommand } from '../../commands/add-role';
 import { DeleteObjectCommand } from '../../commands/delete-object';
 import { GetObjectsCommand } from '../../commands/get-objects';
 import { UpdateObjectCommand } from '../../commands/update-object';
+import { HasAccess } from '../../../auth/access.guard';
 @Controller('access')
 export class AccessController {
   constructor(
@@ -21,6 +22,10 @@ export class AccessController {
     private readonly queryBus: QueryBus,
   ) {}
   @Get('object')
+  @HasAccess({
+    role: 'reader',
+    object: 'access',
+  })
   async getObjects() {
     const objects = await this.queryBus.execute(new GetObjectsCommand());
     const res = new ResponseResult({
@@ -30,6 +35,10 @@ export class AccessController {
     return res;
   }
   @Post('object')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
   async createObjectAccessByName(@Body('name') name: string) {
     await this.commandBus.execute(new AddObjectCommand(name));
     const res = new ResponseResult({
@@ -38,6 +47,10 @@ export class AccessController {
     return res;
   }
   @Put('object/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
   async updateObjectAccessById(
     @Param('id') id: string,
     @Body('name') name: string,
@@ -49,6 +62,10 @@ export class AccessController {
     return res;
   }
   @Delete('object/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
   async deleteObjectAccessById(@Param('id') id: string) {
     await this.commandBus.execute(new DeleteObjectCommand(id));
     const res = new ResponseResult({
@@ -57,6 +74,10 @@ export class AccessController {
     return res;
   }
   @Post('role')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
   async createRoleByName(@Body('name') name: string) {
     await this.commandBus.execute(new AddRolerCommand(name));
     const res = new ResponseResult({
