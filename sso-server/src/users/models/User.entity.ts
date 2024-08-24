@@ -39,7 +39,7 @@ export class User {
   isActive: boolean;
   @CreateDateColumn()
   created?: Date;
-  @OneToOne(() => Profile, (profile) => profile.user, {
+  @OneToOne(() => Profile, {
     cascade: true,
   })
   @JoinColumn()

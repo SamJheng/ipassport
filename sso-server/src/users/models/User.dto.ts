@@ -75,6 +75,8 @@ export class EditUserProfileDto {
   gender: string;
   @IsString()
   photo: string;
+  @IsString()
+  birthday: string;
 }
 export class GrantingAccess {
   role: Partial<Role>;

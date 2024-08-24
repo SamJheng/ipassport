@@ -45,6 +45,7 @@ describe('User Module E2E Tests', () => {
       profile: {
         gender: 'female',
         photo: 'https://i.imgur.com/oNbzQdR.jpeg',
+        birthday: '1990-10-12',
       },
     };
 
