@@ -32,6 +32,6 @@ export class SocialExternalProviders {
   picture: string;
   @Column()
   emailVerified: boolean;
-  @Column()
-  locale: string;
+  @Column({ nullable: true })
+  locale: string | null;
 }

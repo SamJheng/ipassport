@@ -38,7 +38,7 @@ export class AuthController {
     return result;
   }
   @Public()
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   @Post('signup')
   async signup(
     @Body() signupDto: CreateUserDto,
