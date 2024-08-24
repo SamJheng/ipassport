@@ -63,6 +63,12 @@ export class EditUserDto {
   lastName: string;
   @IsString()
   username: string;
+  @IsEmail()
+  @IsString()
+  email: string;
+  @IsBoolean()
+  active: boolean;
+  profile: EditUserProfileDto;
 }
 export class EditUserProfileDto {
   @IsString()

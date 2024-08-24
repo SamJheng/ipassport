@@ -10,6 +10,7 @@ import { User } from '../models/User.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { PostgresError } from 'pg-error-enum';
 import { SocialExternalProviders } from '../models/SocialExternalProviders.entity';
+import { Profile } from '../models/Profile.entity';
 
 @Injectable()
 export class UsersService {
@@ -75,11 +76,10 @@ export class UsersService {
   }
   async update(id: string, userDto: EditUserDto): Promise<User> {
     try {
-      const user = await this.usersRepository.findOne({
-        where: {
-          id,
-        },
-      });
+      const user = await this.findOne(id);
+      if (!user) {
+        throw new Error('User not found');
+      }
       this.usersRepository.merge(user, userDto);
       const r = await this.usersRepository.save(user);
       return r;

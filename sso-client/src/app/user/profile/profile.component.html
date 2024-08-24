@@ -1,0 +1,41 @@
+
+<div class="min-w-96">
+    <form [formGroup]="form">
+        <div class="flex justify-center items-center">
+            <i class="material-icons text-9xl dark:text-white text-black">
+                account_circle
+            </i>
+        </div>
+        <div class="dark:text-white text-black mt-5">
+            <p class="font-semibold">First name</p>
+            <input class="mt-2" formControlName="firstname" nz-input placeholder="First name" readonly />
+        </div>
+        <div class="dark:text-white text-black mt-5">
+            <p class="font-semibold">Last name</p>
+            <input class="mt-2" formControlName="lastname" nz-input placeholder="Last name" readonly />
+        </div>
+        <div class="dark:text-white text-black mt-5">
+            <p class="font-semibold">Email</p>
+            <input class="mt-2" formControlName="email" nz-input placeholder="Email" readonly />
+        </div>
+        <div class="dark:text-white text-black mt-5">
+            <p class="font-semibold">Active</p>
+            <nz-switch formControlName="active"></nz-switch>
+        </div>
+        <div formGroupName="profile">
+            <div class="dark:text-white text-black mt-5">
+                <p class="text-xl">Profile</p>
+            </div>
+            <div class="dark:text-white text-black mt-5">
+                <p>Gender</p>
+                <input class="mt-2" formControlName="gender" nz-input placeholder="Gender" readonly />
+            </div>
+            <div class="dark:text-white text-black mt-5">
+                <p>Photo Url</p>
+                <input class="mt-2" formControlName="photo" nz-input placeholder="url" readonly />
+            </div>
+        </div>
+        
+    </form>
+    
+</div>

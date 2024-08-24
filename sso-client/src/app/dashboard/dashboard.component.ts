@@ -30,6 +30,5 @@ export class DashboardComponent {
     this.profile$ = this.dashboardService
       .getProfile()
       .pipe(map((res) => res.result));
-    this.dashboardService.getProfile().subscribe(console.log);
   }
 }

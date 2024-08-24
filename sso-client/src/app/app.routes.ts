@@ -5,6 +5,7 @@ import { SigninComponent } from './auth/signin/signin.component';
 import { AuthGuard } from './shared/auth/guards/guards';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './user/profile/profile.component';
 export const routes: Routes = [
   {
     path: 'dashborard',
@@ -28,6 +29,10 @@ export const routes: Routes = [
       {
         path: 'list',
         component: UserListComponent,
+      },
+      {
+        path: 'profile/:id',
+        component: ProfileComponent,
       },
     ],
   },

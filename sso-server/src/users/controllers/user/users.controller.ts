@@ -15,11 +15,8 @@ import {
   Body,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { AddObjectCommand } from '../../commands/add-object';
-import { AddRolerCommand } from '../../commands/add-role';
-import { DeleteObjectCommand } from '../../commands/delete-object';
-import { GetObjectsCommand } from '../../commands/get-objects';
 import { HasAccess } from '../../../auth/access.guard';
+import { UpdateUserCommand } from '../../commands/update-user';
 
 @Controller('users')
 export class UsersController {
@@ -65,26 +62,11 @@ export class UsersController {
     @Param('id') id: string,
     @Body() editDto: EditUserDto,
   ): Promise<ResponseResult> {
-    const update = await this.usersService.update(id, editDto);
+    const user = await this.commandBus.execute(
+      new UpdateUserCommand(id, editDto),
+    );
     const res = new ResponseResult({
-      meassge: 'Put id and update user',
-      result: update,
-    });
-    return res;
-  }
-  @Put('profile/:id')
-  @HasAccess({
-    role: 'editor',
-    object: 'user',
-  })
-  async editProfile(
-    @Param('id') id: string,
-    @Body() editDto: EditUserProfileDto,
-  ): Promise<ResponseResult> {
-    const update = await this.profileService.update(id, editDto);
-    const res = new ResponseResult({
-      meassge: 'Put id and update profile of user',
-      result: update,
+      meassge: 'update user is success',
     });
     return res;
   }

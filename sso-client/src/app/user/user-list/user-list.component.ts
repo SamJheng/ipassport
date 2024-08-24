@@ -4,6 +4,7 @@ import { ZorroModule } from 'src/app/shared/ng-zorro-antd.module';
 import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { User } from 'src/app/shared/models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -14,6 +15,7 @@ import { User } from 'src/app/shared/models/user';
 })
 export class UserListComponent {
   userService = inject(UserService);
+  router = inject(Router);
   userList$: Observable<User[]>;
   constructor() {
     this.userService.getAllUser().subscribe((res) => {
@@ -21,6 +23,9 @@ export class UserListComponent {
     });
     this.userList$ = this.userService
       .getAllUser()
-      .pipe(map((res) => res.result||[]));
+      .pipe(map((res) => res.result || []));
+  }
+  openUserProfile(id: string) {
+    this.router.navigate([`user/profile/${id}`])
   }
 }

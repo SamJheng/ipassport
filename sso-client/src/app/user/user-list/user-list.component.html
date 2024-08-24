@@ -1,7 +1,7 @@
 
 <div class="grid grid-cols-5 grid-flow-col gap-4">
     @for (item of this.userList$ | async; track $index) {
-    <div class="rounded shadow-lg p-5">
+    <a class="rounded shadow-lg p-5" (click)="openUserProfile(item.id)">
         <div class="flex justify-center items-center w-full h-14">
             <i class="material-icons dark:text-white text-black">
                 account_circle
@@ -19,6 +19,6 @@
                 </i>
             }
         </div>
-    </div>
+    </a>
     }
 </div>
