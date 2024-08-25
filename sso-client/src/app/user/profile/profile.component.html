@@ -1,26 +1,36 @@
 
 <div class="min-w-96">
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="sumbitForm()">
         <div class="flex justify-center items-center">
-            <i class="material-icons text-9xl dark:text-white text-black">
-                account_circle
-            </i>
+            @if (this.photoControl?.getRawValue()==='') {
+                <i class="material-icons text-9xl dark:text-white text-black">
+                    account_circle
+                </i>
+            }@else {
+                <div class="flex justify-center items-center">
+                    <img nz-image width="128px" height="128px" [src]="this.photoControl?.getRawValue()" alt="" />
+                </div>
+            }
+        </div>
+        <div class="dark:text-white text-black mt-5">
+            <p class="font-semibold">User name</p>
+            <input class="mt-2" formControlName="username" nz-input placeholder="User name" />
         </div>
         <div class="dark:text-white text-black mt-5">
             <p class="font-semibold">First name</p>
-            <input class="mt-2" formControlName="firstname" nz-input placeholder="First name" readonly />
+            <input class="mt-2" formControlName="firstName" nz-input placeholder="First name"  />
         </div>
         <div class="dark:text-white text-black mt-5">
             <p class="font-semibold">Last name</p>
-            <input class="mt-2" formControlName="lastname" nz-input placeholder="Last name" readonly />
+            <input class="mt-2" formControlName="lastName" nz-input placeholder="Last name"  />
         </div>
         <div class="dark:text-white text-black mt-5">
             <p class="font-semibold">Email</p>
-            <input class="mt-2" formControlName="email" nz-input placeholder="Email" readonly />
+            <input class="mt-2" formControlName="email" nz-input placeholder="Email"  />
         </div>
         <div class="dark:text-white text-black mt-5">
             <p class="font-semibold">Active</p>
-            <nz-switch formControlName="active"></nz-switch>
+            <nz-switch formControlName="isActive"></nz-switch>
         </div>
         <div formGroupName="profile">
             <div class="dark:text-white text-black mt-5">
@@ -28,14 +38,18 @@
             </div>
             <div class="dark:text-white text-black mt-5">
                 <p>Gender</p>
-                <input class="mt-2" formControlName="gender" nz-input placeholder="Gender" readonly />
+                <input class="mt-2" formControlName="gender" nz-input placeholder="Gender"  />
             </div>
             <div class="dark:text-white text-black mt-5">
                 <p>Photo Url</p>
-                <input class="mt-2" formControlName="photo" nz-input placeholder="url" readonly />
+                <input class="mt-2" formControlName="photo" nz-input placeholder="url"  />
+            </div>
+            <div class="dark:text-white text-black mt-5">
+                <p>Birthday</p>
+                <nz-date-picker class="w-full" [nzFormat]="'yyyy-MM-dd'" formControlName="birthday"></nz-date-picker>
             </div>
         </div>
-        
+        <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Save</button>
     </form>
     
 </div>

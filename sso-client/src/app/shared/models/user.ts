@@ -13,6 +13,7 @@ export interface Profile {
   id: string;
   gender: string;
   photo: string;
+  birthday: string;
 }
 export interface JWTUser {
   sub: string;
@@ -21,4 +22,17 @@ export interface JWTUser {
   email: string;
   exp: number;
   iat:number;
+}
+export interface EditUserBody{
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  active: boolean;
+  profile: EditUserProfile;
+}
+export interface EditUserProfile{
+  gender: string;
+  photo: string;
+  birthday: string;
 }
