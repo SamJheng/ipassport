@@ -26,10 +26,10 @@ export class UsersService {
       const success = await this.usersRepository.save(user);
       return success;
     } catch (error) {
-      // console.error(error)
       if (error.code === PostgresError.UNIQUE_VIOLATION) {
         throw new UserExistsException(`${userDto.email} already exists.`);
       }
+      throw new HttpException(ErrorToMessage(error), HttpStatus.BAD_REQUEST);
     }
   }
   async createByExternal(

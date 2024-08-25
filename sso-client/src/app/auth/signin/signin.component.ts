@@ -9,11 +9,18 @@ import { AuthModule } from '../../shared/auth/auth.module';
 import { GoogleOnetapService } from '../../shared/auth/google/google-onetap.service';
 import { switchMap } from 'rxjs';
 import { AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [ZorroModule, ReactiveFormsModule, CommonModule, AuthModule],
+  imports: [
+    ZorroModule,
+    ReactiveFormsModule,
+    CommonModule,
+    AuthModule,
+    RouterLink,
+    RouterLinkActive,
+  ],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.scss',
 })
@@ -21,9 +28,9 @@ export class SigninComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private oneTap = inject(GoogleOnetapService);
-  private router = inject(Router)
+  private router = inject(Router);
   form!: FormGroup;
-  isShowPassword:boolean = false;
+  isShowPassword: boolean = false;
   constructor() {
     this.form = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -63,8 +70,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
         }
       });
   }
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   submit() {
     if (this.form.invalid) {
@@ -77,10 +83,10 @@ export class SigninComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  toggleShowPassword(){
+  toggleShowPassword() {
     this.isShowPassword = !this.isShowPassword;
   }
-  loginSueccess(){
+  loginSueccess() {
     this.router.navigate(['dashborard']);
   }
 }

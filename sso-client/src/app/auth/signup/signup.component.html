@@ -1,0 +1,32 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <nz-form-item>
+        <p class="text-center text-xl text-black dark:text-white">
+            Sign Up with your account
+        </p>
+    </nz-form-item>
+    <div class="dark:text-white text-black mt-5">
+        <p class="font-semibold">User name</p>
+        <input type="text" class="mt-2" formControlName="username" nz-input placeholder="User name" />
+    </div>
+    <div class="dark:text-white text-black mt-5">
+        <p class="font-semibold">First name</p>
+        <input type="text" class="mt-2" formControlName="firstName" nz-input placeholder="First name" />
+    </div>
+    <div class="dark:text-white text-black mt-5">
+        <p class="font-semibold">Last name</p>
+        <input type="text" class="mt-2" formControlName="lastName" nz-input placeholder="Last name" />
+    </div>
+    <div class="dark:text-white text-black mt-5">
+        <p class="font-semibold">Email</p>
+        <input type="text" class="mt-2" formControlName="email" nz-input placeholder="Email" />
+    </div>
+    <div class="dark:text-white text-black mt-5">
+        <p class="font-semibold">Password</p>
+        <input type="password" class="mt-2" formControlName="password" nz-input placeholder="Password" />
+    </div>
+    <div class="dark:text-white text-black mt-5">
+        <p class="font-semibold">Confirm Password</p>
+        <input type="password" class="mt-2" formControlName="confirmPassword" nz-input placeholder="Confirm Password" />
+    </div>
+    <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Submit</button>
+</form>

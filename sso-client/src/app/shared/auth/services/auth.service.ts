@@ -8,12 +8,13 @@ import { ResponseResult } from '../../models/respone';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SessionStorageService } from '../../lib/session-storage.service';
+import { SignupUser } from '../../models/user';
 
 @Injectable()
 export class AuthService {
   url = environment.apiUrl;
   constructor(
-    private sessionStorageService:SessionStorageService,
+    private sessionStorageService: SessionStorageService,
     private http: HttpClient
   ) {}
 
@@ -43,5 +44,11 @@ export class AuthService {
           );
         })
       );
+  }
+  signup(body: SignupUser) {
+    return this.http.post<ResponseResult<SignupUser>>(
+      this.url + '/auth/signup',
+      body
+    );
   }
 }

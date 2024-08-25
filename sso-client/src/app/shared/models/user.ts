@@ -36,3 +36,11 @@ export interface EditUserProfile{
   photo: string;
   birthday: string;
 }
+export interface SignupUser {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+  active: boolean;
+}

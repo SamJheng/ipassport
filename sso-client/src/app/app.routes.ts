@@ -6,6 +6,8 @@ import { AuthGuard } from './shared/auth/guards/guards';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { MessageComponent } from './auth/message/message.component';
 export const routes: Routes = [
   {
     path: 'dashborard',
@@ -18,6 +20,14 @@ export const routes: Routes = [
       {
         path: 'signin',
         component: SigninComponent,
+      },
+      {
+        path: 'signup',
+        component: SignupComponent,
+      },
+      {
+        path: 'message',
+        component: MessageComponent,
       },
     ],
   },
