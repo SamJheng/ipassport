@@ -1,18 +1,26 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { HotToastService } from '@ngxpert/hot-toast';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoadingService {
-
   private isloading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   ); // BehaviorSubject holding current page
   count = 0;
+  private toast = inject(HotToastService);
 
-  constructor() { }
-
+  constructor() {}
+  toastObserve(){
+    const obs = this.toast.observe<any>({
+      loading: 'Loading...',
+      success: 'Success!',
+      error: 'Fail!',
+    });
+    return obs;
+  };
   open() {
     this.count++;
     if (this.count === 1) {
@@ -22,7 +30,7 @@ export class LoadingService {
   close() {
     this.count--;
     if (this.count === 0) {
-      this.isloading.next(false)
+      this.isloading.next(false);
     }
   }
   get isloading$() {

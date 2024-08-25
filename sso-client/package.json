@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^17.3.12",
     "@angular/platform-browser-dynamic": "^17.3.12",
     "@angular/router": "^17.3.12",
+    "@ngneat/overview": "6.0.0",
+    "@ngxpert/hot-toast": "^3.0.0",
     "@types/google-one-tap": "^1.2.2",
     "ng-zorro-antd": "17.4.1",
     "ngx-cookie-service": "^16.0.0",

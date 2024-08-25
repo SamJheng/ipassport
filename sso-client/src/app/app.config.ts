@@ -9,6 +9,8 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptor } from "./shared/auth/Interceptor/auth.interceptor";
+import { provideHotToastConfig } from "@ngxpert/hot-toast";
+import { LoadingInterceptor } from "./shared/auth/Interceptor/loading.interceptor";
 
 registerLocaleData(en);
 export const appConfig: ApplicationConfig = {
@@ -21,9 +23,17 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(),
+    provideHotToastConfig({
+      position: 'top-right',
+    }),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
   ],

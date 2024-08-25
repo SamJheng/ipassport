@@ -7,13 +7,16 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ZorroModule, CommonModule, FormsModule,],
+  imports: [RouterOutlet, ZorroModule, CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'sso-client';
-  themeSwitch(){
+  constructor() {
+  }
+  themeSwitch() {
+    
     document.documentElement.classList.toggle('dark');
   }
 }
