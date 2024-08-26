@@ -11,6 +11,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { PostgresError } from 'pg-error-enum';
 import { SocialExternalProviders } from '../models/SocialExternalProviders.entity';
 import { Profile } from '../models/Profile.entity';
+import { ErrorResponseResult } from '../../models/respone';
 
 @Injectable()
 export class UsersService {
@@ -26,10 +27,21 @@ export class UsersService {
       const success = await this.usersRepository.save(user);
       return success;
     } catch (error) {
+      // Define the error message based on the error code
+      let errorMessage = 'Your user profile is invaild, Please check again!'; // Assuming this returns a string message
+      let errorCode = HttpStatus.BAD_REQUEST;
+
       if (error.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new UserExistsException(`${userDto.email} already exists.`);
+        errorMessage = `${userDto.email} already exists.`;
+        errorCode = HttpStatus.CONFLICT;
       }
-      throw new HttpException(ErrorToMessage(error), HttpStatus.BAD_REQUEST);
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: errorMessage,
+        error: error.message || 'An error occurred',
+      });
+      // Throw a customized HttpException with the desired structure
+      throw new HttpException(errRes, errorCode);
     }
   }
   async createByExternal(

@@ -7,7 +7,14 @@ export class ResponseResult<T = any> {
   // @ApiProperty()
   success = true;
   // @ApiProperty()
-  meassge = '';
+  message = '';
   // @ApiProperty()
   result: T | null = null;
+}
+export class ErrorResponseResult extends ResponseResult {
+  constructor(params: Partial<ErrorResponseResult>) {
+    super(params);
+    Object.assign(this, params);
+  }
+  error!: string;
 }

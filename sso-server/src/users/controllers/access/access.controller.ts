@@ -29,7 +29,7 @@ export class AccessController {
   async getObjects() {
     const objects = await this.queryBus.execute(new GetObjectsCommand());
     const res = new ResponseResult({
-      meassge: 'Get all objects',
+      message: 'Get all objects',
       result: objects,
     });
     return res;
@@ -42,7 +42,7 @@ export class AccessController {
   async createObjectAccessByName(@Body('name') name: string) {
     await this.commandBus.execute(new AddObjectCommand(name));
     const res = new ResponseResult({
-      meassge: 'Create object access by name',
+      message: 'Create object access by name',
     });
     return res;
   }
@@ -57,7 +57,7 @@ export class AccessController {
   ) {
     await this.commandBus.execute(new UpdateObjectCommand(id, name));
     const res = new ResponseResult({
-      meassge: 'Update object access by id',
+      message: 'Update object access by id',
     });
     return res;
   }
@@ -69,7 +69,7 @@ export class AccessController {
   async deleteObjectAccessById(@Param('id') id: string) {
     await this.commandBus.execute(new DeleteObjectCommand(id));
     const res = new ResponseResult({
-      meassge: 'Delete object access by id',
+      message: 'Delete object access by id',
     });
     return res;
   }
@@ -81,7 +81,7 @@ export class AccessController {
   async createRoleByName(@Body('name') name: string) {
     await this.commandBus.execute(new AddRolerCommand(name));
     const res = new ResponseResult({
-      meassge: 'Create role by name',
+      message: 'Create role by name',
     });
     return res;
   }

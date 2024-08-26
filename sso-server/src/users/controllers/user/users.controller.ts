@@ -35,7 +35,7 @@ export class UsersController {
   async getAllUsers(): Promise<ResponseResult> {
     const all = await this.usersService.findAll();
     const res = new ResponseResult({
-      meassge: 'Get all user',
+      message: 'Get all user',
       result: all,
     });
     return res;
@@ -48,7 +48,7 @@ export class UsersController {
   async getUserById(@Param('id') id: string): Promise<ResponseResult> {
     const user = await this.usersService.findOne(id);
     const res = new ResponseResult({
-      meassge: 'Get a user by user id',
+      message: 'Get a user by user id',
       result: user,
     });
     return res;
@@ -66,7 +66,7 @@ export class UsersController {
       new UpdateUserCommand(id, editDto),
     );
     const res = new ResponseResult({
-      meassge: 'update user is success',
+      message: 'update user is success',
     });
     return res;
   }

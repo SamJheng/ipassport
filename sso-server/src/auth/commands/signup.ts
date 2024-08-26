@@ -13,7 +13,7 @@ export class SignUpHandler implements ICommandHandler<SignUpCommand> {
   async execute(command: SignUpCommand): Promise<ResponseResult> {
     const signup = await this.authService.signup(command.signupDto);
     const result = new ResponseResult({
-      meassge: 'Sign up is success',
+      message: 'Sign up is success',
       result: signup,
     });
     return result;

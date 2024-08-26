@@ -15,7 +15,7 @@ export class SignInHandler implements ICommandHandler<SignInCommand> {
     const { email, password } = command;
     const login = await this.authService.signIn(email, password);
     const result = new ResponseResult({
-      meassge: 'SignIn is success',
+      message: 'SignIn is success',
       result: login,
     });
     return result;

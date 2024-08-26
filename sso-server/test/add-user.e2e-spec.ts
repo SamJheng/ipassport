@@ -48,7 +48,7 @@ describe('AuthController (e2e)', () => {
     expect(response.body.result).toHaveProperty('lastName', data.lastName);
   });
 
-  it('/auth/signup (POST) - should fail if email already exists', async () => {
+  it('/auth/signup (POST) - should fail if email already exists (409)', async () => {
     const data = {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
@@ -61,7 +61,22 @@ describe('AuthController (e2e)', () => {
     const response = await request(app.getHttpServer())
       .post('/auth/signup')
       .send(data)
-      .expect(500);
+      .expect(409);
+    expect(response.body).toHaveProperty('success', false);
+    expect(response.body).toHaveProperty(
+      'message',
+      'admin@gmail.com already exists.',
+    );
+    // Assertions to check for a failure response due to a duplicate email
+  });
+  it('/auth/signup (POST) - should fail if bad request (400)', async () => {
+    const data = {};
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(data)
+      .expect(400);
+    expect(response.body).toHaveProperty('success', false);
     // Assertions to check for a failure response due to a duplicate email
   });
 });

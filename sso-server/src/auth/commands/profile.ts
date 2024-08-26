@@ -11,7 +11,7 @@ export class GetProfileHandler implements ICommandHandler<GetProfileCommand> {
   async execute(command: GetProfileCommand): Promise<ResponseResult> {
     const user = await this.usersService.findOne(command.id);
     const result = new ResponseResult({
-      meassge: 'Get profile is success',
+      message: 'Get profile is success',
       result: user,
     });
     return result;

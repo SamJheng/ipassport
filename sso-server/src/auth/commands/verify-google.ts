@@ -58,7 +58,7 @@ export class VerifyGoogleHandler
         locale,
       });
       const res = new ResponseResult({
-        meassge: 'Verify token success!',
+        message: 'Verify token success!',
         result: login,
       });
       return res;
