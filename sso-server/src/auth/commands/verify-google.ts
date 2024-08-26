@@ -4,7 +4,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ResponseResult } from '../../models/respone';
+import { ErrorResponseResult, ResponseResult } from '../../models/respone';
 import { ErrorToMessage } from '../../lib/utils/errors';
 export class VerifyGoogleCommand {
   constructor(public readonly token: string) {}
@@ -33,10 +33,14 @@ export class VerifyGoogleHandler
       const uid = ticket.getUserId();
       this.logger.log(uid);
       if (!payload) {
-        throw new HttpException(
-          'No found user from google',
-          HttpStatus.NOT_FOUND,
-        );
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: 'Not found user from googlel, Please check again!',
+          error: 'An error occurred',
+        });
+        const errorCode = HttpStatus.BAD_REQUEST;
+        this.logger.error(errRes);
+        throw new HttpException(errRes, errorCode);
       }
       const {
         family_name,
@@ -63,10 +67,14 @@ export class VerifyGoogleHandler
       });
       return res;
     } catch (error) {
-      throw new HttpException(
-        ErrorToMessage(error),
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Google login is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
     }
   }
 }

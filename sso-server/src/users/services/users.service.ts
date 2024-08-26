@@ -4,7 +4,14 @@ import {
   CreateExternalUserDto,
   EditUserDto,
 } from './../models/User.dto';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../models/User.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -15,6 +22,7 @@ import { ErrorResponseResult } from '../../models/respone';
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger(UsersService.name);
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -40,6 +48,7 @@ export class UsersService {
         message: errorMessage,
         error: error.message || 'An error occurred',
       });
+      this.logger.error(errRes);
       // Throw a customized HttpException with the desired structure
       throw new HttpException(errRes, errorCode);
     }
@@ -52,39 +61,102 @@ export class UsersService {
       const success = await this.externalUserRepository.save(provider);
       return success;
     } catch (error) {
-      console.error(error);
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'External create user is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
     }
   }
-  async getUserByProviderId(providerId: string): Promise<User> {
-    return this.usersRepository.findOneBy({
-      provider: { providerId },
-    });
-  }
   async getUserAndAccessByProviderId(providerId: string): Promise<User> {
-    return this.usersRepository.findOne({
-      where: {
-        provider: { providerId },
-      },
-      relations: ['access', 'access.role', 'access.object'],
-    });
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          provider: { providerId },
+        },
+        relations: ['access', 'access.role', 'access.object'],
+      });
+
+      if (!user) {
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `User with provider ID ${providerId} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
+      }
+
+      return user;
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'An error occurred while fetching the user.',
+        error: error.message || 'An error occurred',
+      });
+      // Handle unexpected errors
+      throw new InternalServerErrorException(errRes);
+    }
   }
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find({
-      relations: ['profile'],
-    });
+  async findAll(): Promise<User[]> {
+    try {
+      return await this.usersRepository.find({
+        relations: ['profile'],
+      });
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'An error occurred while fetching users.',
+        error: error.message || 'An error occurred',
+      });
+      throw new InternalServerErrorException(errRes);
+    }
   }
 
-  findOne(id: string): Promise<User | null> {
-    return this.usersRepository.findOne({
-      where: { id },
-      relations: ['profile'],
-    });
+  async findOne(id: string): Promise<User | null> {
+    try {
+      const user = await this.usersRepository.findOne({
+        where: { id },
+        relations: ['profile'],
+      });
+
+      if (!user) {
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `User with ID ${id} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
+      }
+
+      return user;
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'An error occurred while fetching users.',
+        error: error.message || 'An error occurred',
+      });
+      throw new InternalServerErrorException(errRes);
+    }
   }
   findByEmail(email) {
-    return this.usersRepository.findOne({
-      where: { email },
-      relations: ['profile'],
-    });
+    try {
+      return this.usersRepository.findOne({
+        where: { email },
+        relations: ['profile'],
+      });
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Not found Email, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
+    }
   }
   async update(id: string, userDto: EditUserDto): Promise<User> {
     try {
@@ -96,7 +168,14 @@ export class UsersService {
       const r = await this.usersRepository.save(user);
       return r;
     } catch (error) {
-      throw new HttpException(ErrorToMessage(error), HttpStatus.BAD_REQUEST);
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Update user and profile is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
     }
   }
 
@@ -114,7 +193,14 @@ export class UsersService {
       const r = await this.usersRepository.remove(user);
       return r;
     } catch (error) {
-      throw new HttpException(ErrorToMessage(error), HttpStatus.BAD_REQUEST);
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Remove user is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
     }
   }
 }

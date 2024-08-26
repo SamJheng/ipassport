@@ -72,7 +72,6 @@ export class AuthService {
         password: null,
         isActive: email_verified,
       };
-      console.log(locale);
       // first login and create
       const createUser = await this.usersService.create(userProile);
       const googleUser: CreateExternalUserDto = {
