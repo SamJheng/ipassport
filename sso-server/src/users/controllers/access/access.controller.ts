@@ -15,12 +15,23 @@ import { DeleteObjectCommand } from '../../commands/delete-object';
 import { GetObjectsCommand } from '../../commands/get-objects';
 import { UpdateObjectCommand } from '../../commands/update-object';
 import { HasAccess } from '../../../auth/access.guard';
+import { GetAccessCommand } from '../../commands/get-access';
+import { GetRoleCommand } from '../../commands/get-role';
 @Controller('access')
 export class AccessController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
+  @Get('user/:id')
+  async getAccessByUserId(@Param('id') id: string) {
+    const accessList = await this.queryBus.execute(new GetAccessCommand(id));
+    const res = new ResponseResult({
+      message: 'Get user all access',
+      result: accessList,
+    });
+    return res;
+  }
   @Get('object')
   @HasAccess({
     role: 'reader',
@@ -70,6 +81,19 @@ export class AccessController {
     await this.commandBus.execute(new DeleteObjectCommand(id));
     const res = new ResponseResult({
       message: 'Delete object access by id',
+    });
+    return res;
+  }
+  @Get('role')
+  @HasAccess({
+    role: 'reader',
+    object: 'access',
+  })
+  async getAllRole() {
+    const roles = await this.queryBus.execute(new GetRoleCommand());
+    const res = new ResponseResult({
+      message: 'Get all role',
+      result: roles,
     });
     return res;
   }

@@ -1,0 +1,31 @@
+
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="flex justify-between item-center">
+        <p class="text-xl font-bold dark:text-white text-black mb-4">
+            Access
+        </p>
+        <button nz-button nzType="primary" (click)="addNewAccess()" class="rounded">Add Access</button>
+    </div>
+    
+    <div formArrayName="accessList">
+        <ng-container *ngFor="let access of accessList.controls; let i = index">
+            <nz-card class="bg-white dark:bg-slate-700 dark:border-slate-500 rounded mb-4">
+                <div class="flex"  [formGroupName]="i">
+                    <nz-select class="w-36 mr-6" nzPlaceHolder="Select object" formControlName="object">
+                        @for (item of this.getAccessObject; track $index) {
+                        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                        }
+                    </nz-select>
+                    <nz-select class="w-36" nzPlaceHolder="Select role" formControlName="role">
+                        @for (item of this.getAllRole; track $index) {
+                        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                        }
+                    </nz-select>
+                </div>
+            </nz-card>
+        </ng-container>
+    </div>
+    <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Save Access</button>
+    
+</form>

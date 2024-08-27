@@ -1,4 +1,11 @@
-import { Injectable, HttpException, HttpStatus, Logger, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  Logger,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Access } from '../models/Access.entity';
@@ -126,6 +133,21 @@ export class AccessService {
       throw new HttpException(errRes, errorCode);
     }
   }
+  async getAllRole(): Promise<Role[]> {
+    try {
+      const allRole = await this.roleRepository.find();
+      return allRole;
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Get roles is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.INTERNAL_SERVER_ERROR;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
+    }
+  }
   async getAllAccess(): Promise<Access[]> {
     try {
       const allAccess = await this.accessRepository.find({
@@ -148,16 +170,6 @@ export class AccessService {
         where: { user: { id: userId } },
         relations: ['role', 'object'],
       });
-
-      // Optionally check if access is empty and throw a NotFoundException
-      if (!access.length) {
-        const errRes = new ErrorResponseResult({
-          success: false,
-          message: `No access found for user with ID ${userId}.`,
-          error: 'An error occurred',
-        });
-        throw new NotFoundException(errRes);
-      }
 
       return access;
     } catch (error) {

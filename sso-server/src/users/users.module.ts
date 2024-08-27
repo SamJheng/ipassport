@@ -17,6 +17,8 @@ import { GetObjectsHandler } from './commands/get-objects';
 import { DeleteObjectHandler } from './commands/delete-object';
 import { AccessController } from './controllers/access/access.controller';
 import { UpdateUserHandler } from './commands/update-user';
+import { GetAccessHandler } from './commands/get-access';
+import { GetRoleHandler } from './commands/get-role';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -38,6 +40,8 @@ import { UpdateUserHandler } from './commands/update-user';
     DeleteObjectHandler,
     GetObjectsHandler,
     UpdateUserHandler,
+    GetAccessHandler,
+    GetRoleHandler,
   ],
   controllers: [UsersController, AccessController],
   exports: [UsersService, AccessService],

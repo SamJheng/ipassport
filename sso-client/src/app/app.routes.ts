@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { MessageComponent } from './auth/message/message.component';
+import { UserAccessComponent } from './user/user-access/user-access.component';
 export const routes: Routes = [
   {
     path: 'dashborard',
@@ -43,6 +44,10 @@ export const routes: Routes = [
       {
         path: 'profile/:id',
         component: ProfileComponent,
+      },
+      {
+        path: 'access/:id',
+        component: UserAccessComponent,
       },
     ],
   },
