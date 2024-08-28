@@ -19,6 +19,7 @@ import { UserResponse } from '../models/user.response';
 import { PayloadModel } from '../models/payload.model';
 import { ExternalType } from '../../users/models/SocialExternalProviders.entity';
 import { toScope } from '../../lib/utils/toscope';
+import { ErrorResponseResult } from '../../models/respone';
 
 @Injectable()
 export class AuthService {
@@ -103,23 +104,36 @@ export class AuthService {
       return userResponese;
     } catch (error) {
       if (error instanceof UserExistsException) {
-        const user = await this.usersService.getUserAndAccessByProviderId(uid);
-        this.logger.debug(user);
-        const scope = toScope(user.access);
-        const success: PayloadModel = {
-          sub: user.id,
-          username: user.username,
-          email: user.email,
-          scope,
-        };
-        const accessToken = await this.jwtService.signAsync(success);
-        const userResponese: UserResponse = {
-          email: user.email,
-          username: user.username,
-          userId: user.id,
-          accessToken,
-        };
-        return userResponese;
+        try {
+          const user = await this.usersService.getUserAndAccessByProviderId(
+            uid,
+          );
+          this.logger.debug(user);
+          const scope = toScope(user.access);
+          const success: PayloadModel = {
+            sub: user.id,
+            username: user.username,
+            email: user.email,
+            scope,
+          };
+          const accessToken = await this.jwtService.signAsync(success);
+          const userResponese: UserResponse = {
+            email: user.email,
+            username: user.username,
+            userId: user.id,
+            accessToken,
+          };
+          return userResponese;
+        } catch (error) {
+          const errRes = new ErrorResponseResult({
+            success: false,
+            message: `Provider login is fail`,
+            error: error.message || 'An error occurred',
+          });
+          this.logger.error(errRes);
+          // Throw a customized HttpException with the desired structure
+          throw new HttpException(errRes, HttpStatus.BAD_REQUEST);
+        }
       } else {
         //unknow error
         throw new HttpException(ErrorToMessage(error), HttpStatus.NOT_FOUND);

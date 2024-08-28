@@ -21,7 +21,6 @@ import { SignUpCommand } from '../commands/signup';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private authService: AuthService,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}

@@ -27,6 +27,7 @@ export class UserAccessComponent {
     // this.form = this.fb.array([]);
     this.form = this.fb.group({
       accessList: this.fb.array([]),
+      objectName: this.fb.control(''),
     });
 
     this.setAllRole();
@@ -38,7 +39,7 @@ export class UserAccessComponent {
         for (const i of res) {
           this.accessList.push(
             this.fb.group({
-              id:[i.id],
+              id: [i.id],
               object: [i.object.id, Validators.required],
               role: [i.role.id, Validators.required],
             })
@@ -69,7 +70,7 @@ export class UserAccessComponent {
       )
       .subscribe((res) => (this.getAccessObject = res as AccessObject[]));
   }
-  addNewAccess(){
+  addNewAccess() {
     this.accessList.push(
       this.fb.group({
         object: [null, Validators.required],
@@ -77,7 +78,14 @@ export class UserAccessComponent {
       })
     );
   }
-  submit(){
-    console.log(this.accessList.getRawValue())
+  addNewAccessObject(name:string) {
+    this.userService.postAccessObjectByName(name).subscribe((res)=>{
+      if (res.success) {
+        this.setAccessObject()
+      }
+    })
+  }
+  submit() {
+    console.log(this.accessList.getRawValue());
   }
 }

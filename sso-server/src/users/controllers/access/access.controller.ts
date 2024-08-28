@@ -6,6 +6,8 @@ import {
   Delete,
   Param,
   Body,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ResponseResult } from '../../../models/respone';
@@ -17,18 +19,75 @@ import { UpdateObjectCommand } from '../../commands/update-object';
 import { HasAccess } from '../../../auth/access.guard';
 import { GetAccessCommand } from '../../commands/get-access';
 import { GetRoleCommand } from '../../commands/get-role';
+import { DeleteAccessCommand } from '../../commands/delete-access';
+import { AddAccessCommand } from '../../commands/add-access';
+import { UpdateAccessCommand } from '../../commands/update-access';
 @Controller('access')
 export class AccessController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
+  @HasAccess({
+    role: 'reader',
+    object: 'access',
+  })
   @Get('user/:id')
   async getAccessByUserId(@Param('id') id: string) {
     const accessList = await this.queryBus.execute(new GetAccessCommand(id));
     const res = new ResponseResult({
       message: 'Get user all access',
       result: accessList,
+    });
+    return res;
+  }
+  @Post('user/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
+  @HttpCode(HttpStatus.CREATED)
+  async createAccess(
+    @Param('id') userId: string,
+    @Body('objectId') objectId: string,
+    @Body('roleId') roleId: string,
+  ) {
+    await this.commandBus.execute(
+      new AddAccessCommand(userId, objectId, roleId),
+    );
+    const res = new ResponseResult({
+      message: 'Create access by id',
+    });
+    return res;
+  }
+  @Put('user/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
+  async updateAccessById(
+    @Body('id') id: string,
+    @Body('objectId') objectId: string,
+    @Body('roleId') roleId: string,
+  ) {
+    const result = await this.commandBus.execute(
+      new UpdateAccessCommand(id, objectId, roleId),
+    );
+    const res = new ResponseResult({
+      message: 'Update access by id',
+      result,
+    });
+    return res;
+  }
+  @Delete('user/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
+  async deleteAccessByid(@Param('id') id: string) {
+    await this.commandBus.execute(new DeleteAccessCommand(id));
+    const res = new ResponseResult({
+      message: 'Delete access by id',
     });
     return res;
   }
@@ -53,7 +112,7 @@ export class AccessController {
   async createObjectAccessByName(@Body('name') name: string) {
     await this.commandBus.execute(new AddObjectCommand(name));
     const res = new ResponseResult({
-      message: 'Create object access by name',
+      message: 'Create access object by name',
     });
     return res;
   }

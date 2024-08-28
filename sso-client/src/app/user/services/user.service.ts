@@ -18,15 +18,20 @@ export class UserService {
   putEditUserById(id: string, body: EditUserBody) {
     return this.http.put<ResponseResult>(this.url + '/users/' + id, body);
   }
-  getAccessObject(){
+  getAccessObject() {
     return this.http.get<ResponseResult<AccessObject[]>>(
       this.url + '/access/object'
     );
   }
-  getAccessByUserid(id:string){
+  getAccessByUserid(id: string) {
     return this.http.get<ResponseResult>(this.url + '/access/user/' + id);
   }
-  getAllRole(){
-    return this.http.get <ResponseResult<Role[]>>(this.url + '/access/role');
+  getAllRole() {
+    return this.http.get<ResponseResult<Role[]>>(this.url + '/access/role');
+  }
+  postAccessObjectByName(name:string) {
+    return this.http.post<ResponseResult>(this.url + '/access/object', {
+      name,
+    });
   }
 }

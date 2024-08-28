@@ -12,20 +12,31 @@
         <ng-container *ngFor="let access of accessList.controls; let i = index">
             <nz-card class="bg-white dark:bg-slate-700 dark:border-slate-500 rounded mb-4">
                 <div class="flex"  [formGroupName]="i">
-                    <nz-select class="w-36 mr-6" nzPlaceHolder="Select object" formControlName="object">
+                    <nz-select class="w-48 mr-6" nzPlaceHolder="Select object" formControlName="object" [nzDropdownRender]="renderTemplate" >
                         @for (item of this.getAccessObject; track $index) {
                         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
                         }
                     </nz-select>
-                    <nz-select class="w-36" nzPlaceHolder="Select role" formControlName="role">
+                    <nz-select class="w-36 mr-6" nzPlaceHolder="Select role" formControlName="role">
                         @for (item of this.getAllRole; track $index) {
                         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
                         }
                     </nz-select>
+                    <button nz-button nzType="text">
+                        <span nz-typography nzType="danger"> Delete </span>
+                    </button>
                 </div>
             </nz-card>
         </ng-container>
     </div>
     <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Save Access</button>
-    
+    <ng-template #renderTemplate>
+        <nz-divider></nz-divider>
+        <div class="flex justify-around items-center pb-2">
+            <input type="text" nz-input class="ml-2" formControlName="objectName"/>
+            <button nz-button nzType="text" (click)="addNewAccessObject(form.get('objectName')?.getRawValue())">
+                <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+            </button>
+        </div>
+    </ng-template>
 </form>

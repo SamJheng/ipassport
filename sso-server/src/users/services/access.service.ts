@@ -9,7 +9,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Access } from '../models/Access.entity';
-import { GrantingAccess } from '../models/User.dto';
+import { GrantingAccess, UpdateAccess } from '../models/Access.dto';
 import { Role } from '../models/Role.entity';
 import { ObjectAccess } from '../../models/ObjectAccess.entity';
 import { ErrorResponseResult } from '../../models/respone';
@@ -25,7 +25,7 @@ export class AccessService {
     private objectAccessRepository: Repository<ObjectAccess>,
   ) {}
 
-  async create(accessData: GrantingAccess): Promise<Access> {
+  async grantingAccess(accessData: GrantingAccess): Promise<Access> {
     try {
       const newAccess = this.accessRepository.create(accessData);
       const access = await this.accessRepository.save(newAccess);
@@ -35,6 +35,34 @@ export class AccessService {
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'Create access is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
+    }
+  }
+  async updateAccess(accessData: UpdateAccess) {
+    try {
+      const access = await this.findAccess(accessData.id);
+      if (!access) {
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `Access with ID ${accessData.id} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
+      }
+      const merge = await this.accessRepository.merge(access, accessData);
+      const r = await this.accessRepository.save(merge);
+      return r;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Update access is fail, Please check again!',
         error: error.message || 'An error occurred',
       });
       const errorCode = HttpStatus.BAD_REQUEST;
@@ -181,7 +209,7 @@ export class AccessService {
       throw new InternalServerErrorException(errRes);
     }
   }
-  async findOne(id: string): Promise<Access> {
+  async findAccess(id: string): Promise<Access> {
     try {
       const access = await this.accessRepository.findOne({
         where: { id },
@@ -210,37 +238,70 @@ export class AccessService {
       throw new InternalServerErrorException(errRes);
     }
   }
-  async findByRoleAndObject(roleid: string, objid: string, userid: string) {
-    try {
-      return await this.accessRepository.findOne({
-        where: {
-          role: { id: roleid },
-          object: { id: objid },
-          user: { id: userid },
-        },
-        // relations: ['role', 'object'],
-      });
-    } catch (error) {
-      throw new HttpException('Access not found', HttpStatus.NOT_FOUND);
-    }
-  }
 
-  async update(id: string, accessData: GrantingAccess): Promise<Access> {
+  async deleteAccess(id: string): Promise<void> {
     try {
-      const access = await this.findOne(id);
-      this.accessRepository.merge(access, accessData);
-      return await this.accessRepository.save(access);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  async remove(id: string): Promise<void> {
-    try {
-      const access = await this.findOne(id);
+      const access = await this.findAccess(id);
       await this.accessRepository.remove(access);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'An error occurred while delete access.',
+        error: error.message || 'An error occurred',
+      });
+      throw new InternalServerErrorException(errRes);
+    }
+  }
+  async getObjectAccessById(id: string) {
+    try {
+      const object = await this.objectAccessRepository.findOne({
+        where: { id },
+      });
+      if (!object) {
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `Object with ID ${id} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
+      }
+      return object;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'An error occurred while get object access by id.',
+        error: error.message || 'An error occurred',
+      });
+      throw new InternalServerErrorException(errRes);
+    }
+  }
+  getRoleById(id: string) {
+    try {
+      const role = this.roleRepository.findOne({
+        where: { id },
+      });
+      if (!role) {
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `Role with ID ${id} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
+      }
+      return role;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'An error occurred while get role by id.',
+        error: error.message || 'An error occurred',
+      });
+      throw new InternalServerErrorException(errRes);
     }
   }
 }

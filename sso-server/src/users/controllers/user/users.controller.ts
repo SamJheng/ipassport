@@ -1,7 +1,6 @@
 import { Action } from '../../../models/action.enum';
 import { AccessService } from '../../services/access.service';
 import { ProfileService } from '../../services/profile.service';
-import { EditUserProfileDto, GrantingAccess } from '../../models/User.dto';
 import { ResponseResult } from '../../../models/respone';
 import { CreateUserDto, EditUserDto } from '../../models/User.dto';
 import { UsersService } from '../../services/users.service';
@@ -22,8 +21,6 @@ import { UpdateUserCommand } from '../../commands/update-user';
 export class UsersController {
   constructor(
     private usersService: UsersService,
-    private profileService: ProfileService,
-    private accessService: AccessService,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}

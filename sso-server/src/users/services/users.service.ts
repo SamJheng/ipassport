@@ -42,6 +42,7 @@ export class UsersService {
       if (error.code === PostgresError.UNIQUE_VIOLATION) {
         errorMessage = `${userDto.email} already exists.`;
         errorCode = HttpStatus.CONFLICT;
+        throw new UserExistsException(errorMessage);
       }
       const errRes = new ErrorResponseResult({
         success: false,
@@ -91,6 +92,9 @@ export class UsersService {
 
       return user;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'An error occurred while fetching the user.',
@@ -133,6 +137,9 @@ export class UsersService {
 
       return user;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'An error occurred while fetching users.',
@@ -162,12 +169,20 @@ export class UsersService {
     try {
       const user = await this.findOne(id);
       if (!user) {
-        throw new Error('User not found');
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `User with ID ${id} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
       }
       this.usersRepository.merge(user, userDto);
       const r = await this.usersRepository.save(user);
       return r;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'Update user and profile is fail, Please check again!',
@@ -188,11 +203,19 @@ export class UsersService {
       });
 
       if (!user) {
-        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `User with ID ${id} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
       }
       const r = await this.usersRepository.remove(user);
       return r;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'Remove user is fail, Please check again!',

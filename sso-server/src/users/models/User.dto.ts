@@ -78,11 +78,7 @@ export class EditUserProfileDto {
   @IsString()
   birthday: string;
 }
-export class GrantingAccess {
-  role: Partial<Role>;
-  object: Partial<ObjectAccess>;
-  user?: Partial<User>;
-}
+
 // export class ExternalUserRedirectDto {
 //   @ApiProperty()
 //   user: User;
