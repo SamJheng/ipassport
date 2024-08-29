@@ -29,9 +29,25 @@ export class UserService {
   getAllRole() {
     return this.http.get<ResponseResult<Role[]>>(this.url + '/access/role');
   }
-  postAccessObjectByName(name:string) {
+  postAccessObjectByName(name: string) {
     return this.http.post<ResponseResult>(this.url + '/access/object', {
       name,
+    });
+  }
+  postCreateAccess(userId: string, objectId: string, roleId: string) {
+    return this.http.post<ResponseResult>(this.url + '/access/user/' + userId, {
+      objectId,
+      roleId,
+    });
+  }
+  deleteAccess(id: string) {
+    return this.http.delete<ResponseResult>(this.url + '/access/user/' + id);
+  }
+  updateAccess(userId: string, id: string, objectId: string, roleId: string) {
+    return this.http.put<ResponseResult>(this.url + '/access/user/' + userId, {
+      id,
+      objectId,
+      roleId,
     });
   }
 }

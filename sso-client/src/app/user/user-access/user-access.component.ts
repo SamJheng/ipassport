@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
 import { ZorroModule } from 'src/app/shared/ng-zorro-antd.module';
-import { first, map, Observable } from 'rxjs';
+import { first, map, Observable, Subject, switchMap } from 'rxjs';
 import { AccessObject, Role } from 'src/app/shared/models/access';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-access',
@@ -22,6 +22,14 @@ export class UserAccessComponent {
   id!: string;
   form!: FormGroup;
   private fb = inject(FormBuilder);
+  private _accessByUserId = new Subject<string>();
+  set $accessByUserId(id: string) {
+    this._accessByUserId.next(id);
+  }
+  get $accessByUserId(): Observable<string> {
+    return this._accessByUserId.asObservable();
+  }
+
   constructor() {
     this.id = this.route.snapshot.paramMap.get('id')!;
     // this.form = this.fb.array([]);
@@ -32,10 +40,13 @@ export class UserAccessComponent {
 
     this.setAllRole();
     this.setAccessObject();
-    this.userService
-      .getAccessByUserid(this.id)
-      .pipe(map((res) => res.result))
+    this.$accessByUserId
+      .pipe(
+        switchMap((id) => this.userService.getAccessByUserid(id)),
+        map((res) => res.result)
+      )
       .subscribe((res) => {
+        this.accessList.clear();
         for (const i of res) {
           this.accessList.push(
             this.fb.group({
@@ -45,9 +56,8 @@ export class UserAccessComponent {
             })
           );
         }
-
-        console.log(this.form);
       });
+    this.$accessByUserId = this.id;
   }
   get accessList() {
     return this.form.get('accessList') as FormArray;
@@ -78,14 +88,48 @@ export class UserAccessComponent {
       })
     );
   }
-  addNewAccessObject(name:string) {
-    this.userService.postAccessObjectByName(name).subscribe((res)=>{
+  addNewAccessObject(name: string) {
+    this.userService.postAccessObjectByName(name).subscribe((res) => {
       if (res.success) {
-        this.setAccessObject()
+        this.setAccessObject();
       }
-    })
+    });
   }
   submit() {
     console.log(this.accessList.getRawValue());
+  }
+  deleteAccess(form: AbstractControl) {
+    const id = form.get('id')?.getRawValue();
+    if (!id) {
+      return;
+    }
+    this.userService.deleteAccess(id).subscribe((res) => {
+      this.$accessByUserId = this.id;
+    });
+  }
+  createAccess(form: AbstractControl) {
+    const object: string = form.get('object')?.getRawValue();
+    const role: string = form.get('role')?.getRawValue();
+    if (!role && !object) {
+      return;
+    }
+    this.userService
+      .postCreateAccess(this.id, object, role)
+      .subscribe((res) => {
+        this.$accessByUserId = this.id;
+      });
+  }
+  updateAccess(form: AbstractControl) {
+    const id: string = form.get('id')?.getRawValue();
+    const object: string = form.get('object')?.getRawValue();
+    const role: string = form.get('role')?.getRawValue();
+    if (!role && !object && !id) {
+      return;
+    }
+    this.userService
+      .updateAccess(this.id, id, object, role)
+      .subscribe((res) => {
+        this.$accessByUserId = this.id;
+      });
   }
 }

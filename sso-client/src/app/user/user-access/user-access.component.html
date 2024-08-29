@@ -22,14 +22,23 @@
                         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
                         }
                     </nz-select>
-                    <button nz-button nzType="text">
+                    @if (access.get('id')) {
+                        <button type="button" nz-button nzType="text" (click)="updateAccess(access)">
+                            <span nz-typography nzType="success"> Edit </span>
+                        </button>
+                    }@else {
+                        <button type="button" nz-button nzType="text" (click)="createAccess(access)">
+                            <span nz-typography nzType="success"> Create </span>
+                        </button>
+                    }
+                    <button nz-button type="button" nzType="text" (click)="deleteAccess(access)">
                         <span nz-typography nzType="danger"> Delete </span>
                     </button>
                 </div>
             </nz-card>
         </ng-container>
     </div>
-    <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Save Access</button>
+    <!-- <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Save Access</button> -->
     <ng-template #renderTemplate>
         <nz-divider></nz-divider>
         <div class="flex justify-around items-center pb-2">

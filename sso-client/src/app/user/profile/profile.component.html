@@ -12,6 +12,14 @@
                 </div>
             }
         </div>
+        <div class="flex justify-between items-center mt-5">
+            <div class="dark:text-white text-black">
+                <p class="text-xl">Access User</p>
+            </div>
+            <a nz-button nzType="link" [routerLink]="'/user/access/'+ id" routerLinkActive="router-link-active">
+                <strong>Edit User Access</strong>
+            </a>
+        </div>
         <div class="dark:text-white text-black mt-5">
             <p class="font-semibold">User name</p>
             <input class="mt-2" formControlName="username" nz-input placeholder="User name" />
@@ -49,6 +57,7 @@
                 <nz-date-picker class="w-full" [nzFormat]="'yyyy-MM-dd'" formControlName="birthday"></nz-date-picker>
             </div>
         </div>
+        
         <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Save</button>
     </form>
     

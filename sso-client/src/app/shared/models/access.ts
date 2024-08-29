@@ -1,8 +1,8 @@
 export interface Role {
-  id: number;
+  id: number | string;
   name: string;
 }
 export interface AccessObject {
-  id: number;
+  id: number | string;
   name: string;
 }
