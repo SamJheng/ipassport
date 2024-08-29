@@ -3,9 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
 import { ZorroModule } from 'src/app/shared/ng-zorro-antd.module';
-import { first, map, Observable, Subject, switchMap } from 'rxjs';
+import { catchError, first, map, Observable, Subject, switchMap } from 'rxjs';
 import { AccessObject, Role } from 'src/app/shared/models/access';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ErrorResponseResult } from 'src/app/shared/models/respone';
+import { HotToastService } from '@ngxpert/hot-toast';
+import { ApiError } from 'src/app/shared/models/api-error';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-access',
@@ -23,6 +27,7 @@ export class UserAccessComponent {
   form!: FormGroup;
   private fb = inject(FormBuilder);
   private _accessByUserId = new Subject<string>();
+  private toast = inject(HotToastService);
   set $accessByUserId(id: string) {
     this._accessByUserId.next(id);
   }
@@ -115,6 +120,12 @@ export class UserAccessComponent {
     }
     this.userService
       .postCreateAccess(this.id, object, role)
+      .pipe(
+        catchError((res: HttpErrorResponse) => {
+          this.toast.error(res.error.message);
+          throw res;
+        })
+      )
       .subscribe((res) => {
         this.$accessByUserId = this.id;
       });

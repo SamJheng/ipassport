@@ -27,19 +27,30 @@ export class AccessService {
 
   async grantingAccess(accessData: GrantingAccess): Promise<Access> {
     try {
+      const userAccess = await this.getAccessByUserId(accessData.user.id);
+      if (userAccess.find((i) => i.object.id === accessData.object.id)) {
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `Access object ${accessData.object.id} has be exist. Please update your Access object`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
+      }
       const newAccess = this.accessRepository.create(accessData);
       const access = await this.accessRepository.save(newAccess);
       // return this.update(access.id, accessData);
       return access;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'Create access is fail, Please check again!',
         error: error.message || 'An error occurred',
       });
-      const errorCode = HttpStatus.BAD_REQUEST;
       this.logger.error(errRes);
-      throw new HttpException(errRes, errorCode);
+      throw new HttpException(errRes, HttpStatus.BAD_REQUEST);
     }
   }
   async updateAccess(accessData: UpdateAccess) {

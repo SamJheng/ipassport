@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -87,11 +88,9 @@ export class SignupComponent {
     this.authService
       .signup(body)
       .pipe(
-        catchError((error: ErrorResponseResult) => {
-          if (!error.success) {
-            this.toast.error(error.meassge);
-          }
-          throw error;
+        catchError((res: HttpErrorResponse) => {
+          this.toast.error(res.error.message);
+          throw res;
         })
       )
       .subscribe((res) => {

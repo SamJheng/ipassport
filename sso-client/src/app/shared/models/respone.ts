@@ -7,7 +7,7 @@ export class ResponseResult<T = any> {
   // @ApiProperty()
   success = true;
   // @ApiProperty()
-  meassge: string = '';
+  message: string = '';
   // @ApiProperty()
   result: T | null= null;
 }
