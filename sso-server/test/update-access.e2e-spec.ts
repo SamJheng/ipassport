@@ -32,7 +32,7 @@ describe('User Module E2E Tests', () => {
   });
 
   // Test case for updating user info
-  it('update access to test *', async () => {
+  it('update access.object to test *', async () => {
     const uid = '69ae0ba1-efb5-4ad3-8f87-e86a3d78e1ab';
     const roleId = '25';
     const objectId = '15';
@@ -52,7 +52,7 @@ describe('User Module E2E Tests', () => {
     expect(res.body.result.object.id).toEqual(parseInt(objectId));
     expect(res.body).toHaveProperty('success', true);
   });
-  it('update access to access *', async () => {
+  it('update access.object to access *', async () => {
     const uid = '69ae0ba1-efb5-4ad3-8f87-e86a3d78e1ab';
     const roleId = '25';
     const objectId = '13';

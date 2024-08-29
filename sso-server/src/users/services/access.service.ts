@@ -53,8 +53,10 @@ export class AccessService {
         });
         throw new NotFoundException(errRes);
       }
-      const merge = await this.accessRepository.merge(access, accessData);
-      const r = await this.accessRepository.save(merge);
+      // const merge = await this.accessRepository.merge(access, accessData);
+      access.object = accessData.object as ObjectAccess;
+      access.role = accessData.role as Role;
+      const r = await this.accessRepository.save(access);
       return r;
     } catch (error) {
       if (error instanceof NotFoundException) {
