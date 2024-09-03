@@ -13,7 +13,7 @@ import { Profile } from './Profile.entity';
 import { SocialExternalProviders } from './SocialExternalProviders.entity';
 import { getSaltHashByPassWord } from '../../lib/utils/salt-hash-generate';
 import { Access } from './Access.entity';
-// import { Exclude } from 'class-transformer';
+import { PatientInfo } from '../../patient/models/PatientInfo.entity';
 
 @Entity()
 export class User {
@@ -51,6 +51,11 @@ export class User {
   @OneToMany(() => Access, (access) => access.user)
   @JoinColumn()
   access: Access[];
+  @OneToOne(() => PatientInfo, {
+    cascade: true,
+  })
+  @JoinColumn()
+  patientInfo: PatientInfo;
   /**
    * @note hashing user password
    * @memberof User

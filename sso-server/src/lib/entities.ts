@@ -5,6 +5,7 @@ import { Profile } from '../users/models/Profile.entity';
 import { SocialExternalProviders } from '../users/models/SocialExternalProviders.entity';
 import { User } from '../users/models/User.entity';
 import Log from '../log/models/log.entity';
+import { PatientInfo } from '../patient/models/PatientInfo.entity';
 
 const entities = [
   User,
@@ -14,7 +15,7 @@ const entities = [
   Access,
   ObjectAccess,
   Role,
+  PatientInfo,
 ];
 
-export { User };
 export default entities;
