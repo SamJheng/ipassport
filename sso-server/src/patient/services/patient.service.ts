@@ -19,6 +19,8 @@ export class PatientService {
         .leftJoinAndSelect('user.patientInfo', 'patientInfo')
         .leftJoinAndSelect('access.role', 'role')
         .leftJoinAndSelect('access.object', 'object')
+        .where('object.name = :objectName', { objectName: 'patient' })
+        .andWhere('role.name = :roleName', { roleName: 'guest' })
         .getMany();
     } catch (error) {
       const errRes = new ErrorResponseResult({

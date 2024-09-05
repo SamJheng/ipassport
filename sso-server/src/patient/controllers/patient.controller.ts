@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { GetPatientCommand } from '../commands/get-patient';
+import { GetAllPatientCommand } from '../commands/get-all-patient';
 
 @Controller('patient')
 export class PatientController {
@@ -8,9 +8,9 @@ export class PatientController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
-  @Get()
+  @Get('list')
   async getAllPatient() {
-    const list = await this.queryBus.execute(new GetPatientCommand());
+    const list = await this.queryBus.execute(new GetAllPatientCommand());
     return list;
   }
 }

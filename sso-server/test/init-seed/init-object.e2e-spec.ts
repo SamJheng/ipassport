@@ -44,6 +44,17 @@ describe('Add object access (e2e)', () => {
       .expect(201);
     return res;
   });
+  it('/access/object [patient] [POST]', async () => {
+    const data = {
+      name: 'patient',
+    };
+    const res = await request(app.getHttpServer())
+      .post('/access/object')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(data)
+      .expect(201);
+    return res;
+  });
   it('/access/object [*] [POST]', async () => {
     const data = {
       name: '*',

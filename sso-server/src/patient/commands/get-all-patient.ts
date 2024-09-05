@@ -1,11 +1,13 @@
 import { QueryHandler, ICommandHandler } from '@nestjs/cqrs';
 import { PatientService } from '../services/patient.service';
 
-export class GetPatientCommand {}
-@QueryHandler(GetPatientCommand)
-export class GetPatientHandler implements ICommandHandler<GetPatientCommand> {
+export class GetAllPatientCommand {}
+@QueryHandler(GetAllPatientCommand)
+export class GetAllPatientHandler
+  implements ICommandHandler<GetAllPatientCommand>
+{
   constructor(private patientService: PatientService) {}
-  async execute(command: GetPatientCommand) {
+  async execute(command: GetAllPatientCommand) {
     return await this.patientService.getAll();
   }
 }
