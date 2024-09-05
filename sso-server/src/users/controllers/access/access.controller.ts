@@ -22,6 +22,7 @@ import { GetRoleCommand } from '../../commands/get-role';
 import { DeleteAccessCommand } from '../../commands/delete-access';
 import { AddAccessCommand } from '../../commands/add-access';
 import { UpdateAccessCommand } from '../../commands/update-access';
+import { AddRoleTypeCommand } from '../../commands/add-role-type';
 @Controller('access')
 export class AccessController {
   constructor(
@@ -157,6 +158,7 @@ export class AccessController {
     return res;
   }
   @Post('role')
+  @HttpCode(HttpStatus.CREATED)
   @HasAccess({
     role: 'editor',
     object: 'access',
@@ -164,7 +166,20 @@ export class AccessController {
   async createRoleByName(@Body('name') name: string) {
     await this.commandBus.execute(new AddRolerCommand(name));
     const res = new ResponseResult({
-      message: 'Create role by name',
+      message: 'Create a role by name',
+    });
+    return res;
+  }
+  @Post('position')
+  @HttpCode(HttpStatus.CREATED)
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
+  async createRoleTypeByName(@Body('name') name: string) {
+    await this.commandBus.execute(new AddRoleTypeCommand(name));
+    const res = new ResponseResult({
+      message: 'Create a role type of position by name',
     });
     return res;
   }

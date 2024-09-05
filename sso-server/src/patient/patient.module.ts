@@ -7,10 +7,11 @@ import { PatientInfo } from './models/PatientInfo.entity';
 import { GetAllPatientHandler } from './commands/get-all-patient';
 import { PatientService } from './services/patient.service';
 import { PatientController } from './controllers/patient.controller';
+import { GetPatientHandler } from './commands/get-patient';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Profile, PatientInfo]), CqrsModule],
   controllers: [PatientController],
-  providers: [GetAllPatientHandler, PatientService],
+  providers: [GetAllPatientHandler, GetPatientHandler, PatientService],
 })
 export class PatientModule {}

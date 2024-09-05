@@ -13,6 +13,7 @@ import { GrantingAccess, UpdateAccess } from '../models/Access.dto';
 import { Role } from '../models/Role.entity';
 import { ObjectAccess } from '../../models/ObjectAccess.entity';
 import { ErrorResponseResult } from '../../models/respone';
+import { RoleType } from '../models/RoleType.entity';
 @Injectable()
 export class AccessService {
   private readonly logger = new Logger(AccessService.name);
@@ -23,6 +24,8 @@ export class AccessService {
     private roleRepository: Repository<Role>,
     @InjectRepository(ObjectAccess)
     private objectAccessRepository: Repository<ObjectAccess>,
+    @InjectRepository(RoleType)
+    private roleTypeRepository: Repository<RoleType>,
   ) {}
 
   async grantingAccess(accessData: GrantingAccess): Promise<Access> {
@@ -315,6 +318,24 @@ export class AccessService {
         error: error.message || 'An error occurred',
       });
       throw new InternalServerErrorException(errRes);
+    }
+  }
+  async addRoleType(name: string) {
+    try {
+      const newRole = this.roleTypeRepository.create({
+        name,
+      });
+      const role = await this.roleTypeRepository.save(newRole);
+      return role;
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Add role is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
     }
   }
 }

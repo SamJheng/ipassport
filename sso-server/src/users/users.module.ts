@@ -23,6 +23,21 @@ import { DeleteAccessHandler } from './commands/delete-access';
 import { AddAccessHandler } from './commands/add-access';
 import { UpdateAccessHandler } from './commands/update-access';
 import { RoleType } from './models/RoleType.entity';
+import { AddRoleTypeHandler } from './commands/add-role-type';
+const handlers = [
+  AddRoleHandler,
+  AddObjectHandler,
+  DeleteObjectHandler,
+  GetObjectsHandler,
+  UpdateUserHandler,
+  GetAccessHandler,
+  GetRoleHandler,
+  DeleteAccessHandler,
+  AddAccessHandler,
+  UpdateAccessHandler,
+  AddRoleTypeHandler,
+];
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -36,21 +51,7 @@ import { RoleType } from './models/RoleType.entity';
     ]),
     CqrsModule,
   ],
-  providers: [
-    UsersService,
-    ProfileService,
-    AccessService,
-    AddRoleHandler,
-    AddObjectHandler,
-    DeleteObjectHandler,
-    GetObjectsHandler,
-    UpdateUserHandler,
-    GetAccessHandler,
-    GetRoleHandler,
-    DeleteAccessHandler,
-    AddAccessHandler,
-    UpdateAccessHandler,
-  ],
+  providers: [UsersService, ProfileService, AccessService, ...handlers],
   controllers: [UsersController, AccessController],
   exports: [UsersService, AccessService],
 })
