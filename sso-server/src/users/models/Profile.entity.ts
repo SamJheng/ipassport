@@ -1,3 +1,4 @@
+import { RoleType } from './RoleType.entity';
 import { User } from './User.entity';
 import {
   Entity,
@@ -5,6 +6,7 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -25,4 +27,7 @@ export class Profile {
   contact: string;
   @Column({ nullable: true })
   address: string;
+  @ManyToOne(() => RoleType)
+  @JoinColumn()
+  roleType: RoleType;
 }

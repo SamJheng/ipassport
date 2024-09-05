@@ -35,8 +35,10 @@ export class User {
   })
   // @Exclude()
   password?: string;
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: false })
   isActive: boolean;
+  @Column({ type: 'boolean', default: false })
+  isDelete: boolean;
   @CreateDateColumn()
   created?: Date;
   @OneToOne(() => Profile, {

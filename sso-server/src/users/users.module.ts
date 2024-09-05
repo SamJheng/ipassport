@@ -22,6 +22,7 @@ import { GetRoleHandler } from './commands/get-role';
 import { DeleteAccessHandler } from './commands/delete-access';
 import { AddAccessHandler } from './commands/add-access';
 import { UpdateAccessHandler } from './commands/update-access';
+import { RoleType } from './models/RoleType.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -30,6 +31,7 @@ import { UpdateAccessHandler } from './commands/update-access';
       Profile,
       Access,
       Role,
+      RoleType,
       ObjectAccess,
     ]),
     CqrsModule,
