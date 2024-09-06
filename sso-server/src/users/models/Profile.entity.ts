@@ -20,7 +20,7 @@ export class Profile {
   @Column()
   photo: string;
   @Column({ type: 'int', unique: true, nullable: true })
-  age;
+  age: number;
   @Column({ nullable: true })
   birthday: string;
   @Column({ nullable: true })

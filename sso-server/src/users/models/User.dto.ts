@@ -71,12 +71,18 @@ export class EditUserDto {
   profile: EditUserProfileDto;
 }
 export class EditUserProfileDto {
+  @IsNumber()
+  age: number;
   @IsString()
   gender: string;
   @IsString()
   photo: string;
   @IsString()
   birthday: string;
+  @IsString()
+  contact: string;
+  @IsString()
+  address: string;
 }
 
 // export class ExternalUserRedirectDto {
