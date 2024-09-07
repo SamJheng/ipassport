@@ -19,6 +19,7 @@ import { PostgresError } from 'pg-error-enum';
 import { SocialExternalProviders } from '../models/SocialExternalProviders.entity';
 import { Profile } from '../models/Profile.entity';
 import { ErrorResponseResult } from '../../models/respone';
+import { RoleType } from '../models/RoleType.entity';
 
 @Injectable()
 export class UsersService {
@@ -225,5 +226,12 @@ export class UsersService {
       this.logger.error(errRes);
       throw new HttpException(errRes, errorCode);
     }
+  }
+  async updateUserRoleType(userId: string, roleType: RoleType) {
+    try {
+      const user = await this.findOne(userId);
+      user.profile.roleType = roleType;
+      return await this.usersRepository.save(user);
+    } catch (error) {}
   }
 }

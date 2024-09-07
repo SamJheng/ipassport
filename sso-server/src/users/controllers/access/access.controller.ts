@@ -23,6 +23,9 @@ import { DeleteAccessCommand } from '../../commands/delete-access';
 import { AddAccessCommand } from '../../commands/add-access';
 import { UpdateAccessCommand } from '../../commands/update-access';
 import { AddRoleTypeCommand } from '../../commands/add-role-type';
+import { GetAllRoleTypeCommand } from '../../commands/get-all-role-type';
+import { RoleType } from '../../models/RoleType.entity';
+import { UpdateUserRoleTypeCommand } from '../../commands/update-user-role-type';
 @Controller('access')
 export class AccessController {
   constructor(
@@ -170,6 +173,19 @@ export class AccessController {
     });
     return res;
   }
+  @Get('position')
+  @HasAccess({
+    role: 'reader',
+    object: 'access',
+  })
+  async getAllRoleType() {
+    const roles = this.queryBus.execute(new GetAllRoleTypeCommand());
+    const res = new ResponseResult({
+      message: 'get all role type.',
+      result: roles,
+    });
+    return res;
+  }
   @Post('position')
   @HttpCode(HttpStatus.CREATED)
   @HasAccess({
@@ -180,6 +196,23 @@ export class AccessController {
     await this.commandBus.execute(new AddRoleTypeCommand(name));
     const res = new ResponseResult({
       message: 'Create a role type of position by name',
+    });
+    return res;
+  }
+  @Put('position/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'access',
+  })
+  async updateUserRoleType(
+    @Param('id') userId: string,
+    @Body() roleType: RoleType,
+  ) {
+    await this.commandBus.execute(
+      new UpdateUserRoleTypeCommand(userId, roleType),
+    );
+    const res = new ResponseResult({
+      message: 'Update a role type of position by user.',
     });
     return res;
   }

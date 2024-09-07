@@ -14,6 +14,7 @@ import { Role } from '../models/Role.entity';
 import { ObjectAccess } from '../../models/ObjectAccess.entity';
 import { ErrorResponseResult } from '../../models/respone';
 import { RoleType } from '../models/RoleType.entity';
+import { User } from '../models/User.entity';
 @Injectable()
 export class AccessService {
   private readonly logger = new Logger(AccessService.name);
@@ -331,6 +332,21 @@ export class AccessService {
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'Add role is fail, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
+    }
+  }
+  async getAllRoleType(): Promise<RoleType[]> {
+    try {
+      const allRole = await this.roleTypeRepository.find();
+      return allRole;
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Get role type is fail, Please check again!',
         error: error.message || 'An error occurred',
       });
       const errorCode = HttpStatus.BAD_REQUEST;

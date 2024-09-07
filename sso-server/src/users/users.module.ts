@@ -1,6 +1,5 @@
 import { AccessService } from './services/access.service';
 import { Access } from './models/Access.entity';
-import { ProfileService } from './services/profile.service';
 import { Profile } from './models/Profile.entity';
 import { UsersController } from './controllers/user/users.controller';
 import { SocialExternalProviders } from './models/SocialExternalProviders.entity';
@@ -24,6 +23,8 @@ import { AddAccessHandler } from './commands/add-access';
 import { UpdateAccessHandler } from './commands/update-access';
 import { RoleType } from './models/RoleType.entity';
 import { AddRoleTypeHandler } from './commands/add-role-type';
+import { GetAllRoleTypeHandler } from './commands/get-all-role-type';
+import { UpdateUserRoleTypeHandler } from './commands/update-user-role-type';
 const handlers = [
   AddRoleHandler,
   AddObjectHandler,
@@ -36,6 +37,8 @@ const handlers = [
   AddAccessHandler,
   UpdateAccessHandler,
   AddRoleTypeHandler,
+  GetAllRoleTypeHandler,
+  UpdateUserRoleTypeHandler,
 ];
 
 @Module({
@@ -51,7 +54,7 @@ const handlers = [
     ]),
     CqrsModule,
   ],
-  providers: [UsersService, ProfileService, AccessService, ...handlers],
+  providers: [UsersService, AccessService, ...handlers],
   controllers: [UsersController, AccessController],
   exports: [UsersService, AccessService],
 })
