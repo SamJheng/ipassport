@@ -179,7 +179,7 @@ export class AccessController {
     object: 'access',
   })
   async getAllRoleType() {
-    const roles = this.queryBus.execute(new GetAllRoleTypeCommand());
+    const roles = await this.queryBus.execute(new GetAllRoleTypeCommand());
     const res = new ResponseResult({
       message: 'get all role type.',
       result: roles,

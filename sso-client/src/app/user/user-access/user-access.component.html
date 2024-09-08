@@ -1,15 +1,27 @@
 
 
-<form [formGroup]="form" (ngSubmit)="submit()" class="min-w-96">
+<form [formGroup]="form" class="min-w-96">
     <div class="flex justify-between item-center">
         <p class="text-xl font-bold dark:text-white text-black mb-4">
             Access
         </p>
         <button nz-button nzType="primary" (click)="addNewAccess()" class="rounded">Add Access</button>
     </div>
-    
+    <nz-card class="bg-white dark:bg-slate-700 dark:border-slate-500 rounded mb-4">
+        <div class="flex justify-between item-center">
+            <p class="text-xl font-bold dark:text-white text-black mb-4">Role position</p>
+            <nz-select class="w-48" formControlName="rolePosition">
+                @for (item of roleTypes$ | async; track $index) {
+                <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                }
+            </nz-select>
+            <button type="button" nz-button nzType="text" (click)="updateRolePosition()">
+                <span nz-typography nzType="success"> Save </span>
+            </button>
+        </div>
+    </nz-card>
     <div formArrayName="accessList">
-        <ng-container *ngFor="let access of accessList.controls; let i = index">
+        <ng-container *ngFor="let access of accessListControl.controls; let i = index">
             <nz-card class="bg-white dark:bg-slate-700 dark:border-slate-500 rounded mb-4">
                 <div class="flex"  [formGroupName]="i">
                     <nz-select class="w-48 mr-6" nzPlaceHolder="Select object" formControlName="object" [nzDropdownRender]="renderTemplate" >

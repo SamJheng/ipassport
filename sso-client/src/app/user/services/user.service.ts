@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AccessObject, Role } from 'src/app/shared/models/access';
+import { Access, AccessObject, Role } from 'src/app/shared/models/access';
 import { ResponseResult } from 'src/app/shared/models/respone';
+import { RoleType } from 'src/app/shared/models/role-type';
 import { EditUserBody, User } from 'src/app/shared/models/user';
 import { environment } from 'src/environments/environment';
 
@@ -24,7 +25,9 @@ export class UserService {
     );
   }
   getAccessByUserid(id: string) {
-    return this.http.get<ResponseResult>(this.url + '/access/user/' + id);
+    return this.http.get<ResponseResult<Access[]>>(
+      this.url + '/access/user/' + id
+    );
   }
   getAllRole() {
     return this.http.get<ResponseResult<Role[]>>(this.url + '/access/role');
@@ -49,5 +52,14 @@ export class UserService {
       objectId,
       roleId,
     });
+  }
+  getAllRoleTypes() {
+    return this.http.get<ResponseResult>(`${this.url}/access/position`);
+  }
+  setRolePositionToUser(userId: string, role: RoleType) {
+    return this.http.put<ResponseResult>(
+      `${this.url}/access/position/${userId}`,
+      role
+    );
   }
 }

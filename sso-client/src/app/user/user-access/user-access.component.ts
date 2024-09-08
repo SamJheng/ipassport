@@ -3,13 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
 import { ZorroModule } from 'src/app/shared/ng-zorro-antd.module';
-import { catchError, first, map, Observable, Subject, switchMap } from 'rxjs';
-import { AccessObject, Role } from 'src/app/shared/models/access';
+import { catchError, first, firstValueFrom, map, Observable, Subject, switchMap } from 'rxjs';
+import { Access, AccessObject, Role } from 'src/app/shared/models/access';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ErrorResponseResult } from 'src/app/shared/models/respone';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { ApiError } from 'src/app/shared/models/api-error';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RoleType } from 'src/app/shared/models/role-type';
 
 @Component({
   selector: 'app-user-access',
@@ -25,6 +26,8 @@ export class UserAccessComponent {
   getAccessObject!: AccessObject[];
   id!: string;
   form!: FormGroup;
+  roleTypes$!: Observable<RoleType[]>;
+  accessList!: Access[];
   private fb = inject(FormBuilder);
   private _accessByUserId = new Subject<string>();
   private toast = inject(HotToastService);
@@ -39,8 +42,8 @@ export class UserAccessComponent {
     this.id = this.route.snapshot.paramMap.get('id')!;
     // this.form = this.fb.array([]);
     this.form = this.fb.group({
+      rolePosition: this.fb.control(null),
       accessList: this.fb.array([]),
-      objectName: this.fb.control(''),
     });
 
     this.setAllRole();
@@ -51,9 +54,10 @@ export class UserAccessComponent {
         map((res) => res.result)
       )
       .subscribe((res) => {
-        this.accessList.clear();
-        for (const i of res) {
-          this.accessList.push(
+        this.accessList = res!;
+        this.accessListControl.clear();
+        for (const i of this.accessList) {
+          this.accessListControl.push(
             this.fb.group({
               id: [i.id],
               object: [i.object.id, Validators.required],
@@ -63,9 +67,62 @@ export class UserAccessComponent {
         }
       });
     this.$accessByUserId = this.id;
+    this.roleTypes$ = this.userService
+      .getAllRoleTypes()
+      .pipe(map((res) => res.result || []));
   }
-  get accessList() {
+  async updateRolePosition() {
+    const roleId = this.rolePositionControl?.getRawValue();
+    const roles = await firstValueFrom(this.roleTypes$);
+    const role = roles.find((item) => item.id === roleId);
+    const patient = this.getAccessObject.find(
+      (i) => i.name === 'patient'
+    );
+    const editor = this.getAllRole.find((i) => i.name === 'editor');
+    const guest = this.getAllRole.find((i) => i.name === 'guest');
+    const hasPatient = this.accessList.find(i=>i.object.id===patient?.id);
+    switch (role?.name) {
+      case 'doctor':
+        this.userService.setRolePositionToUser(this.id, role)
+        if (hasPatient) {
+          this.userService.updateAccess(
+            this.id,
+            hasPatient.id,
+            hasPatient.object.id as string,
+            editor?.id as string
+          );
+        }else{
+          this.userService.postCreateAccess(
+            this.id,
+            patient?.id as string,
+            editor?.id as string
+          );
+        }
+        break;
+      case 'patient':
+        this.userService.setRolePositionToUser(this.id, role);
+        if (hasPatient) {
+          this.userService.updateAccess(
+            this.id,
+            hasPatient.id,
+            hasPatient.object.id as string,
+            guest?.id as string
+          );
+        } else {
+          this.userService.postCreateAccess(
+            this.id,
+            patient?.id as string,
+            guest?.id as string
+          );
+        }
+        break;
+    }
+  }
+  get accessListControl() {
     return this.form.get('accessList') as FormArray;
+  }
+  get rolePositionControl() {
+    return this.form.get('rolePosition');
   }
   setAllRole() {
     this.userService
@@ -86,7 +143,7 @@ export class UserAccessComponent {
       .subscribe((res) => (this.getAccessObject = res as AccessObject[]));
   }
   addNewAccess() {
-    this.accessList.push(
+    this.accessListControl.push(
       this.fb.group({
         object: [null, Validators.required],
         role: [null, Validators.required],
@@ -99,9 +156,6 @@ export class UserAccessComponent {
         this.setAccessObject();
       }
     });
-  }
-  submit() {
-    console.log(this.accessList.getRawValue());
   }
   deleteAccess(form: AbstractControl) {
     const id = form.get('id')?.getRawValue();
