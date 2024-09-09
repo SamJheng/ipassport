@@ -9,7 +9,7 @@
     </div>
     <nz-card class="bg-white dark:bg-slate-700 dark:border-slate-500 rounded mb-4">
         <div class="flex justify-between item-center">
-            <p class="text-xl font-bold dark:text-white text-black mb-4">Role position</p>
+            <p class="text-xl font-bold dark:text-white text-black mr-4">Role position</p>
             <nz-select class="w-48" formControlName="rolePosition">
                 @for (item of roleTypes$ | async; track $index) {
                 <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
