@@ -7,13 +7,17 @@ export interface User {
   password?: string;
   isActive: boolean;
   created?: Date;
-  profile: Profile;
+  profile?: Profile;
 }
 export interface Profile {
   id: string;
   gender: string;
   photo: string;
+  age: number;
+  contact: string;
   birthday: string;
+  address: string;
+  roleType?:{id:number, name:string}
 }
 export interface JWTUser {
   sub: string;

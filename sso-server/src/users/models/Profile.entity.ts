@@ -14,10 +14,10 @@ export class Profile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   gender: string;
 
-  @Column()
+  @Column({ nullable: true })
   photo: string;
   @Column({ type: 'int', unique: true, nullable: true })
   age: number;
@@ -27,7 +27,9 @@ export class Profile {
   contact: string;
   @Column({ nullable: true })
   address: string;
-  @ManyToOne(() => RoleType)
+  @ManyToOne(() => RoleType, {
+    cascade: true,
+  })
   @JoinColumn()
   roleType: RoleType;
 }

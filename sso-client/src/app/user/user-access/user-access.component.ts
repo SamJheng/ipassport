@@ -48,6 +48,7 @@ export class UserAccessComponent {
 
     this.setAllRole();
     this.setAccessObject();
+    this.setUserProfile();
     this.$accessByUserId
       .pipe(
         switchMap((id) => this.userService.getAccessByUserid(id)),
@@ -75,54 +76,80 @@ export class UserAccessComponent {
     const roleId = this.rolePositionControl?.getRawValue();
     const roles = await firstValueFrom(this.roleTypes$);
     const role = roles.find((item) => item.id === roleId);
-    const patient = this.getAccessObject.find(
-      (i) => i.name === 'patient'
-    );
+    const patient = this.getAccessObject.find((i) => i.name === 'patient');
     const editor = this.getAllRole.find((i) => i.name === 'editor');
     const guest = this.getAllRole.find((i) => i.name === 'guest');
-    const hasPatient = this.accessList.find(i=>i.object.id===patient?.id);
-    switch (role?.name) {
-      case 'doctor':
-        this.userService.setRolePositionToUser(this.id, role)
-        if (hasPatient) {
-          this.userService.updateAccess(
-            this.id,
-            hasPatient.id,
-            hasPatient.object.id as string,
-            editor?.id as string
-          );
-        }else{
-          this.userService.postCreateAccess(
-            this.id,
-            patient?.id as string,
-            editor?.id as string
-          );
-        }
-        break;
-      case 'patient':
-        this.userService.setRolePositionToUser(this.id, role);
-        if (hasPatient) {
-          this.userService.updateAccess(
-            this.id,
-            hasPatient.id,
-            hasPatient.object.id as string,
-            guest?.id as string
-          );
-        } else {
-          this.userService.postCreateAccess(
-            this.id,
-            patient?.id as string,
-            guest?.id as string
-          );
-        }
-        break;
+    const hasPatient = this.accessList.find((i) => i.object.id === patient?.id);
+
+    if (!role) {
+      // Handle case where role is not found
+      return;
     }
+
+    const roleMappings: Record<
+      string,
+      { accessId: string; newRoleId: string }
+    > = {
+      doctor: {
+        accessId: editor?.id as string,
+        newRoleId: editor?.id as string,
+      },
+      patient: {
+        accessId: guest?.id as string,
+        newRoleId: guest?.id as string,
+      },
+    };
+
+    const roleMapping = roleMappings[role.name];
+    if (!roleMapping) {
+      // Handle case where role name is not mapped
+      return;
+    }
+
+    this.userService.setRolePositionToUser(this.id, role).subscribe((res) => {
+      // console.log(res);
+    });
+
+    const accessOperation$ = hasPatient
+      ? this.userService.updateAccess(
+          this.id,
+          hasPatient.id,
+          hasPatient.object.id as string,
+          roleMapping.accessId
+        )
+      : this.userService.postCreateAccess(
+          this.id,
+          patient?.id as string,
+          roleMapping.newRoleId
+        );
+
+    accessOperation$
+      .pipe(
+        catchError((res: HttpErrorResponse) => {
+          this.toast.error(res.error.message);
+          throw res;
+        })
+      )
+      .subscribe(() => {
+        this.$accessByUserId = this.id;
+      });
   }
+
   get accessListControl() {
     return this.form.get('accessList') as FormArray;
   }
   get rolePositionControl() {
     return this.form.get('rolePosition');
+  }
+  setUserProfile() {
+    this.userService
+      .getUserById(this.id)
+      .pipe(first())
+      .subscribe((res) => {
+        if (res.result!.profile!.roleType) {
+          this.rolePositionControl?.setValue(res.result!.profile!.roleType.id);
+        }
+      });
   }
   setAllRole() {
     this.userService

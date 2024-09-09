@@ -124,7 +124,7 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOne({
         where: { id },
-        relations: ['profile'],
+        relations: ['profile', 'profile.roleType'],
       });
 
       if (!user) {
@@ -230,6 +230,11 @@ export class UsersService {
   async updateUserRoleType(userId: string, roleType: RoleType) {
     try {
       const user = await this.findOne(userId);
+      if (!user.profile) {
+        user.profile = {
+          roleType,
+        } as Profile;
+      }
       user.profile.roleType = roleType;
       return await this.usersRepository.save(user);
     } catch (error) {}
