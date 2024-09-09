@@ -2,7 +2,7 @@
 <div class="min-w-96">
     <form [formGroup]="form" (ngSubmit)="sumbitForm()">
         <div class="flex justify-center items-center">
-            @if (this.photoControl?.getRawValue()==='') {
+            @if (!this.photoControl?.getRawValue()) {
                 <i class="material-icons text-9xl dark:text-white text-black">
                     account_circle
                 </i>
