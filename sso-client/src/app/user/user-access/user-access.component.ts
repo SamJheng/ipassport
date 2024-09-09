@@ -97,34 +97,35 @@ export class UserAccessComponent {
       patient: {
         accessId: guest?.id as string,
         newRoleId: guest?.id as string,
-      },
+      }
     };
-
     const roleMapping = roleMappings[role.name];
+    this.userService
+      .setRolePositionToUser(this.id, role)
+      .pipe(first())
+      .subscribe((res) => {
+        // console.log(res);
+      });
     if (!roleMapping) {
       // Handle case where role name is not mapped
       return;
     }
-
-    this.userService.setRolePositionToUser(this.id, role).subscribe((res) => {
-      // console.log(res);
-    });
-
     const accessOperation$ = hasPatient
       ? this.userService.updateAccess(
           this.id,
           hasPatient.id,
           hasPatient.object.id as string,
-          roleMapping.accessId
+          roleMapping?.accessId as string
         )
       : this.userService.postCreateAccess(
           this.id,
           patient?.id as string,
-          roleMapping.newRoleId
+          roleMapping?.newRoleId as string
         );
 
     accessOperation$
       .pipe(
+        first(),
         catchError((res: HttpErrorResponse) => {
           this.toast.error(res.error.message);
           throw res;
