@@ -21,16 +21,17 @@ export class PatientService {
   ) {}
   async getAll() {
     try {
-      return await this.usersRepository
-        .createQueryBuilder('user')
-        .leftJoinAndSelect('user.access', 'access')
-        .leftJoinAndSelect('user.profile', 'profile')
-        .leftJoinAndSelect('user.patientInfo', 'patientInfo')
-        .leftJoinAndSelect('access.role', 'role')
-        .leftJoinAndSelect('access.object', 'object')
-        .where('object.name = :objectName', { objectName: 'patient' })
-        .andWhere('role.name = :roleName', { roleName: 'guest' })
-        .getMany();
+      const patients = await this.usersRepository.find({
+        relations: ['profile', 'profile.roleType'],
+        where: {
+          profile: {
+            roleType: {
+              name: 'patient',
+            },
+          },
+        },
+      });
+      return patients;
     } catch (error) {
       const errRes = new ErrorResponseResult({
         success: false,
@@ -42,17 +43,26 @@ export class PatientService {
   }
   async getPatientById(id: string) {
     try {
-      return await this.usersRepository
-        .createQueryBuilder('user')
-        .leftJoinAndSelect('user.access', 'access')
-        .leftJoinAndSelect('user.profile', 'profile')
-        .leftJoinAndSelect('user.patientInfo', 'patientInfo')
-        .leftJoinAndSelect('access.role', 'role')
-        .leftJoinAndSelect('access.object', 'object')
-        .where('user.id = :id', { id })
-        .andWhere('object.name = :objectName', { objectName: 'patient' })
-        .andWhere('role.name = :roleName', { roleName: 'guest' })
-        .getOne();
+      const patient = await this.usersRepository.findOne({
+        relations: ['profile', 'profile.roleType'],
+        where: {
+          id,
+          profile: {
+            roleType: {
+              name: 'patient',
+            },
+          },
+        },
+      });
+      if (!patient) {
+        const errRes = new ErrorResponseResult({
+          success: false,
+          message: `Patient with ID ${id} not found.`,
+          error: 'An error occurred',
+        });
+        throw new NotFoundException(errRes);
+      }
+      return patient;
     } catch (error) {
       const errRes = new ErrorResponseResult({
         success: false,

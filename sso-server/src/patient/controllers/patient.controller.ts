@@ -14,7 +14,7 @@ export class PatientController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
-  @Get('list')
+  @Get('')
   @HasAccess({
     role: 'reader',
     object: 'patient',

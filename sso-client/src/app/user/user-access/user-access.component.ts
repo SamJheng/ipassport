@@ -97,12 +97,18 @@ export class UserAccessComponent {
       patient: {
         accessId: guest?.id as string,
         newRoleId: guest?.id as string,
-      }
+      },
     };
     const roleMapping = roleMappings[role.name];
     this.userService
       .setRolePositionToUser(this.id, role)
-      .pipe(first())
+      .pipe(
+        first(),
+        catchError((res: HttpErrorResponse) => {
+          this.toast.error(res.error.message);
+          throw res;
+        })
+      )
       .subscribe((res) => {
         // console.log(res);
       });
@@ -142,33 +148,35 @@ export class UserAccessComponent {
   get rolePositionControl() {
     return this.form.get('rolePosition');
   }
-  setUserProfile() {
-    this.userService
-      .getUserById(this.id)
-      .pipe(first())
-      .subscribe((res) => {
-        if (res.result!.profile!.roleType) {
-          this.rolePositionControl?.setValue(res.result!.profile!.roleType.id);
-        }
-      });
+  async setUserProfile() {
+    try {
+      const res = await firstValueFrom(this.userService.getUserById(this.id));
+      const roleType = res.result?.profile?.roleType;
+      if (roleType) {
+        this.rolePositionControl?.setValue(roleType.id);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      // Optionally, handle the error, e.g., show a toast notification
+    }
   }
-  setAllRole() {
-    this.userService
-      .getAllRole()
-      .pipe(
-        first(),
-        map((res) => res.result)
-      )
-      .subscribe((res) => (this.getAllRole = res as Role[]));
+  async setAllRole() {
+    try {
+      const res = await firstValueFrom(this.userService.getAllRole());
+      this.getAllRole = res.result as Role[];
+    } catch (error) {
+      console.error('Error fetching roles:', error);
+      // Optionally, handle the error, e.g., show a toast notification
+    }
   }
-  setAccessObject() {
-    this.userService
-      .getAccessObject()
-      .pipe(
-        first(),
-        map((res) => res.result)
-      )
-      .subscribe((res) => (this.getAccessObject = res as AccessObject[]));
+  async setAccessObject() {
+    try {
+      const res = await firstValueFrom(this.userService.getAccessObject());
+      this.getAccessObject = res.result as AccessObject[];
+    } catch (error) {
+      console.error('Error fetching access objects:', error);
+      // Optionally, handle the error, e.g., show a toast notification
+    }
   }
   addNewAccess() {
     this.accessListControl.push(

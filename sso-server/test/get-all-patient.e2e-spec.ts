@@ -24,9 +24,13 @@ describe('Description', () => {
   it('should return all patient of list', async () => {
     console.log(accessToken);
     const res = await request(app.getHttpServer())
-      .get('/patient/list')
+      .get('/patient')
       .set('Authorization', `Bearer ${accessToken}`);
     console.log(res.body);
+    const patients = res.body.result;
+    patients.forEach((patient) => {
+      expect(patient.profile.roleType.name).toBe('patient');
+    });
     expect(res.status).toBe(200);
   });
 });
