@@ -1,0 +1,7 @@
+
+
+<div class="grid grid-cols-5 gap-4">
+    @for (item of this.patientList$ | async; track $index) {
+    <app-person class="h-full w-full" [person]="item"></app-person>
+    }
+</div>

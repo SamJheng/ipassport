@@ -9,6 +9,8 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { MessageComponent } from './auth/message/message.component';
 import { UserAccessComponent } from './user/user-access/user-access.component';
+import { PatientComponent } from './patient/patient.component';
+import { PatientListComponent } from './patient/patient-list/patient-list.component';
 export const routes: Routes = [
   {
     path: 'dashborard',
@@ -48,6 +50,17 @@ export const routes: Routes = [
       {
         path: 'access/:id',
         component: UserAccessComponent,
+      },
+    ],
+  },
+  {
+    path: 'patient',
+    component: PatientComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'list',
+        component: PatientListComponent,
       },
     ],
   },

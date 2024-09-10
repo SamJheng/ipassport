@@ -5,11 +5,12 @@ import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { User } from 'src/app/shared/models/user';
 import { Router } from '@angular/router';
+import { PersonComponent } from 'src/app/shared/components/person/person.component';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [ZorroModule, CommonModule],
+  imports: [ZorroModule, CommonModule, PersonComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
 })
@@ -26,6 +27,6 @@ export class UserListComponent {
       .pipe(map((res) => res.result || []));
   }
   openUserProfile(id: string) {
-    this.router.navigate([`user/profile/${id}`])
+    this.router.navigate([`user/profile/${id}`]);
   }
 }

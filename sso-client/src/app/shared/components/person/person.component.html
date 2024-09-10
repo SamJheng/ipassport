@@ -1,0 +1,32 @@
+<nz-card nzHoverable class="rounded p-5 h-full w-60 bg-white dark:bg-slate-700 dark:border-slate-500" [nzCover]="coverTemplate">
+    
+    <div class="flex justify-between">
+        <p class="text-black dark:text-white">
+            {{person?.firstName }} {{person?.lastName}}
+        </p>
+        @if (person.isActive) {
+        <i class="material-icons text-green-500">
+            check
+        </i>
+        }@else{
+        <i class="material-icons text-red-500">
+            report
+        </i>
+        }
+    </div>
+</nz-card>
+<ng-template #coverTemplate>
+    <div class="w-full h-32 relative">
+        @if(person?.profile?.photo){
+            <img class="w-full h-full object-contain absolute top-0 left-0" [alt]="person!.profile!.photo" [src]="person!.profile!.photo" />
+        }@else{
+        <div class="flex justify-center items-center w-full h-full">
+            <i class="material-icons text-9xl dark:text-white text-black">
+                account_circle
+            </i>
+        </div>
+        }
+    </div>
+    
+    
+</ng-template>

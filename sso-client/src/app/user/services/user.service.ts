@@ -11,43 +11,52 @@ export class UserService {
   url = environment.apiUrl;
   constructor(private http: HttpClient) {}
   getAllUser() {
-    return this.http.get<ResponseResult<User[]>>(this.url + '/users');
+    return this.http.get<ResponseResult<User[]>>(`${this.url}/users`);
   }
+
   getUserById(id: string) {
-    return this.http.get<ResponseResult<User>>(this.url + '/users/' + id);
+    return this.http.get<ResponseResult<User>>(`${this.url}/users/${id}`);
   }
+
   putEditUserById(id: string, body: EditUserBody) {
-    return this.http.put<ResponseResult>(this.url + '/users/' + id, body);
+    return this.http.put<ResponseResult>(`${this.url}/users/${id}`, body);
   }
+
   getAccessObject() {
     return this.http.get<ResponseResult<AccessObject[]>>(
-      this.url + '/access/object'
+      `${this.url}/access/object`
     );
   }
+
   getAccessByUserid(id: string) {
     return this.http.get<ResponseResult<Access[]>>(
-      this.url + '/access/user/' + id
+      `${this.url}/access/user/${id}`
     );
   }
+
   getAllRole() {
-    return this.http.get<ResponseResult<Role[]>>(this.url + '/access/role');
+    return this.http.get<ResponseResult<Role[]>>(`${this.url}/access/role`);
   }
+
   postAccessObjectByName(name: string) {
-    return this.http.post<ResponseResult>(this.url + '/access/object', {
+    return this.http.post<ResponseResult>(`${this.url}/access/object`, {
       name,
     });
   }
+
   postCreateAccess(userId: string, objectId: string, roleId: string) {
-    return this.http.post<ResponseResult>(this.url + '/access/user/' + userId, {
+    return this.http.post<ResponseResult>(`${this.url}/access/user/${userId}`, {
       objectId,
       roleId,
     });
   }
+
   deleteAccess(id: string) {
-    return this.http.delete<ResponseResult>(this.url + '/access/user/' + id);
+    return this.http.delete<ResponseResult>(`${this.url}/access/user/${id}`);
   }
+
   updateAccess(userId: string, id: string, objectId: string, roleId: string) {
-    return this.http.put<ResponseResult>(this.url + '/access/user/' + userId, {
+    return this.http.put<ResponseResult>(`${this.url}/access/user/${userId}`, {
       id,
       objectId,
       roleId,
