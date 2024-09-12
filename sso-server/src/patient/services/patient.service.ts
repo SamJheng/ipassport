@@ -44,7 +44,7 @@ export class PatientService {
   async getPatientById(id: string) {
     try {
       const patient = await this.usersRepository.findOne({
-        relations: ['profile', 'profile.roleType'],
+        relations: ['profile', 'profile.roleType', 'patientInfo'],
         where: {
           id,
           profile: {

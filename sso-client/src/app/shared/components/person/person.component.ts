@@ -13,7 +13,7 @@ import { User } from '../../models/user';
 export class PersonComponent implements OnInit, AfterViewInit {
   @Input() person!: User;
   ngOnInit(): void {
-    console.log(this.person);
+    // console.log(this.person);
   }
   ngAfterViewInit(): void {}
 }

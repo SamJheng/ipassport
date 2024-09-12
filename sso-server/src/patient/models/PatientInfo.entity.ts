@@ -1,4 +1,10 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  Generated,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class PatientInfo {
@@ -6,7 +12,8 @@ export class PatientInfo {
   id: string;
   @Column()
   patientId: string;
-  @Column({ type: 'int', unique: true })
+  @Column({ type: 'int' })
+  @Generated('increment')
   medicalRecordNumber;
   @Column({ nullable: true })
   allergies: string;
@@ -14,17 +21,17 @@ export class PatientInfo {
   medicalHistory: string;
   @Column({ nullable: true })
   insuranceInformation: string;
-  @BeforeInsert()
-  async generateMedicalRecordNumber() {
-    this.medicalRecordNumber = await this.getNextMedicalRecordNumber();
-  }
+  // @BeforeInsert()
+  // async generateMedicalRecordNumber() {
+  //   this.medicalRecordNumber = await this.getNextMedicalRecordNumber();
+  // }
 
-  private async getNextMedicalRecordNumber(): Promise<number> {
-    const maxNumber = await this.getMaxMedicalRecordNumberFromDB();
-    return maxNumber + 1;
-  }
+  // private async getNextMedicalRecordNumber(): Promise<number> {
+  //   const maxNumber = await this.getMaxMedicalRecordNumberFromDB();
+  //   return maxNumber + 1;
+  // }
 
-  private async getMaxMedicalRecordNumberFromDB(): Promise<number> {
-    return 0;
-  }
+  // private async getMaxMedicalRecordNumberFromDB(): Promise<number> {
+  //   return 1;
+  // }
 }

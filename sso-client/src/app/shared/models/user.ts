@@ -19,14 +19,7 @@ export interface Profile {
   address: string;
   roleType?:{id:number, name:string}
 }
-export interface JWTUser {
-  sub: string;
-  username: string;
-  scope: string[];
-  email: string;
-  exp: number;
-  iat:number;
-}
+
 export interface EditUserBody{
   firstName: string;
   lastName: string;

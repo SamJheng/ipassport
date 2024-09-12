@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseResult } from 'src/app/shared/models/respone';
-import { JWTUser, User } from 'src/app/shared/models/user';
+import { User } from 'src/app/shared/models/user';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

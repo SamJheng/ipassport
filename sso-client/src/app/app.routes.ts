@@ -11,6 +11,7 @@ import { MessageComponent } from './auth/message/message.component';
 import { UserAccessComponent } from './user/user-access/user-access.component';
 import { PatientComponent } from './patient/patient.component';
 import { PatientListComponent } from './patient/patient-list/patient-list.component';
+import { PatientItemComponent } from './patient/patient-item/patient-item.component';
 export const routes: Routes = [
   {
     path: 'dashborard',
@@ -61,6 +62,10 @@ export const routes: Routes = [
       {
         path: 'list',
         component: PatientListComponent,
+      },
+      {
+        path: ':id',
+        component: PatientItemComponent,
       },
     ],
   },

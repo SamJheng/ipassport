@@ -4,6 +4,7 @@ import { PersonComponent } from 'src/app/shared/components/person/person.compone
 import { map, Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-list',
@@ -14,10 +15,14 @@ import { CommonModule } from '@angular/common';
 })
 export class PatientListComponent {
   private patientService = inject(PatientService);
+  router = inject(Router);
   patientList$: Observable<User[]>;
   constructor() {
     this.patientList$ = this.patientService
       .getAllPatient()
       .pipe(map((res) => res.result!));
+  }
+  openPatientItem(id: string) {
+    this.router.navigate([`patient/${id}`]);
   }
 }

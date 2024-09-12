@@ -19,9 +19,9 @@ export class UserListComponent {
   router = inject(Router);
   userList$: Observable<User[]>;
   constructor() {
-    this.userService.getAllUser().subscribe((res) => {
-      console.log(res);
-    });
+    // this.userService.getAllUser().subscribe((res) => {
+    //   console.log(res);
+    // });
     this.userList$ = this.userService
       .getAllUser()
       .pipe(map((res) => res.result || []));

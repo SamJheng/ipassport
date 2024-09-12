@@ -1,0 +1,112 @@
+<!-- app.component.html -->
+<form [formGroup]="form" [nzLayout]="'vertical'" nz-form (ngSubmit)="sumbitForm()">
+    <div class="flex justify-center items-center mb-6">
+        @if (patient.profile?.photo) {
+            <img nz-image width="128px" height="128px" [src]="patient.profile?.photo" [alt]="patient.profile?.photo" />
+        }@else {
+            <i class="material-icons text-9xl dark:text-white text-black">
+                account_circle
+            </i>
+        }
+    </div>
+    <div class="mb-4">
+        <p class="text-black dark:text-white font-semibold opacity-90">First Name</p>
+        <p class="text-black dark:text-white text-2xl">{{patient.firstName}}</p>
+    </div>
+    <div class="mb-4">
+        <p class="text-black dark:text-white font-semibold opacity-90">Last Name</p>
+        <p class="text-black dark:text-white text-2xl">{{patient.lastName}}</p>
+    </div>
+    <div class="mb-4">
+        <p class="text-black dark:text-white font-semibold opacity-90">User Name</p>
+        <p class="text-black dark:text-white text-2xl">{{patient.username}}</p>
+    </div>
+    <div class="mb-4">
+        <p class="text-black dark:text-white font-semibold opacity-90 mb-1">Active</p>
+        @if (patient.isActive) {
+            <i class="material-icons text-green-500">
+                check_circle
+            </i>
+        }@else {
+            <i class="material-icons text-red-600">
+                cancel
+            </i>
+        }
+    </div>
+    <div formGroupName="profile">
+        <div class="dark:text-white text-black mt-5 mb-2">
+            <p class="text-xl">Profile</p>
+        </div>
+        <nz-form-item>
+            <nz-form-label nzFor="age" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Age</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback >
+                <input type="number" nz-input formControlName="age" id="age" placeholder="Enter your age" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="gender" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Gender</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="gender" id="gender" placeholder="Enter your gender" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="address" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Address</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="address" id="address" placeholder="Enter your address" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="contact" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Contact</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="contact" id="contact" placeholder="Enter your contact" />
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <div formGroupName="patientInfo">
+        <div class="dark:text-white text-black mt-5 mb-2">
+            <p class="text-xl">Information</p>
+        </div>
+        <nz-form-item>
+            <nz-form-label nzFor="patientId" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Patient Id</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="patientId" id="patientId" placeholder="Enter your Patient Id" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="allergies" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Allergies</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="allergies" id="allergies" placeholder="Enter your allergies" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="medicalHistory" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Medical history</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <textarea type="text" nz-input formControlName="medicalHistory" id="medicalHistory" placeholder="Enter your medical history" ></textarea>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="insuranceInformation" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Insurance information</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <textarea type="text" nz-input formControlName="insuranceInformation" id="insuranceInformation"
+                    placeholder="Enter your Insurance information"></textarea>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+    <button type="submit" class="mb-6 rounded  w-full" nz-button nzType="primary">Save</button>
+</form>

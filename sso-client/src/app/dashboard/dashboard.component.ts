@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ZorroModule } from '../shared/ng-zorro-antd.module';
 import { DashboardService } from './services/dashboard.service';
 import { map, Observable } from 'rxjs';
-import { JWTUser, User } from '../shared/models/user';
+import { User } from '../shared/models/user';
 import { ResponseResult } from '../shared/models/respone';
 
 @Component({
