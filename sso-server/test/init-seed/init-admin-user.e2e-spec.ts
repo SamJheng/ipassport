@@ -16,7 +16,7 @@ describe('AuthController (e2e)', () => {
     await app.init();
   });
 
-  it('/auth/signup (POST)', () => {
+  it('/users/super/create (POST)', () => {
     const data = {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
@@ -26,8 +26,8 @@ describe('AuthController (e2e)', () => {
       isActive: false,
     };
     return request(app.getHttpServer())
-      .post('/auth/signup')
+      .post('/users/super/create')
       .send(data)
-      .expect(200);
+      .expect(201);
   });
 });

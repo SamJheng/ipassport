@@ -9,10 +9,15 @@ import {
   Delete,
   Param,
   Body,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { HasAccess } from '../../../auth/access.guard';
 import { UpdateUserCommand } from '../../commands/update-user';
+import { Public } from '../../../lib/public-matedata';
+import { User } from '../../models/User.entity';
+import { AddSuperUserCommand } from '../../commands/add-super-user';
 
 @Controller('users')
 export class UsersController {
@@ -61,6 +66,18 @@ export class UsersController {
     );
     const res = new ResponseResult({
       message: 'update user is success',
+    });
+    return res;
+  }
+  @Public()
+  @HttpCode(HttpStatus.CREATED)
+  @Post('super/create')
+  async createSuperUser(
+    @Body() user: CreateUserDto,
+  ): Promise<ResponseResult<User>> {
+    const result = await this.commandBus.execute(new AddSuperUserCommand(user));
+    const res = new ResponseResult({
+      message: 'Create super user is success',
     });
     return res;
   }

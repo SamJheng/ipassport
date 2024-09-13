@@ -25,6 +25,8 @@ import { RoleType } from './models/RoleType.entity';
 import { AddRoleTypeHandler } from './commands/add-role-type';
 import { GetAllRoleTypeHandler } from './commands/get-all-role-type';
 import { UpdateUserRoleTypeHandler } from './commands/update-user-role-type';
+import { ConfigModule } from '@nestjs/config';
+import { AddSuperUserHandler } from './commands/add-super-user';
 const handlers = [
   AddRoleHandler,
   AddObjectHandler,
@@ -39,6 +41,7 @@ const handlers = [
   AddRoleTypeHandler,
   GetAllRoleTypeHandler,
   UpdateUserRoleTypeHandler,
+  AddSuperUserHandler,
 ];
 
 @Module({
@@ -53,6 +56,7 @@ const handlers = [
       ObjectAccess,
     ]),
     CqrsModule,
+    ConfigModule,
   ],
   providers: [UsersService, AccessService, ...handlers],
   controllers: [UsersController, AccessController],

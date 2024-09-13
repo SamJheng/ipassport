@@ -193,22 +193,22 @@ export class AccessService {
       throw new HttpException(errRes, errorCode);
     }
   }
-  async getAllAccess(): Promise<Access[]> {
-    try {
-      const allAccess = await this.accessRepository.find({
-        relations: ['role', 'object'],
-      });
-      return allAccess;
-    } catch (error) {
-      const errRes = new ErrorResponseResult({
-        success: false,
-        message: 'An error occurred while fetching the access.',
-        error: error.message || 'An error occurred',
-      });
-      // Handle unexpected errors
-      throw new InternalServerErrorException(errRes);
-    }
-  }
+  // async getAllAccess(): Promise<Access[]> {
+  //   try {
+  //     const allAccess = await this.accessRepository.find({
+  //       relations: ['role', 'object'],
+  //     });
+  //     return allAccess;
+  //   } catch (error) {
+  //     const errRes = new ErrorResponseResult({
+  //       success: false,
+  //       message: 'An error occurred while fetching the access.',
+  //       error: error.message || 'An error occurred',
+  //     });
+  //     // Handle unexpected errors
+  //     throw new InternalServerErrorException(errRes);
+  //   }
+  // }
   async getAccessByUserId(userId: string): Promise<Access[]> {
     try {
       const access = await this.accessRepository.find({
