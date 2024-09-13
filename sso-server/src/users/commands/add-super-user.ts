@@ -29,9 +29,9 @@ export class AddSuperUserHandler
       });
       throw new HttpException(errRes, HttpStatus.BAD_REQUEST);
     }
-    const role = await this.accessService.addObjectAccess('*');
-    const object = await this.accessService.addRole('*');
     const user = await this.usersService.create(command.user);
+    const role = await this.accessService.addRole('*');
+    const object = await this.accessService.addObjectAccess('*');
     const access = await this.accessService.grantingAccess({
       user,
       object,

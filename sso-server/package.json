@@ -42,7 +42,7 @@
     "pg-error-enum": "^0.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
