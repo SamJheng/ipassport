@@ -23,7 +23,7 @@ describe('AuthController (e2e)', () => {
       username: faker.person.fullName(),
       email: 'admin@gmail.com',
       password: 'adminPassword',
-      isActive: false,
+      isActive: true,
     };
     return request(app.getHttpServer())
       .post('/users/super/create')
