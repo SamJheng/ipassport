@@ -12,11 +12,22 @@ import { UserAccessComponent } from './user/user-access/user-access.component';
 import { PatientComponent } from './patient/patient.component';
 import { PatientListComponent } from './patient/patient-list/patient-list.component';
 import { PatientItemComponent } from './patient/patient-item/patient-item.component';
+import { RedirectComponent } from './redirect/redirect.component';
+import { ProfileSetupComponent } from './auth/profile-setup/profile-setup.component';
 export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'auth/signin',
+    pathMatch: 'full',
+  },
   {
     path: 'dashborard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'redirect',
+    component: RedirectComponent,
   },
   {
     path: 'auth',
@@ -32,6 +43,10 @@ export const routes: Routes = [
       {
         path: 'message',
         component: MessageComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileSetupComponent,
       },
     ],
   },

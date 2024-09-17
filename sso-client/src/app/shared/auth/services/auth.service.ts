@@ -8,7 +8,7 @@ import { ResponseResult } from '../../models/respone';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SessionStorageService } from '../../lib/session-storage.service';
-import { SignupUser } from '../../models/user';
+import { SignupUser, User } from '../../models/user';
 
 @Injectable()
 export class AuthService {
@@ -50,5 +50,8 @@ export class AuthService {
       this.url + '/auth/signup',
       body
     );
+  }
+  getProfile() {
+    return this.http.get<ResponseResult<User>>(this.url + '/auth/profile');
   }
 }

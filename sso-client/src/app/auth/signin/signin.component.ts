@@ -87,6 +87,6 @@ export class SigninComponent implements OnInit, AfterViewInit {
     this.isShowPassword = !this.isShowPassword;
   }
   loginSueccess() {
-    this.router.navigate(['dashborard']);
+    this.router.navigate(['redirect']);
   }
 }

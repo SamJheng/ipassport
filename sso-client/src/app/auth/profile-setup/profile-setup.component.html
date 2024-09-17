@@ -1,0 +1,51 @@
+<form [formGroup]="form" [nzLayout]="'vertical'" nz-form (ngSubmit)="onSubmit()">
+    <nz-form-item>
+        <nz-form-label nzFor="birthday" nzRequired>
+            <p class="text-black dark:text-white font-semibold opacity-90">Birthday</p>
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+            <nz-date-picker class=" w-full" formControlName="birthday" id="birthday" [nzPlaceHolder]="'Enter your birthday'"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="age" nzRequired>
+            <p class="text-black dark:text-white font-semibold opacity-90">Age</p>
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+            <input type="number" nz-input formControlName="age" id="age" placeholder="Enter your age" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="gender" nzRequired>
+            <p class="text-black dark:text-white font-semibold opacity-90">Gender</p>
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+            <input type="text" nz-input formControlName="gender" id="gender" placeholder="Enter your gender" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="address" nzRequired>
+            <p class="text-black dark:text-white font-semibold opacity-90">Address</p>
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+            <input type="text" nz-input formControlName="address" id="address" placeholder="Enter your address" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="contact" nzRequired>
+            <p class="text-black dark:text-white font-semibold opacity-90">Contact</p>
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+            <input type="text" nz-input formControlName="contact" id="contact" placeholder="Enter your contact" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="contact">
+            <p class="text-black dark:text-white font-semibold opacity-90">Photo</p>
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+            <input type="text" nz-input formControlName="photo" id="photo" placeholder="Enter your photo url" />
+        </nz-form-control>
+    </nz-form-item>
+    <button type="submit" class="mb-6 rounded w-full" nz-button nzType="primary">Submit</button>
+</form>
