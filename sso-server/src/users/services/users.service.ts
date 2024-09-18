@@ -177,8 +177,8 @@ export class UsersService {
         });
         throw new NotFoundException(errRes);
       }
-      this.usersRepository.merge(user, userDto);
-      const r = await this.usersRepository.save(user);
+      const merge = this.usersRepository.merge(user, userDto);
+      const r = await this.usersRepository.save(merge);
       return r;
     } catch (error) {
       if (error instanceof NotFoundException) {

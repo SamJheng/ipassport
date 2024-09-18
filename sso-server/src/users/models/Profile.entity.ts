@@ -19,7 +19,7 @@ export class Profile {
 
   @Column({ nullable: true })
   photo: string;
-  @Column({ type: 'int', unique: true, nullable: true })
+  @Column({ type: 'int', nullable: true })
   age: number;
   @Column({ nullable: true })
   birthday: string;

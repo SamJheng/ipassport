@@ -1,6 +1,6 @@
 
 <div class="min-w-96">
-    <form [formGroup]="form" (ngSubmit)="sumbitForm()">
+    <form [formGroup]="form" [nzLayout]="'vertical'" nz-form  (ngSubmit)="sumbitForm()">
         <div class="flex justify-center items-center">
             @if (!this.photoControl?.getRawValue()) {
                 <i class="material-icons text-9xl dark:text-white text-black">
@@ -20,42 +20,98 @@
                 <strong>Edit User Access</strong>
             </a>
         </div>
-        <div class="dark:text-white text-black mt-5">
-            <p class="font-semibold">User name</p>
-            <input class="mt-2" formControlName="username" nz-input placeholder="User name" />
-        </div>
-        <div class="dark:text-white text-black mt-5">
-            <p class="font-semibold">First name</p>
-            <input class="mt-2" formControlName="firstName" nz-input placeholder="First name"  />
-        </div>
-        <div class="dark:text-white text-black mt-5">
-            <p class="font-semibold">Last name</p>
-            <input class="mt-2" formControlName="lastName" nz-input placeholder="Last name"  />
-        </div>
-        <div class="dark:text-white text-black mt-5">
-            <p class="font-semibold">Email</p>
-            <input class="mt-2" formControlName="email" nz-input placeholder="Email"  />
-        </div>
-        <div class="dark:text-white text-black mt-5">
-            <p class="font-semibold">Active</p>
-            <nz-switch formControlName="isActive"></nz-switch>
-        </div>
+        <nz-form-item>
+            <nz-form-label nzFor="username" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">User name</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="username" id="username" placeholder="User name" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="firstName" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">First name</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="firstName" id="firstName" placeholder="First name" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="lastName" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Last name</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="lastName" id="lastName" placeholder="Last name" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="email" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Email</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input type="text" nz-input formControlName="email" id="email" placeholder="Email" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzFor="isActive" nzRequired>
+                <p class="text-black dark:text-white font-semibold opacity-90">Active</p>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <nz-switch  id="isActive"  formControlName="isActive"></nz-switch>
+            </nz-form-control>
+        </nz-form-item>
         <div formGroupName="profile">
             <div class="dark:text-white text-black mt-5">
                 <p class="text-xl">Profile</p>
             </div>
-            <div class="dark:text-white text-black mt-5">
-                <p>Gender</p>
-                <input class="mt-2" formControlName="gender" nz-input placeholder="Gender"  />
-            </div>
-            <div class="dark:text-white text-black mt-5">
-                <p>Photo Url</p>
-                <input class="mt-2" formControlName="photo" nz-input placeholder="url"  />
-            </div>
-            <div class="dark:text-white text-black mt-5">
-                <p>Birthday</p>
-                <nz-date-picker class="w-full" [nzFormat]="'yyyy-MM-dd'" formControlName="birthday"></nz-date-picker>
-            </div>
+            <nz-form-item>
+                <nz-form-label nzFor="gender" nzRequired>
+                    <p class="text-black dark:text-white font-semibold opacity-90">Gender</p>
+                </nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input type="text" nz-input formControlName="gender" id="gender" placeholder="Gender" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzFor="photo">
+                    <p class="text-black dark:text-white font-semibold opacity-90">Photo Url</p>
+                </nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input type="text" nz-input formControlName="photo" id="photo" placeholder="url" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzFor="age" nzRequired>
+                    <p class="text-black dark:text-white font-semibold opacity-90">Age</p>
+                </nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input type="number" nz-input formControlName="age" id="age" placeholder="Age" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzFor="birthday" nzRequired>
+                    <p class="text-black dark:text-white font-semibold opacity-90">Birthday</p>
+                </nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <nz-date-picker class="w-full" formControlName="birthday" id="birthday" [nzFormat]="'yyyy-MM-dd'" formControlName="birthday"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzFor="address" nzRequired>
+                    <p class="text-black dark:text-white font-semibold opacity-90">Address</p>
+                </nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input type="text" nz-input formControlName="address" id="address" placeholder="Address" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzFor="contact" nzRequired>
+                    <p class="text-black dark:text-white font-semibold opacity-90">Contact</p>
+                </nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input type="text" nz-input formControlName="contact" id="contact" placeholder="Contact" />
+                </nz-form-control>
+            </nz-form-item>
         </div>
         
         <button type="submit" class="mt-6 rounded  w-full" nz-button nzType="primary">Save</button>

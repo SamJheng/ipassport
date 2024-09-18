@@ -30,7 +30,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       profile: this.fb.group({
         gender: ['', Validators.required],
         photo: ['', Validators.required],
+        age: ['', Validators.required],
         birthday: ['', Validators.required],
+        address: ['', Validators.required],
+        contact: ['', Validators.required],
       }),
     });
   }
@@ -50,10 +53,14 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.lastnameControl?.setValue(lastName);
         this.activeControl?.setValue(isActive);
         if (res.result?.profile) {
-          const { gender, photo, birthday } = res.result?.profile as Profile;
+          const { gender, photo, birthday, age, address, contact } = res.result
+            ?.profile as Profile;
           this.genderControl?.setValue(gender);
           this.photoControl?.setValue(photo);
           this.birthdayControl?.setValue(birthday);
+          this.ageControl?.setValue(age);
+          this.addressControl?.setValue(address);
+          this.contactControl?.setValue(contact);
         }
       });
   }
@@ -81,6 +88,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   }
   get birthdayControl() {
     return this.form.get('profile.birthday');
+  }
+  get ageControl() {
+    return this.form.get('profile.age');
+  }
+  get addressControl() {
+    return this.form.get('profile.address');
+  }
+  get contactControl() {
+    return this.form.get('profile.contact');
   }
   sumbitForm() {
     const body = this.form.getRawValue();
