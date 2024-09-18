@@ -8,7 +8,7 @@ import { ResponseResult } from '../../models/respone';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SessionStorageService } from '../../lib/session-storage.service';
-import { SignupUser, User } from '../../models/user';
+import { EditUserBody, SignupUser, User } from '../../models/user';
 
 @Injectable()
 export class AuthService {
@@ -53,5 +53,13 @@ export class AuthService {
   }
   getProfile() {
     return this.http.get<ResponseResult<User>>(this.url + '/auth/profile');
+  }
+  updateProfile(body: User) {
+    return this.http.post<ResponseResult>(this.url + '/auth/profile', body);
+  }
+  getAllRoleTypes() {
+    return this.http.get<ResponseResult<{ id: number; name: string }[]>>(
+      `${this.url}/access/position`
+    );
   }
 }

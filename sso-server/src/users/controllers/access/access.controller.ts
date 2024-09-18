@@ -174,10 +174,10 @@ export class AccessController {
     return res;
   }
   @Get('position')
-  @HasAccess({
-    role: 'reader',
-    object: 'access',
-  })
+  // @HasAccess({
+  //   role: 'reader',
+  //   object: 'access',
+  // })
   async getAllRoleType() {
     const roles = await this.queryBus.execute(new GetAllRoleTypeCommand());
     const res = new ResponseResult({

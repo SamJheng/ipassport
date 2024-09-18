@@ -14,6 +14,7 @@ import { VerifyGoogleHandler } from './commands/verify-google';
 import { LoggerModule } from '../log/logger.module';
 import { GetProfileHandler } from './commands/profile';
 import { SignUpHandler } from './commands/signup';
+import { AddProfileHandler } from './commands/add-profile';
 @Module({
   imports: [
     UsersModule,
@@ -40,6 +41,7 @@ import { SignUpHandler } from './commands/signup';
     VerifyGoogleHandler,
     SignUpHandler,
     GetProfileHandler,
+    AddProfileHandler,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,

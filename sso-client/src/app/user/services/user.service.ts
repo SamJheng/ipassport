@@ -63,7 +63,9 @@ export class UserService {
     });
   }
   getAllRoleTypes() {
-    return this.http.get<ResponseResult>(`${this.url}/access/position`);
+    return this.http.get<ResponseResult<{ id: number; name: string }[]>>(
+      `${this.url}/access/position`
+    );
   }
   setRolePositionToUser(userId: string, role: RoleType) {
     return this.http.put<ResponseResult>(
