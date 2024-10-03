@@ -9,6 +9,7 @@ import LogsMiddleware from './log/services/logs.middleware';
 import { LoggerModule } from './log/logger.module';
 import { join } from 'path';
 import { PatientModule } from './patient/patient.module';
+import { DoctorModule } from './doctor/doctor.module';
 @Module({
   imports: [
     // AuthorizationModule.register({
@@ -21,6 +22,7 @@ import { PatientModule } from './patient/patient.module';
     ConfigModule,
     LoggerModule,
     PatientModule,
+    DoctorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,28 +1,24 @@
-import { IsEmail, IsNumber, IsString } from '@nestjs/class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from '@nestjs/class-validator';
 
-export class PatientDTO {
-  @IsString()
-  firstName: string;
-  @IsString()
-  lastName: string;
-  @IsString()
-  username: string;
-  @IsEmail()
-  @IsString()
-  email: string;
-  profile: PatientProfileDto;
-  patientInfo: PatientInfoDTO;
-}
 export class PatientProfileDto {
   @IsNumber()
+  @IsNotEmpty()
   age: number;
   @IsString()
+  @IsNotEmpty()
   gender: string;
   @IsString()
   photo: string;
   @IsString()
+  @IsNotEmpty()
   birthday: string;
   @IsString()
+  @IsNotEmpty()
   contact: string;
   @IsString()
   address: string;
