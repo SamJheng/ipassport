@@ -1,3 +1,4 @@
+import { AppointmentStatus } from '../../models/appointmentStatus.enum';
 import { User } from '../../users/models/User.entity';
 import {
   Column,
@@ -28,7 +29,7 @@ export class Appointments {
     length: 255,
     nullable: true,
   })
-  status: string;
+  status: AppointmentStatus;
   @Column({
     type: 'text',
     nullable: true,
