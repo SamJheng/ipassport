@@ -22,9 +22,7 @@
     "migration:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli migration:create ./src/migrations/create",
     "migration:generate": "npm run build && npm run typeorm migration:generate ./src/migrations/generate",
     "migration:run": "npm run build && npm run typeorm migration:run",
-    "migration:revert": "npm run build && npm run typeorm migration:revert",
-    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config -n src/config/typeorm.config-seed.ts",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -n src/config/typeorm.config-seed.ts"
+    "migration:revert": "npm run build && npm run typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/class-validator": "^0.13.4",
