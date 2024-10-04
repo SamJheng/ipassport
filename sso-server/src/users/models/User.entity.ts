@@ -15,6 +15,7 @@ import { getSaltHashByPassWord } from '../../lib/utils/salt-hash-generate';
 import { Access } from './Access.entity';
 import { PatientInfo } from '../../patient/models/PatientInfo.entity';
 import { DoctorInfo } from '../../doctor/models/DoctorInfo.entity';
+import { Appointments } from '../../appointments/models/Appointmets.entity';
 
 @Entity()
 export class User {
@@ -49,10 +50,8 @@ export class User {
   profile: Profile;
 
   @OneToMany(() => SocialExternalProviders, (providers) => providers.user)
-  @JoinColumn()
   provider: SocialExternalProviders[];
   @OneToMany(() => Access, (access) => access.user)
-  @JoinColumn()
   access: Access[];
   @OneToOne(() => PatientInfo, {
     cascade: true,
@@ -64,6 +63,12 @@ export class User {
   })
   @JoinColumn()
   doctorInfo: DoctorInfo;
+
+  @OneToMany(() => Appointments, (appointment) => appointment.doctor)
+  doctorAppointments: Appointments[];
+  @OneToMany(() => Appointments, (appointment) => appointment.patient)
+  patientAppointments: Appointments[];
+
   /**
    * @note hashing user password
    * @memberof User

@@ -10,6 +10,7 @@ import { LoggerModule } from './log/logger.module';
 import { join } from 'path';
 import { PatientModule } from './patient/patient.module';
 import { DoctorModule } from './doctor/doctor.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 @Module({
   imports: [
     // AuthorizationModule.register({
@@ -23,6 +24,7 @@ import { DoctorModule } from './doctor/doctor.module';
     LoggerModule,
     PatientModule,
     DoctorModule,
+    AppointmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
