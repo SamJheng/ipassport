@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from '@nestjs/class-validator';
 
-export class DoctorProfileDto {
+export class DoctorProfileDTO {
   @IsNumber()
   @IsNotEmpty()
   age: number;
@@ -40,6 +40,6 @@ export class DoctorInfoDTO {
   treatmentScope: string;
 }
 export class UpdateDoctorDTO {
-  profile: DoctorProfileDto;
+  profile: DoctorProfileDTO;
   doctorInfo: DoctorInfoDTO;
 }

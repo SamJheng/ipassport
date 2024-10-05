@@ -77,7 +77,7 @@ export class DoctorService {
       if (!user) {
         const errRes = new ErrorResponseResult({
           success: false,
-          message: `Patient with ID ${id} not found.`,
+          message: `Doctor with ID ${id} not found.`,
           error: 'An error occurred',
         });
         throw new NotFoundException(errRes);
