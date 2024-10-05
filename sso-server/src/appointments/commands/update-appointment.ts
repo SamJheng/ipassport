@@ -1,12 +1,12 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UpdateAppointmentDto } from '../models/Appointment.dto';
+import { UpdateAppointmentDTO } from '../models/Appointment.dto';
 import { AppointmentsService } from '../services/appointments.service';
 import { Appointments } from '../models/Appointmets.entity';
 
 export class UpdateAppointmentCommand {
   constructor(
     public readonly id: string,
-    public readonly update: UpdateAppointmentDto,
+    public readonly update: UpdateAppointmentDTO,
   ) {}
 }
 @CommandHandler(UpdateAppointmentCommand)

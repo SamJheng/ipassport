@@ -8,7 +8,7 @@ import {
 } from '@nestjs/class-validator';
 import { AppointmentStatus } from '../../models/appointmentStatus.enum';
 
-export class CreateAppointmentDto {
+export class CreateAppointmentDTO {
   @IsDate()
   @IsNotEmpty()
   date: Date;
@@ -28,7 +28,7 @@ export class CreateAppointmentDto {
   @IsUUID()
   patientId: string;
 }
-export class UpdateAppointmentDto {
+export class UpdateAppointmentDTO {
   @IsDate()
   @IsOptional()
   date?: Date;

@@ -1,9 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateAppointmentDto } from '../models/Appointment.dto';
+import { CreateAppointmentDTO } from '../models/Appointment.dto';
 import { AppointmentsService } from '../services/appointments.service';
 
 export class CreateAppointmentCommand {
-  constructor(public readonly create: CreateAppointmentDto) {}
+  constructor(public readonly create: CreateAppointmentDTO) {}
 }
 @CommandHandler(CreateAppointmentCommand)
 export class CreateAppointmentHandler

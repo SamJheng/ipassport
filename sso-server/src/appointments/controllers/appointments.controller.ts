@@ -9,20 +9,25 @@ import {
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
-  CreateAppointmentDto,
-  UpdateAppointmentDto,
+  CreateAppointmentDTO,
+  UpdateAppointmentDTO,
 } from '../models/Appointment.dto';
 import { Appointments } from '../models/Appointmets.entity';
 import { CreateAppointmentCommand } from '../commands/create-appointment';
 import { ResponseResult } from '../../models/respone';
 import { UpdateAppointmentCommand } from '../commands/update-appointment';
+import { HasAccess } from '../../auth/access.guard';
 
 @Controller('appointment')
 export class AppointmentsController {
   constructor(private readonly commandBus: CommandBus) {}
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createAppointmentDto: CreateAppointmentDto) {
+  @HasAccess({
+    role: 'editor',
+    object: 'appointments',
+  })
+  async create(@Body() createAppointmentDto: CreateAppointmentDTO) {
     const c = await this.commandBus.execute(
       new CreateAppointmentCommand(createAppointmentDto),
     );
@@ -32,9 +37,13 @@ export class AppointmentsController {
     return res;
   }
   @Put(':id')
+  @HasAccess({
+    role: 'editor',
+    object: 'appointments',
+  })
   async update(
     @Param('id') id: string,
-    @Body() updateAppointmentDto: UpdateAppointmentDto,
+    @Body() updateAppointmentDto: UpdateAppointmentDTO,
   ) {
     const update = await this.commandBus.execute(
       new UpdateAppointmentCommand(id, updateAppointmentDto),
