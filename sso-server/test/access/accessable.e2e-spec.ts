@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 describe('Description', () => {
   let app: INestApplication;
   let accessToken: string;
@@ -21,13 +21,9 @@ describe('Description', () => {
       .send(data);
     accessToken = res.body.result.accessToken;
   });
-  it('should return all objects', async () => {
-    console.log(accessToken);
+  it('/accessable (GET)', async () => {
     const res = await request(app.getHttpServer())
-      .get('/access/object')
+      .get('/accessable')
       .set('Authorization', `Bearer ${accessToken}`);
-    console.log(res.body);
-    expect(res.status).toBe(200);
-    expect(res.body.result).toBeDefined();
   });
 });

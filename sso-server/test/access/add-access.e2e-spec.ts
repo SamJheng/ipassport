@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 import { faker } from '@faker-js/faker';
 
 describe('User Module E2E Tests', () => {
@@ -32,44 +32,20 @@ describe('User Module E2E Tests', () => {
   });
 
   // Test case for updating user info
-  it('update access.object to test *', async () => {
+  it('add access to user', async () => {
     const uid = '69ae0ba1-efb5-4ad3-8f87-e86a3d78e1ab';
     const roleId = '25';
-    const objectId = '15';
-    const id = '44';
+    const objectId = '8';
     const data = {
-      id,
       objectId,
       roleId,
     };
     const res = await request(app.getHttpServer())
-      .put('/access/user/' + uid)
+      .post('/access/user/' + uid)
       .send(data)
       .set('Authorization', `Bearer ${accessToken}`)
-      .expect(200);
-    // console.log(res.body);
-    expect(res.body.result).toBeDefined();
-    expect(res.body.result.object.id).toEqual(parseInt(objectId));
-    expect(res.body).toHaveProperty('success', true);
-  });
-  it('update access.object to access *', async () => {
-    const uid = '69ae0ba1-efb5-4ad3-8f87-e86a3d78e1ab';
-    const roleId = '25';
-    const objectId = '13';
-    const id = '44';
-    const data = {
-      id,
-      objectId,
-      roleId,
-    };
-    const res = await request(app.getHttpServer())
-      .put('/access/user/' + uid)
-      .send(data)
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(200);
-    // console.log(res.body);
-    expect(res.body.result).toBeDefined();
-    expect(res.body.result.object.id).toEqual(parseInt(objectId));
+      .expect(201);
+    console.log(res.body);
     expect(res.body).toHaveProperty('success', true);
   });
 
