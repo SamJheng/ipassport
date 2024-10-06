@@ -1,15 +1,18 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   CreateAppointmentDTO,
+  GetAppointmentsDTO,
   UpdateAppointmentDTO,
 } from '../models/Appointment.dto';
 import { Appointments } from '../models/Appointmets.entity';
@@ -17,10 +20,29 @@ import { CreateAppointmentCommand } from '../commands/create-appointment';
 import { ResponseResult } from '../../models/respone';
 import { UpdateAppointmentCommand } from '../commands/update-appointment';
 import { HasAccess } from '../../auth/access.guard';
+import { GetAppointmentCommand } from '../commands/get-appointment';
 
 @Controller('appointment')
 export class AppointmentsController {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
+  @Get()
+  @HasAccess({
+    role: 'reader',
+    object: 'appointments',
+  })
+  async query(@Query() queryPamars: GetAppointmentsDTO) {
+    const list = await this.queryBus.execute(
+      new GetAppointmentCommand(queryPamars),
+    );
+    const res = new ResponseResult({
+      message: 'Get all Appointment of list',
+      result: list,
+    });
+    return res;
+  }
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @HasAccess({

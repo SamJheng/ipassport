@@ -28,6 +28,15 @@ export class CreateAppointmentDTO {
   @IsUUID()
   patientId: string;
 }
+export class GetAppointmentsDTO {
+  @IsOptional()
+  @IsUUID()
+  doctorId?: string;
+
+  @IsOptional()
+  @IsUUID()
+  patientId?: string;
+}
 export class UpdateAppointmentDTO {
   @IsDate()
   @IsOptional()

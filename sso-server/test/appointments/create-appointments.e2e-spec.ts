@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import { faker } from '@faker-js/faker';
+
 describe('Description', () => {
   let app: INestApplication;
   let accessToken: string;
@@ -25,12 +25,12 @@ describe('Description', () => {
   it('should return create a appointment', async () => {
     console.log(accessToken);
     const data = {
-      date: '2024-10-10T00:00:00Z',
+      date: '2024-10-20T00:00:00Z',
       time: '14:30',
       status: 'PENDING',
       notes: 'Patient requests early checkup due to symptoms.',
       doctorId: '69ae0ba1-efb5-4ad3-8f87-e86a3d78e1ab',
-      patientId: '354b6e0e-c5ce-475a-bf91-3b00096be6bb',
+      patientId: '092aa64c-ab4b-48a6-b555-9a42bd9ba7fa',
     };
     const res = await request(app.getHttpServer())
       .post('/appointment')

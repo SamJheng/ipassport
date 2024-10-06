@@ -8,7 +8,12 @@ import { UpdateAppointmentHandler } from './commands/update-appointment';
 import { AppointmentsController } from './controllers/appointments.controller';
 import { UsersModule } from '../users/users.module';
 import { User } from '../users/models/User.entity';
-const handlers = [CreateAppointmentHandler, UpdateAppointmentHandler];
+import { GetAppointmentHandler } from './commands/get-appointment';
+const handlers = [
+  CreateAppointmentHandler,
+  UpdateAppointmentHandler,
+  GetAppointmentHandler,
+];
 @Module({
   imports: [
     TypeOrmModule.forFeature([Appointments, User]),

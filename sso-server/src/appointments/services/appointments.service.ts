@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, MoreThanOrEqual, Raw, Repository } from 'typeorm';
 import { Appointments } from '../models/Appointmets.entity';
 import {
   CreateAppointmentDTO,
+  GetAppointmentsDTO,
   UpdateAppointmentDTO,
 } from '../models/Appointment.dto';
 import { ErrorResponseResult } from '../../models/respone';
@@ -68,5 +69,21 @@ export class AppointmentsService {
       updateAppointmentDto,
     );
     return this.appointmentsRepository.save(merge);
+  }
+  async getAppointments(
+    queryParams: GetAppointmentsDTO,
+  ): Promise<Appointments[]> {
+    const { doctorId, patientId } = queryParams;
+    const where: FindOptionsWhere<Appointments> = {
+      ...(doctorId && { doctor: { id: doctorId } }),
+      ...(patientId && { patient: { id: patientId } }),
+      date: Raw((alias) => `${alias} >= CURRENT_DATE`),
+    };
+    const appointment = await this.appointmentsRepository.find({
+      relations: ['doctor', 'patient'],
+      order: { date: 'DESC' },
+      where,
+    });
+    return appointment;
   }
 }
