@@ -9,6 +9,7 @@ import { PatientInfo } from '../patient/models/PatientInfo.entity';
 import { RoleType } from '../users/models/RoleType.entity';
 import { DoctorInfo } from '../doctor/models/DoctorInfo.entity';
 import { Appointments } from '../appointments/models/Appointmets.entity';
+import { WeeklySchedules } from 'src/doctor/models/WeeklySchedules.entity';
 
 const entities = [
   User,
@@ -22,6 +23,7 @@ const entities = [
   RoleType,
   DoctorInfo,
   Appointments,
+  WeeklySchedules,
 ];
 
 export default entities;

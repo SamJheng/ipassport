@@ -11,6 +11,7 @@ import { DoctorService } from './services/doctor.service';
 import { GetAllDoctorHandler } from './commands/get-all-doctor';
 import { DeleteDoctorHandler } from './commands/delete-doctor';
 import { UpdateDoctorHandler } from './commands/update-doctor';
+import { WeeklySchedules } from './models/WeeklySchedules.entity';
 
 const handlers = [
   GetDoctorHandler,
@@ -20,7 +21,7 @@ const handlers = [
 ];
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Profile, DoctorInfo]),
+    TypeOrmModule.forFeature([User, Profile, DoctorInfo, WeeklySchedules]),
     UsersModule,
     CqrsModule,
   ],
