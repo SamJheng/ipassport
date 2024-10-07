@@ -40,6 +40,20 @@ describe('Description', () => {
         education: 'MD from Harvard Medical School',
         experience: '15 years of experience in Cardiology',
         treatmentScope: 'Heart diseases, Hypertension, Angioplasty',
+        weeklySchedules: [
+          {
+            id: 1,
+            DayOfWeek: 'Tuesday',
+            StartTime: '09:00:00',
+            EndTime: '12:00:00',
+          },
+          {
+            id: 2,
+            DayOfWeek: 'Wednesday',
+            StartTime: '15:00:00',
+            EndTime: '18:00:00',
+          },
+        ],
       },
     };
     const id = '69ae0ba1-efb5-4ad3-8f87-e86a3d78e1ab';

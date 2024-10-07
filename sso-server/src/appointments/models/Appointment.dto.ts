@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  Matches,
 } from '@nestjs/class-validator';
 import { AppointmentStatus } from '../../models/appointmentStatus.enum';
 
@@ -14,6 +15,9 @@ export class CreateAppointmentDTO {
   date: Date;
   @IsString()
   @IsNotEmpty()
+  @Matches(/^([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, {
+    message: 'EndTime must be in HH:MM:SS format',
+  })
   time: string;
   @IsEnum(AppointmentStatus)
   @IsNotEmpty()

@@ -21,7 +21,11 @@ export class DoctorService {
   async getAll(): Promise<User[]> {
     try {
       const users = await this.usersRepository.find({
-        relations: ['profile', 'profile.roleType'],
+        relations: [
+          'profile',
+          'profile.roleType',
+          'doctorInfo.weeklySchedules',
+        ],
         where: {
           profile: {
             roleType: {
@@ -43,7 +47,12 @@ export class DoctorService {
   async getDoctorById(id: string): Promise<User> {
     try {
       const user = await this.usersRepository.findOne({
-        relations: ['profile', 'profile.roleType', 'doctorInfo'],
+        relations: [
+          'profile',
+          'profile.roleType',
+          'doctorInfo',
+          'doctorInfo.weeklySchedules',
+        ],
         where: {
           id,
           profile: {

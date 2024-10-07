@@ -1,4 +1,4 @@
-import { DayOfWeek } from 'src/models/day-of-week.enum';
+import { DayOfWeek } from '../../models/day-of-week.enum';
 import {
   Entity,
   Unique,
@@ -14,7 +14,7 @@ export class WeeklySchedules {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => DoctorInfo, (doctor) => doctor.WeeklySchedules, {
+  @ManyToOne(() => DoctorInfo, (doctor) => doctor.weeklySchedules, {
     nullable: false,
     onDelete: 'CASCADE',
   })

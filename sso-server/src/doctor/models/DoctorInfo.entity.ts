@@ -1,4 +1,10 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { WeeklySchedules } from './WeeklySchedules.entity';
 
 @Entity()
@@ -35,6 +41,8 @@ export class DoctorInfo {
     nullable: true,
   })
   treatmentScope;
-  @OneToMany(() => WeeklySchedules, (schedule) => schedule.doctor)
-  WeeklySchedules: WeeklySchedules[];
+  @OneToMany(() => WeeklySchedules, (schedule) => schedule.doctor, {
+    cascade: true,
+  })
+  weeklySchedules: WeeklySchedules[];
 }
