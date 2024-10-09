@@ -18,4 +18,9 @@ export class DoctorService {
   updateDoctorById(id: string, doctor: Doctor) {
     return this.http.put<ResponseResult>(`${this.url}/doctor/${id}`, doctor);
   }
+  removeDoctorSchedule(id: string){
+    return this.http.delete<ResponseResult>(
+      `${this.url}/doctor/schedule/${id}`
+    );
+  }
 }

@@ -11,12 +11,15 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ErrorResponseResult } from '../../models/respone';
 import { UpdateDoctorDTO } from '../models/Doctor.dto';
+import { WeeklySchedules } from '../models/WeeklySchedules.entity';
 @Injectable()
 export class DoctorService {
   private readonly logger = new Logger(DoctorService.name);
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(WeeklySchedules)
+    private weeklySchedulesRepository: Repository<WeeklySchedules>,
   ) {}
   async getAll(): Promise<User[]> {
     try {
@@ -130,6 +133,27 @@ export class DoctorService {
       const errRes = new ErrorResponseResult({
         success: false,
         message: 'Update Doctor failed, Please check again!',
+        error: error.message || 'An error occurred',
+      });
+      const errorCode = HttpStatus.BAD_REQUEST;
+      this.logger.error(errRes);
+      throw new HttpException(errRes, errorCode);
+    }
+  }
+  async removeDoctorSchedule(id: string) {
+    try {
+      const scheduleId = parseInt(id, 10);
+      const schedule = await this.weeklySchedulesRepository.findOne({
+        where: { id: scheduleId },
+      });
+      if (!schedule) {
+        throw new Error(`Schedule with ID ${id} not found`);
+      }
+      const d = this.weeklySchedulesRepository.delete(id);
+    } catch (error) {
+      const errRes = new ErrorResponseResult({
+        success: false,
+        message: 'Remove Doctor schedule is failed, Please check again!',
         error: error.message || 'An error occurred',
       });
       const errorCode = HttpStatus.BAD_REQUEST;

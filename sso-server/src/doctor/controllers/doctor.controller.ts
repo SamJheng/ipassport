@@ -7,6 +7,7 @@ import { GetDoctorCommand } from '../commands/get-doctor';
 import { DeleteDoctorCommand } from '../commands/delete-doctor';
 import { UpdateDoctorCommand } from '../commands/update-doctor';
 import { UpdateDoctorDTO } from '../models/Doctor.dto';
+import { RemoveScheduleCommand } from '../commands/remove-schedule';
 
 @Controller('doctor')
 export class DoctorController {
@@ -64,6 +65,19 @@ export class DoctorController {
     await this.commandBus.execute(new UpdateDoctorCommand(id, updateBodyDto));
     const res = new ResponseResult({
       message: `Successfully updated doctor with ID ${id}!`,
+      success: true,
+    });
+    return res;
+  }
+  @Delete('schedule/:id')
+  @HasAccess({
+    role: 'editor',
+    object: 'doctor',
+  })
+  async removeDoctorSchedule(@Param('id') id: string) {
+    await this.commandBus.execute(new RemoveScheduleCommand(id));
+    const res = new ResponseResult({
+      message: `Successfully delete doctor schedule with ID ${id}!`,
       success: true,
     });
     return res;

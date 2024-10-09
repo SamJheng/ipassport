@@ -12,12 +12,14 @@ import { GetAllDoctorHandler } from './commands/get-all-doctor';
 import { DeleteDoctorHandler } from './commands/delete-doctor';
 import { UpdateDoctorHandler } from './commands/update-doctor';
 import { WeeklySchedules } from './models/WeeklySchedules.entity';
+import { RemoveScheduleHandler } from './commands/remove-schedule';
 
 const handlers = [
   GetDoctorHandler,
   GetAllDoctorHandler,
   DeleteDoctorHandler,
   UpdateDoctorHandler,
+  RemoveScheduleHandler,
 ];
 @Module({
   imports: [

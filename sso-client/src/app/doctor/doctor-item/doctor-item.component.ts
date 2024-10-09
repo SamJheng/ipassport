@@ -137,9 +137,15 @@ export class DoctorItemComponent {
       })
     );
   }
-  deleteWeeklySchedule(index: number) {
+  deleteWeeklySchedule(index: number, form: AbstractControl) {
+    const id = form.get('id')?.getRawValue();
+    if (!id) {
+      return;
+    }
     if (this.weeklyScheduleControls.length > 1) {
-      this.weeklyScheduleControls.removeAt(index);
+      this.doctorService.removeDoctorSchedule(id).subscribe((res)=>{
+         this.weeklyScheduleControls.removeAt(index);
+      });
     }
   }
   sumbitForm() {
