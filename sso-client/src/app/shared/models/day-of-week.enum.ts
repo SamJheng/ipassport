@@ -7,7 +7,7 @@ export enum DayOfWeek {
   Friday = 'Friday',
   Saturday = 'Saturday',
 }
-export const dayOfWeekOrder = {
+export const DayOfWeekOrder = {
   Monday: 1,
   Tuesday: 2,
   Wednesday: 3,

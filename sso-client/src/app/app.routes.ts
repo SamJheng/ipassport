@@ -14,6 +14,9 @@ import { PatientListComponent } from './patient/patient-list/patient-list.compon
 import { PatientItemComponent } from './patient/patient-item/patient-item.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { ProfileSetupComponent } from './auth/profile-setup/profile-setup.component';
+import { DoctorComponent } from './doctor/doctor.component';
+import { DoctorListComponent } from './doctor/doctor-list/doctor-list.component';
+import { DoctorItemComponent } from './doctor/doctor-item/doctor-item.component';
 export const routes: Routes = [
   {
     path: '',
@@ -81,6 +84,21 @@ export const routes: Routes = [
       {
         path: ':id',
         component: PatientItemComponent,
+      },
+    ],
+  },
+  {
+    path: 'doctor',
+    component: DoctorComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'list',
+        component: DoctorListComponent,
+      },
+      {
+        path: ':id',
+        component: DoctorItemComponent,
       },
     ],
   },

@@ -1,0 +1,168 @@
+<form [formGroup]="form" [nzLayout]="'vertical'" nz-form (ngSubmit)="sumbitForm()">
+  <div class="flex justify-center items-center mb-6">
+    @if (doctor.profile?.photo) {
+    <img nz-image width="128px" height="128px" [src]="doctor.profile?.photo" [alt]="doctor.profile?.photo" />
+    }@else {
+    <i class="material-icons text-9xl dark:text-white text-black">
+      account_circle
+    </i>
+    }
+  </div>
+  <div class="mb-4">
+    <p class="text-black dark:text-white font-semibold opacity-90">First Name</p>
+    <p class="text-black dark:text-white text-2xl">{{doctor.firstName}}</p>
+  </div>
+  <div class="mb-4">
+    <p class="text-black dark:text-white font-semibold opacity-90">Last Name</p>
+    <p class="text-black dark:text-white text-2xl">{{doctor.lastName}}</p>
+  </div>
+  <div class="mb-4">
+    <p class="text-black dark:text-white font-semibold opacity-90">User Name</p>
+    <p class="text-black dark:text-white text-2xl">{{doctor.username}}</p>
+  </div>
+  <div class="mb-4">
+    <p class="text-black dark:text-white font-semibold opacity-90 mb-1">Active</p>
+    @if (doctor.isActive) {
+    <i class="material-icons text-green-500">
+      check_circle
+    </i>
+    }@else {
+    <i class="material-icons text-red-600">
+      cancel
+    </i>
+    }
+  </div>
+  <div formGroupName="profile">
+    <div class="dark:text-white text-black mt-5 mb-2">
+      <p class="text-xl">Profile</p>
+    </div>
+    <nz-form-item>
+      <nz-form-label nzFor="age" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Age</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="number" nz-input formControlName="age" id="age" placeholder="Enter your age" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="gender" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Gender</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="text" nz-input formControlName="gender" id="gender" placeholder="Enter your gender" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="address" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Address</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="text" nz-input formControlName="address" id="address" placeholder="Enter your address" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="contact" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Contact</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="text" nz-input formControlName="contact" id="contact" placeholder="Enter your contact" />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <div formGroupName="doctorInfo">
+    <nz-form-item>
+      <nz-form-label nzFor="title" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Title</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="text" nz-input formControlName="title" id="title" placeholder="Enter your title" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="education" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Education</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="text" nz-input formControlName="education" id="education" placeholder="Enter your education" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="experience" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Experience</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <textarea nz-input  formControlName="experience" id="experience" rows="4" placeholder="Enter your experience" ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="specialty" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Specialty</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="text" nz-input formControlName="specialty" id="specialty" placeholder="Enter your specialty" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="treatmentScope" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Treatment tcope</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <textarea nz-input formControlName="treatmentScope" id="treatmentScope" rows="4" placeholder="Enter your treatment tcope"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="workPlace" nzRequired>
+        <p class="text-black dark:text-white font-semibold opacity-90">Work place</p>
+      </nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input type="text" nz-input formControlName="workPlace" id="workPlace"
+          placeholder="Enter your work place" />
+      </nz-form-control>
+    </nz-form-item>
+    <div formArrayName="weeklySchedules">
+      <div class="flex justify-end item-center my-1">
+        <button nz-button nzType="primary" (click)="addWeeklySchedule()" class="rounded">Add Weekly Schedule</button>
+      </div>
+      <table>
+        <thead>
+          <tr class="">
+            <th>
+              <p class="text-black dark:text-white font-semibold opacity-90 mb-1">Day of week</p>
+              
+            </th>
+            <th>
+              <p class="text-black dark:text-white font-semibold opacity-90 mb-1">Start time</p>
+            </th>
+            <th>
+              <p class="text-black dark:text-white font-semibold opacity-90 mb-1">End time</p>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of weeklyScheduleControls.controls; let i = index" [formGroupName]="i" >
+            <td>
+              <nz-select class="w-48 mr-6" nzPlaceHolder="Select day of week" formControlName="DayOfWeek">
+                @for (item of this.dayOfWeekArray; track $index) {
+                <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                }
+              </nz-select>
+            </td>
+            <td>
+              <input type="time" nz-input formControlName="StartTime" placeholder="StartTime" />
+            </td>
+            <td>
+              <input type="time" nz-input formControlName="EndTime" placeholder="EndTime" />
+            </td>
+            <td>
+              <button nz-button type="button" nzType="text" (click)="deleteWeeklySchedule(i)">
+                <span nz-typography nzType="danger"> Delete </span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <button type="submit" class="mb-6 mt-6 rounded w-full" nz-button nzType="primary">Save</button>
+</form>

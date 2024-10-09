@@ -1,0 +1,5 @@
+<div class="grid grid-cols-5 gap-4">
+  @for (item of this.doctorList$ | async; track $index) {
+  <app-person class="h-full w-full" [person]="item" (click)="openItem(item.id)"></app-person>
+  }
+</div>
