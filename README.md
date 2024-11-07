@@ -26,15 +26,10 @@
     yarn migration:run
     ```
     
-5. seed data to your db
+
     
-    ```powershell
-    yarn seed:config
-    yarn seed:run
-    ```
-    
-6. start your nest server yarn start
-7. start your web clinet
+5. start your nest server yarn start
+6. start your web clinet
     
     ```powershell
     cd sso-server
